@@ -1,0 +1,10 @@
+{
+  "root": true,
+  "env": {
+    "mocha": true,
+    "truffle/globals": true
+  },
+  "plugins": [
+    "trufle"
+  ]
+}

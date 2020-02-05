@@ -1,4 +1,3 @@
-const path = require('path');
 var HDWalletProvider = require('truffle-hdwallet-provider');
 MNENOMIC = process.env.MNENOMIC;
 INFURA_API_KEY = process.env.INFURA_API_KEY;
