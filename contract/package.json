@@ -1,5 +1,5 @@
 {
-  "name": "pet-shop",
+  "name": "crypto-mind",
   "version": "1.0.0",
   "description": "",
   "main": "truffle.js",
@@ -8,14 +8,15 @@
   },
   "scripts": {
     "dev": "lite-server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./scripts/test.sh --network ganache"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "lite-server": "^2.3.0"
   },
   "dependencies": {
+    "ganache-cli": "^6.4.4",
     "dotenv": "^8.1.0",
     "solidity-coverage": "^0.6.4",
     "truffle": "^5.0.12",

@@ -1,6 +1,5 @@
 var HDWalletProvider = require('truffle-hdwallet-provider');
-MNENOMIC = process.env.MNENOMIC;
-INFURA_API_KEY = process.env.INFURA_API_KEY;
+
 require('dotenv').config();
 
 module.exports = {
@@ -14,6 +13,14 @@ module.exports = {
       provider: () =>
         new HDWalletProvider(process.env.MNENOMIC, 'https://testnet.tomochain.com', 0, 1, true),
       network_id: '89',
+      gas: 3000000,
+      gasPrice: 20000000000000,
+      gasLimit: 1000000
+    },
+    ganache: {
+      host: '127.0.0.1',
+      port: 8545,
+      network_id: '*',
       gas: 3000000,
       gasPrice: 20000000000000,
       gasLimit: 1000000

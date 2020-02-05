@@ -1,0 +1,69 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:7.10
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mongo:3.4.4
+      # - image: trufflesuite/ganache-cli
+      #   command: ganache-cli -i 1234 -e 100000000000 -l 4700038
+
+    steps:
+      - checkout
+      - run:
+          name: 'Update Node.js and npm'
+          command: |
+            curl -sSL "https://nodejs.org/dist/v11.10.0/node-v11.10.0-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v11.10.0-linux-x64/bin/node
+            curl https://www.npmjs.com/install.sh | sudo bash
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "contract/package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: cd contract/ && npm i
+
+      - save_cache:
+          paths:
+            - contract/node_modules
+          key: v1-dependencies-{{ checksum "contract/package.json" }}
+
+      # run tests!
+      - run: cd contract && npm test
+
+      # notificaion
+      - run:
+          name: Sending notification
+          when: on_success
+          command: |
+            if [[ true ]];  then
+              curl -X POST -H "X-ChatWorkToken: $CHATWORK_TOKEN" -d \
+                "body=
+                [info][title] $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME BUIL SUCCESS (flex) [/title]
+                - Repository name: $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
+                - Author: $CIRCLE_USERNAME
+                - Branch: $CIRCLE_BRANCH
+                - Commit request link: https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$CIRCLE_SHA1
+                - Pull request link: $CIRCLE_PULL_REQUEST
+                - Build link: https://circleci.com/gh/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM
+                [/info]" \
+                "https://api.chatwork.com/v2/rooms/$CHATWORK_ROOM/messages"
+            fi
+      - run:
+          name: Sending notification
+          when: on_fail
+          command: |
+            if [[ true ]];  then
+              curl -X POST -H "X-ChatWorkToken: $CHATWORK_TOKEN" -d \
+                "body=[info][title] $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME BUIL FAILED (anger) [/title]Repository name: $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME%0AAuthor: $CIRCLE_USERNAME%0ABranch: $CIRCLE_BRANCH%0ACommit/pull request link: https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$CIRCLE_SHA1%0ABuild link: https://circleci.com/gh/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM[/info]" \
+                "https://api.chatwork.com/v2/rooms/$CHATWORK_ROOM/messages"
+            fi
