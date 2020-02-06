@@ -1,0 +1,19 @@
+.h_100vh {
+  height: 100vh;
+}
+
+.h_100per {
+  height: 100%;
+}
+
+.mgb_10vh {
+  margin-bottom: 15vh;
+}
+
+.c_white {
+  color: white;
+}
+
+.p_break {
+  word-break: break-all;
+}
