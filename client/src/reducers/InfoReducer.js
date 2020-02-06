@@ -1,15 +1,23 @@
 import * as info from '../actions/getInfoAction';
 
 const initialState = {
-  userAddress: '0x4C637fC36ecA2d02d5214b53c0aEc272f31F7E53',
-  balance: '15'
+  web3: null,
+  userAddress: '',
+  balance: ''
 };
 
 const loginReducer = (state = initialState, action) => {
   switch (action.type) {
-    case info.LOGIN:
+    case info.WEB3_CONNECT:
       return {
-        ...state
+        ...state,
+        web3: action.web3
+      };
+    case info.GET_USERINFO:
+      return {
+        ...state,
+        userAddress: action.userAddress,
+        balance: action.balance
       };
     default:
       return state;
