@@ -1,0 +1,9 @@
+@media only screen and (max-width: 600px) {
+  button {
+    width: 70vw !important;
+  }
+
+  main {
+    margin-top: 25vh !important;
+  }
+}
