@@ -1,0 +1,17 @@
+.info-room {
+  border-radius: 12px;
+  background-color: #fff;
+  text-align: center;
+}
+
+main {
+  margin-top: 3vh;
+  height: 75vh;
+}
+
+span {
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: bottom;
+  padding: 5px 0;
+}
