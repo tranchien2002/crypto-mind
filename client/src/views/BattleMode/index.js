@@ -14,7 +14,7 @@ function BattleMode() {
           <Row type='flex' justify='space-between'>
             <Col xs={4}>
               <Link to='/'>
-                <Icon type='left' style={{ fontSize: '32px', color: '#fff' }} />
+                <Icon type='left' style={{ fontSize: '15px', color: '#fff' }} />
               </Link>
             </Col>
             <Col xs={4}>
@@ -25,13 +25,13 @@ function BattleMode() {
           </Row>
         </Header>
         <Content>
-          <Row gutter={[16, 16]} type='flex' justify='center' align='middle'>
+          <Row gutter={[0, 16]} type='flex' justify='center' align='middle'>
             <Col xs={18}>
-              <div class='info-room'>
+              <Row className='info-room' type='flex' justify='space-around' align='middle'>
                 <span>RoomID: 7 </span>
                 <span>
                   <Badge count={'2 / 3'}>
-                    <Avatar shaspane='circle' icon='user' size={32} />
+                    <Avatar shaspane='circle' icon='user' size={24} />
                   </Badge>
                 </span>
 
@@ -42,7 +42,7 @@ function BattleMode() {
                 <span>
                   <Icon type='money-collect' style={{ fontSize: '24px' }} theme='filled' /> 3
                 </span>
-              </div>
+              </Row>
             </Col>
 
             <Col xs={6}>
@@ -54,7 +54,7 @@ function BattleMode() {
         </Content>
         <Footer>
           <Button type='primary' size='large'>
-            Create Room
+            <Link to='create'>Create Room</Link>
           </Button>
         </Footer>
       </Layout>

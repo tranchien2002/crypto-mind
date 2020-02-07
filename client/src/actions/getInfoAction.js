@@ -30,25 +30,27 @@ export const web3Connect = () => async (dispatch) => {
 export const getProfile = () => async (dispatch, getState) => {
   const state = getState();
   let web3 = state.infoStatus.web3;
-  const account = await web3.eth.getAccounts();
-  if (account.length > 0) {
-    const userAddress = account[0];
-    var balance = await web3.eth.getBalance(userAddress);
-    balance = web3.utils.fromWei(balance);
+  if (web3) {
+    const account = await web3.eth.getAccounts();
+    if (account.length > 0) {
+      const userAddress = account[0];
+      var balance = await web3.eth.getBalance(userAddress);
+      balance = web3.utils.fromWei(balance);
 
-    if (balance.includes('.')) {
-      let interger = balance.split('.', 2)[0];
-      let fractional = balance.split('.', 2)[1].substr(0, 4);
-      balance = interger.concat('.', fractional, ' ');
+      if (balance.includes('.')) {
+        let interger = balance.split('.', 2)[0];
+        let fractional = balance.split('.', 2)[1].substr(0, 4);
+        balance = interger.concat('.', fractional, ' ');
+      }
+
+      dispatch({
+        type: GET_USERINFO,
+        userAddress,
+        balance
+      });
+    } else {
+      console.log('Account not found');
     }
-
-    dispatch({
-      type: GET_USERINFO,
-      userAddress,
-      balance
-    });
-  } else {
-    console.log('Account not found');
   }
 };
 
