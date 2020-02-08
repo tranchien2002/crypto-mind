@@ -18,7 +18,7 @@ function TrainingMode() {
           <Row type='flex' justify='space-between'>
             <Col xs={4}>
               <Link to='/'>
-                <Icon type='left' style={{ fontSize: '32px', color: '#fff' }} />
+                <Icon type='left' style={{ fontSize: '15px', color: '#fff' }} />
               </Link>
             </Col>
             <Col xs={4}>
@@ -30,7 +30,7 @@ function TrainingMode() {
         </Header>
 
         <Content>
-          <Row gutter={[16, 16]} type='flex' justify='center'>
+          <Row gutter={[0, 16]} type='flex' justify='center'>
             <Col span={24}>
               <Countdown title='Timer' value={targetTime} format='mm:ss' />
             </Col>

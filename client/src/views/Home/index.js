@@ -11,7 +11,7 @@ function Home() {
       <Layout>
         <Header>
           <Row type='flex' justify='space-between'>
-            <Col xs={4}></Col>
+            <Col xs={4} />
             <Col xs={4}>
               <Link to='/profile'>
                 <Avatar style={{ backgroundColor: '#87d068' }} icon='user' size='large' />
@@ -21,14 +21,14 @@ function Home() {
         </Header>
 
         <Content>
-          <Row gutter={[32, 16]} type='flex' justify='center'>
-            <Col xs={24} md={2}>
+          <Row gutter={[0, 16]} type='flex' justify='center'>
+            <Col xs={24}>
               <Button type='primary' size='large'>
                 <Link to='/training'>Training Mode</Link>
               </Button>
             </Col>
 
-            <Col xs={24} md={2}>
+            <Col xs={24}>
               <Button type='danger' size='large'>
                 <Link to='/battle'>Battle Mode</Link>
               </Button>
