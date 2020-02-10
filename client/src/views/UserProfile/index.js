@@ -26,7 +26,7 @@ function UserProfile() {
                 <p className='p_break'>{content.infoStatus.userAddress}</p>
               </Col>
               <Col>
-                <p>{content.infoStatus.balance}</p>
+                <p>{content.infoStatus.balance} TOMO</p>
               </Col>
             </div>
           </Row>
