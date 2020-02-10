@@ -87,7 +87,7 @@ function CreateGame() {
         </Content>
         <Footer>
           <Button type='primary' size='large'>
-            Start
+            <Link to='/waiting'>Start</Link>
           </Button>
         </Footer>
       </Layout>
