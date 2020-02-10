@@ -34,7 +34,6 @@ function BattleMode() {
                     <Avatar shaspane='circle' icon='user' size={24} />
                   </Badge>
                 </span>
-
                 <span>
                   <Icon type='clock-circle' style={{ fontSize: '24px' }} theme='twoTone' /> 15s
                 </span>

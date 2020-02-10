@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom';
 import './trainingMode.css';
 
 const { Header, Content, Footer } = Layout;
+const { Countdown } = Statistic;
+const targetTime = Date.now() + 15000;
 
 function TrainingMode() {
-  const targetTime = new Date().getTime() + 15000;
-  const { Countdown } = Statistic;
   const content = useSelector((state) => state); //this hook gives us redux store state
 
   return (
@@ -34,6 +34,7 @@ function TrainingMode() {
             <Col span={24}>
               <Countdown title='Timer' value={targetTime} format='mm:ss' />
             </Col>
+
             <Col span={24}>
               <p>
                 Question <span>{content.infoStatus.numberQuestion}</span>
