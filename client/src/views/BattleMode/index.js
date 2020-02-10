@@ -45,9 +45,11 @@ function BattleMode() {
             </Col>
 
             <Col xs={6}>
-              <Button type='danger' size='large'>
-                Join
-              </Button>
+              <Link to='/waiting'>
+                <Button type='danger' size='large'>
+                  Join
+                </Button>
+              </Link>
             </Col>
           </Row>
         </Content>

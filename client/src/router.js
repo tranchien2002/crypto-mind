@@ -8,6 +8,7 @@ import BattleMode from './views/BattleMode';
 import TrainingMode from './views/TrainingMode';
 import CreateGame from './views/CreateGame';
 import WaitingRoom from './views/WaitingRoom';
+import Reward from './views/Reward';
 
 // build the router
 function Router() {
@@ -20,6 +21,7 @@ function Router() {
         <Route exact path='/create' component={CreateGame} />
         <Route exact path='/waiting' component={WaitingRoom} />
         <Route exact path='/training' component={TrainingMode} />
+        <Route exact path='/reward' component={Reward} />
         <Route path='*' exact={true} component={NotFound} />
       </Switch>
     </BrowserRouter>

@@ -15,7 +15,7 @@ function WaitingRoom() {
         <Header>
           <Row type='flex' justify='space-between'>
             <Col xs={4}>
-              <Link to='/'>
+              <Link to='/battle'>
                 <Icon type='left' style={{ fontSize: '15px', color: '#fff' }} />
               </Link>
             </Col>
