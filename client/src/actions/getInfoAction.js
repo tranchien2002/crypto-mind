@@ -53,5 +53,3 @@ export const getProfile = () => async (dispatch, getState) => {
     }
   }
 };
-
-export const web3TomoWalletConnect = () => async (dispatch) => {};

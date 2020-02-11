@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Row, Col, Avatar, Statistic, Button, Layout, Icon } from 'antd';
 import { Link } from 'react-router-dom';
+
 import './trainingMode.css';
 
 const { Header, Content, Footer } = Layout;
