@@ -36,7 +36,7 @@ contract CryptoMind {
     manager = msg.sender;
     address payable[] memory players;
     address payable[] memory submited;
-    rooms.push(Room(0, address(0x00), 0, 3, 0, 0, 0, submited, players));
+    rooms.push(Room(0, address(0x00), 0, 2, 0, 0, 0, submited, players));
   }
 
   modifier onlyOwner() {
@@ -74,6 +74,29 @@ contract CryptoMind {
         }
     }
     
+  }
+
+  function removePlayerInWaitingRoom(uint256 _roomId, address _player) internal {
+    Room storage room = rooms[_roomId];
+    for (uint i = 0; i < room.players.length; i++) {
+      if (_player == room.players[i]) {
+        room.players[i] = room.players[room.players.length - 1];
+        room.players.pop();
+        playerRoom[_player] = 0;
+        break;
+      }
+    }
+    if (room.players.length == 0) {
+      room.result = 2;
+    }
+  }
+
+  function removePlayerInRunningRoom(uint256 _roomId, address _player) internal {
+    Room storage room = rooms[_roomId];
+    if (!inArray(_player, room.submited)) {
+      submitAnswer(0);
+    }
+    playerRoom[_player] = 0;
   }
 
   function joinRoom(uint256 _roomId) external payable {
@@ -193,6 +216,18 @@ contract CryptoMind {
         }
     }
     return inArr;
+  }
+
+  function quitGame() external {
+    address player = msg.sender;
+    uint roomId = playerRoom[player];
+    Room storage room = rooms[roomId];
+    require(roomId > 0, "roomId must be greater than 0");
+    if (room.blockStart > 0) {
+      removePlayerInRunningRoom(roomId, player);
+    } else {
+      removePlayerInWaitingRoom(roomId, player);
+    }
   }
 
   function withdraw(uint amount) external {
