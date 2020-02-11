@@ -8,11 +8,9 @@ export const updateCurrentQuestion = (currentQues) => async (dispatch) => {
   });
 };
 
-export const updateScore = () => async (dispatch, getState) => {
-  const state = getState();
-  let score = state.gameStatus.score;
+export const updateScore = (score) => async (dispatch) => {
   dispatch({
     type: SCORE,
-    score: score + 1
+    score
   });
 };

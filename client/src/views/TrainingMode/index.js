@@ -20,6 +20,7 @@ function TrainingMode(props) {
     if (props.location.state) {
       if (props.location.state.isTraining) {
         dispatch(gameAction.updateCurrentQuestion(0));
+        dispatch(gameAction.updateScore(0));
       }
     }
   }, [dispatch, props]);
@@ -33,7 +34,7 @@ function TrainingMode(props) {
   function checkAns(ans) {
     /* eslint no-eval: 0 */
     if (eval(content.gameStatus.question[content.gameStatus.currentQues].ques) === ans) {
-      dispatch(gameAction.updateScore());
+      dispatch(gameAction.updateScore(content.gameStatus.score + 1));
       setIsAnswer(true);
     }
   }
