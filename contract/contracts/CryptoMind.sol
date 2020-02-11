@@ -174,7 +174,7 @@ contract CryptoMind {
     players = room.players;
   }
 
-  function claimReward() public {
+  function claimReward() internal {
     uint256 roomId = playerRoom[msg.sender];
     Room storage room = rooms[roomId];
     uint256 currentBlock = block.number;

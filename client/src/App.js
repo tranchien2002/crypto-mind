@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import * as getUserInfo from './actions/getInfoAction';
+import * as gameAction from './actions/gameAction';
 import Router from './router';
 
 import './App.css';
@@ -10,8 +11,9 @@ function App() {
 
   useEffect(() => {
     const getWeb3 = () => {
-      window.addEventListener('load', () => {
-        dispatch(getUserInfo.web3Connect());
+      window.addEventListener('load', async () => {
+        await dispatch(getUserInfo.web3Connect());
+        await dispatch(gameAction.initContract());
       });
     };
     getWeb3();
