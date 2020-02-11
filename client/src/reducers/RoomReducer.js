@@ -1,4 +1,4 @@
-import * as room from '../actions/roomAction';
+import * as room from 'actions/roomAction';
 
 const initialState = {
   games: [

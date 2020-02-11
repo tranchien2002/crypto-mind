@@ -1,4 +1,4 @@
-import * as info from '../actions/getInfoAction';
+import * as info from 'actions/getInfoAction';
 
 const initialState = {
   web3: null,

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Row, Col, Avatar, Statistic, Button, Layout, Icon } from 'antd';
 import { Link, Redirect } from 'react-router-dom';
-import * as gameAction from '../../actions/gameAction';
+import * as gameAction from 'actions/gameAction';
 
 import './trainingMode.css';
 

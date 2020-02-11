@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Row, Col, Button, Avatar, Badge, Icon, Layout } from 'antd';
 import { Link } from 'react-router-dom';
-import * as room from '../../actions/roomAction';
+import * as room from 'actions/roomAction';
 
 import './battleMode.css';
 

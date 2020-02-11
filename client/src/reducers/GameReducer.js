@@ -1,4 +1,4 @@
-import * as game from '../actions/gameAction';
+import * as game from 'actions/gameAction';
 
 const initialState = {
   question: [
