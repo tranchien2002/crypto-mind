@@ -20,7 +20,8 @@ const initialState = {
     }
   ],
   currentQues: 0,
-  score: 0
+  score: 0,
+  cryptoMind: null
 };
 
 const gameReducer = (state = initialState, action) => {
@@ -34,6 +35,12 @@ const gameReducer = (state = initialState, action) => {
       return {
         ...state,
         score: action.score
+      };
+    case game.INIT_CONTRACT:
+      console.log(action);
+      return {
+        ...state,
+        cryptoMind: action.cryptoMind
       };
     default:
       return state;
