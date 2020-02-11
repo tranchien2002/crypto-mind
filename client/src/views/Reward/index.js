@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Button, Layout, Avatar, Row, Col } from 'antd';
@@ -7,6 +8,8 @@ import './reward.css';
 
 function Reward() {
   const { Header, Footer, Content } = Layout;
+  const content = useSelector((state) => state);
+
   return (
     <Layout>
       <Header>
@@ -22,6 +25,10 @@ function Reward() {
       <Content>
         <Row type='flex' justify='center' align='middle' className='h_100per'>
           <h1 className='t_bold'>BATTLE REWARDS</h1>
+          <Col span={24}>
+            <p>User Score</p>
+            <p>{content.gameStatus.score}</p>
+          </Col>
           <Col>
             <Row type='flex'>
               <Col span={4}>

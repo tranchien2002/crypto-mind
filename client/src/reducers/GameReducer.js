@@ -12,7 +12,7 @@ const initialState = {
     },
     {
       ques: '178+81',
-      ans: [158, 259, 219, 259]
+      ans: [158, 259, 219, 269]
     },
     {
       ques: '51+181',
@@ -20,7 +20,7 @@ const initialState = {
     }
   ],
   currentQues: 0,
-  Score: 0
+  score: 0
 };
 
 const gameReducer = (state = initialState, action) => {
@@ -28,7 +28,12 @@ const gameReducer = (state = initialState, action) => {
     case game.CURRENT_QUES:
       return {
         ...state,
-        web3: action.web3
+        currentQues: action.currentQues
+      };
+    case game.SCORE:
+      return {
+        ...state,
+        score: action.score
       };
     default:
       return state;
