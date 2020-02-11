@@ -24,7 +24,14 @@ function Home() {
           <Row gutter={[0, 16]} type='flex' justify='center'>
             <Col xs={24}>
               <Button type='primary' size='large'>
-                <Link to='/training'>Training Mode</Link>
+                <Link
+                  to={{
+                    pathname: '/training',
+                    state: { isTraining: true }
+                  }}
+                >
+                  Training Mode
+                </Link>
               </Button>
             </Col>
 

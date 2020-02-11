@@ -1,5 +1,5 @@
 // const getWeb3 = require('@dotrungkien/get-web3');
-import { MetaMark, TomoWallet } from '../utils/getWeb3';
+import { MetaMark, TomoWallet } from 'utils/getWeb3';
 
 export const WEB3_CONNECT = 'WEB3_CONNECT';
 export const GET_USERINFO = 'GET_USERINFO';
@@ -53,5 +53,3 @@ export const getProfile = () => async (dispatch, getState) => {
     }
   }
 };
-
-export const web3TomoWalletConnect = () => async (dispatch) => {};

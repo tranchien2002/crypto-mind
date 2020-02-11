@@ -1,4 +1,4 @@
-import * as info from '../actions/getInfoAction';
+import * as info from 'actions/getInfoAction';
 
 const initialState = {
   web3: null,
@@ -6,7 +6,7 @@ const initialState = {
   balance: ''
 };
 
-const loginReducer = (state = initialState, action) => {
+const infoReducer = (state = initialState, action) => {
   switch (action.type) {
     case info.WEB3_CONNECT:
       return {
@@ -24,4 +24,4 @@ const loginReducer = (state = initialState, action) => {
   }
 };
 
-export default loginReducer;
+export default infoReducer;

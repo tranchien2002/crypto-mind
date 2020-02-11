@@ -2,16 +2,19 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Row, Col, Avatar, Layout, Icon, Badge } from 'antd';
 import { Link } from 'react-router-dom';
+
 import './waitingRoom.css';
 
 const { Header, Content, Footer } = Layout;
 
 function WaitingRoom() {
-  const content = useSelector((state) => state); //this hook gives us redux store state
+  const roomStatus = useSelector((state) => state.roomStatus);
+  const infoStatus = useSelector((state) => state.infoStatus);
 
   return (
     <div>
       <Layout>
+        {console.log(roomStatus)}
         <Header>
           <Row type='flex' justify='space-between'>
             <Col xs={4}>
@@ -34,18 +37,20 @@ function WaitingRoom() {
             </Col>
             <Col xs={18}>
               <Row className='info-room' type='flex' justify='space-around' align='middle'>
-                <span>RoomID: 7 </span>
+                <span>RoomID: {roomStatus.currentGameID} </span>
                 <span>
-                  <Badge count={'1 / 4'}>
+                  <Badge count={roomStatus.currentGameMember + '/' + roomStatus.gameMember}>
                     <Avatar shaspane='circle' icon='user' size={24} />
                   </Badge>
                 </span>
                 <span>
-                  <Icon type='clock-circle' style={{ fontSize: '24px' }} theme='twoTone' /> 15s
+                  <Icon type='clock-circle' style={{ fontSize: '24px' }} theme='twoTone' />{' '}
+                  {roomStatus.currentGameTime} s
                 </span>
 
                 <span>
-                  <Icon type='money-collect' style={{ fontSize: '24px' }} theme='filled' /> 3
+                  <Icon type='money-collect' style={{ fontSize: '24px' }} theme='filled' />{' '}
+                  {roomStatus.currentGameAmount} TOMO
                 </span>
               </Row>
             </Col>
@@ -64,10 +69,7 @@ function WaitingRoom() {
                 twoToneColor='#52c41a'
               />
               <span>
-                {` ${content.infoStatus.userAddress.substr(
-                  0,
-                  6
-                )}...${content.infoStatus.userAddress.substr(-4)}`}
+                {` ${infoStatus.userAddress.substr(0, 6)}...${infoStatus.userAddress.substr(-4)}`}
               </span>
             </Col>
 
