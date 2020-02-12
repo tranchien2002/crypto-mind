@@ -14,7 +14,6 @@ function WaitingRoom() {
   return (
     <div>
       <Layout>
-        {console.log(roomStatus)}
         <Header>
           <Row type='flex' justify='space-between'>
             <Col xs={4}>

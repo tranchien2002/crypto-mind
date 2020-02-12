@@ -1,5 +1,5 @@
-// const getWeb3 = require('@dotrungkien/get-web3');
 import { MetaMark, TomoWallet } from 'utils/getWeb3';
+import * as gameAction from 'actions/gameAction';
 
 export const WEB3_CONNECT = 'WEB3_CONNECT';
 export const GET_USERINFO = 'GET_USERINFO';
@@ -19,7 +19,7 @@ export const web3Connect = () => async (dispatch) => {
         web3
       });
 
-      dispatch(getProfile());
+      dispatch(gameAction.initContract());
     }
   } catch (error) {
     alert(`Failed to load web3, accounts, or contract. Check console for details.`);

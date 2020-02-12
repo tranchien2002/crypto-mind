@@ -1,5 +1,32 @@
 export const CURRENT_ROOM = 'CURRENT_ROOM';
 export const SCORE = 'SCORE';
+export const WAITING_ROOM = 'WAITING_ROOM';
+
+export const updateWaitingRoom = () => async (dispatch, getState) => {
+  const state = getState();
+  const crytoMind = state.gameStatus.cryptoMind;
+  let web3 = state.infoStatus.web3;
+  if (crytoMind) {
+    const from = state.infoStatus.userAddress;
+    var waitingRoomsId = await crytoMind.methods.getWaitingRoom().call({ from });
+    var waitingRooms = [];
+
+    var room = {};
+
+    for (let i = 0; i < waitingRoomsId.length; i++) {
+      room = await crytoMind.methods.rooms(waitingRoomsId[i]).call({ from });
+      room.roomID = waitingRoomsId[i];
+      room.bounty = web3.utils.fromWei(room.bounty);
+      room.players = await crytoMind.methods.getPlayerRoom(waitingRoomsId[i]).call({ from });
+      waitingRooms.push(room);
+    }
+
+    dispatch({
+      type: WAITING_ROOM,
+      waitingRooms
+    });
+  }
+};
 
 export const updateCurrentRoom = (id) => async (dispatch, getState) => {
   const state = getState();

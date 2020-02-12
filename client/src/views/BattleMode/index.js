@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import useInterval from 'useInterval';
 import { Row, Col, Button, Avatar, Badge, Icon, Layout } from 'antd';
 import { Link } from 'react-router-dom';
 import * as room from 'actions/roomAction';
@@ -11,6 +12,10 @@ const { Header, Content, Footer } = Layout;
 function BattleMode() {
   const content = useSelector((state) => state.roomStatus);
   const dispatch = useDispatch();
+
+  useInterval(() => {
+    dispatch(room.updateWaitingRoom());
+  }, 2000);
 
   function selectRoom(id) {
     dispatch(room.updateCurrentRoom(id));
@@ -33,37 +38,41 @@ function BattleMode() {
         </Row>
       </Header>
       <Content>
-        {content.games.map((game, index) => (
-          <Row gutter={[0, 16]} type='flex' justify='center' align='middle' key={index}>
-            <Col xs={18}>
-              <Row className='info-room' type='flex' justify='space-around' align='middle'>
-                <span>RoomID: {game.id} </span>
-                <span>
-                  <Badge count={game.currentMember + '/' + game.member}>
-                    <Avatar shaspane='circle' icon='user' size={24} />
-                  </Badge>
-                </span>
-                <span>
-                  <Icon type='clock-circle' style={{ fontSize: '24px' }} theme='twoTone' />
-                  {game.time} s
-                </span>
+        {content.waitingRooms ? (
+          content.waitingRooms.map((game, index) => (
+            <Row gutter={[0, 16]} type='flex' justify='center' align='middle' key={index}>
+              <Col xs={18}>
+                <Row className='info-room' type='flex' justify='space-around' align='middle'>
+                  <span>RoomID: {game.roomID} </span>
+                  <span>
+                    <Badge count={game.players.length + '/' + game.roomSize}>
+                      <Avatar shaspane='circle' icon='user' size={24} />
+                    </Badge>
+                  </span>
+                  <span>
+                    <Icon type='clock-circle' style={{ fontSize: '24px' }} theme='twoTone' />
+                    {game.blockTimeout * 2} s
+                  </span>
 
-                <span>
-                  <Icon type='money-collect' style={{ fontSize: '24px' }} theme='filled' />
-                  {game.amount} TOMO
-                </span>
-              </Row>
-            </Col>
+                  <span>
+                    <Icon type='money-collect' style={{ fontSize: '24px' }} theme='filled' />
+                    {game.bounty} TOMO
+                  </span>
+                </Row>
+              </Col>
 
-            <Col xs={6}>
-              <Link to='/waiting'>
-                <Button type='danger' size='large' onClick={() => selectRoom(game.id)}>
-                  Join
-                </Button>
-              </Link>
-            </Col>
-          </Row>
-        ))}
+              <Col xs={6}>
+                <Link to='/waiting'>
+                  <Button type='danger' size='large' onClick={() => selectRoom(game.roomID)}>
+                    Join
+                  </Button>
+                </Link>
+              </Col>
+            </Row>
+          ))
+        ) : (
+          <p></p>
+        )}
       </Content>
       <Footer>
         <Button type='primary' size='large'>

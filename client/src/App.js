@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import useInterval from './useInterval';
 import * as getUserInfo from './actions/getInfoAction';
-import * as gameAction from './actions/gameAction';
 import Router from './router';
 
 import './App.css';
@@ -11,9 +11,8 @@ function App() {
 
   useEffect(() => {
     const getWeb3 = () => {
-      window.addEventListener('load', async () => {
-        await dispatch(getUserInfo.web3Connect());
-        await dispatch(gameAction.initContract());
+      window.addEventListener('load', () => {
+        dispatch(getUserInfo.web3Connect());
       });
     };
     getWeb3();
@@ -28,23 +27,6 @@ function App() {
       <Router />
     </div>
   );
-}
-
-function useInterval(callback, delay) {
-  const savedCallback = useRef();
-
-  useEffect(() => {
-    savedCallback.current = callback;
-  });
-
-  useEffect(() => {
-    function tick() {
-      savedCallback.current();
-    }
-
-    let id = setInterval(tick, delay);
-    return () => clearInterval(id);
-  }, [delay]);
 }
 
 export default App;

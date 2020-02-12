@@ -24,6 +24,7 @@ const initialState = {
       amount: 5
     }
   ],
+  waitingRooms: null,
   currentGameID: null,
   gameMember: null,
   currentGameMember: null,
@@ -41,6 +42,11 @@ const roomReducer = (state = initialState, action) => {
         currentGameMember: action.currentGameMember,
         currentGameTime: action.currentGameTime,
         currentGameAmount: action.currentGameAmount
+      };
+    case room.WAITING_ROOM:
+      return {
+        ...state,
+        waitingRooms: action.waitingRooms
       };
 
     default:

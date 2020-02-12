@@ -37,7 +37,6 @@ const gameReducer = (state = initialState, action) => {
         score: action.score
       };
     case game.INIT_CONTRACT:
-      console.log(action);
       return {
         ...state,
         cryptoMind: action.cryptoMind
