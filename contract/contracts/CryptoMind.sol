@@ -70,7 +70,7 @@ contract CryptoMind {
     rooms.push(Room(_bounty, msg.sender, _roomSize, 0, 0, blockTimeout, 0, submited, players));
     Room storage room = rooms[rooms.length - 1];
     room.players.push(msg.sender);
-
+    playerRoom[msg.sender] = rooms.length - 1;
     waitingRoom.push(rooms.length - 1);
   }
 
@@ -133,6 +133,7 @@ contract CryptoMind {
     require(_roomId < rooms.length, 'roomId must be less than rooms length');
     require(msg.value >= room.bounty);
     room.players.push(msg.sender);
+    playerRoom[msg.sender] = _roomId;
     if (room.players.length == room.roomSize) {
       removeFromWatingRoom(_roomId);
       startGame(_roomId);
@@ -243,6 +244,7 @@ contract CryptoMind {
       removePlayerInRunningRoom(roomId, player);
     } else {
       removePlayerInWaitingRoom(roomId, player);
+      removeFromWatingRoom(roomId);
     }
   }
 
