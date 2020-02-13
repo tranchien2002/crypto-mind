@@ -3,7 +3,6 @@ import * as room from 'actions/roomAction';
 const initialState = {
   waitingRooms: null,
   currentGame: null,
-  currentGameID: null,
   isJoinGame: false
 };
 
@@ -18,11 +17,6 @@ const roomReducer = (state = initialState, action) => {
       return {
         ...state,
         waitingRooms: action.waitingRooms
-      };
-    case room.UPDATE_CURRENTID:
-      return {
-        ...state,
-        currentGameID: action.currentGameID
       };
     case room.IS_JOIN_ROOM:
       return {

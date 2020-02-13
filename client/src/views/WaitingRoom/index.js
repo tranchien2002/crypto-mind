@@ -43,7 +43,7 @@ function WaitingRoom() {
             <>
               <Col xs={18}>
                 <Row className='info-room' type='flex' justify='space-around' align='middle'>
-                  <span>RoomID: {currentGame.roomID} </span>
+                  <span>RoomID: {currentGame.roomId} </span>
                   <span>
                     <Badge count={currentGame.playerCount + '/' + currentGame.roomSize}>
                       <Avatar shaspane='circle' icon='user' size={24} />
