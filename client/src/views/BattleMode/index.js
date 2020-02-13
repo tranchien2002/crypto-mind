@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import useInterval from 'useInterval';
 import { Row, Col, Button, Avatar, Badge, Icon, Layout } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import * as room from 'actions/roomAction';
 
 import './battleMode.css';
@@ -13,16 +13,23 @@ function BattleMode() {
   const content = useSelector((state) => state.roomStatus);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(room.updateWaitingRoom());
+    dispatch(room.isJoinGame(false));
+  }, [dispatch]);
+
   useInterval(() => {
     dispatch(room.updateWaitingRoom());
   }, 2000);
 
-  function selectRoom(id) {
-    dispatch(room.updateCurrentRoom(id));
+  function selectRoom(id, bounty) {
+    // dispatch(room.updateCurrentRoom(id));
+    dispatch(room.joinRoom(id, bounty));
   }
 
   return (
     <Layout>
+      {content.isJoinGame ? <Redirect to='/waiting' /> : <></>}
       <Header>
         <Row type='flex' justify='space-between'>
           <Col xs={4}>
@@ -62,11 +69,13 @@ function BattleMode() {
               </Col>
 
               <Col xs={6}>
-                <Link to='/waiting'>
-                  <Button type='danger' size='large' onClick={() => selectRoom(game.roomID)}>
-                    Join
-                  </Button>
-                </Link>
+                <Button
+                  type='danger'
+                  size='large'
+                  onClick={() => selectRoom(game.roomID, game.bounty)}
+                >
+                  Join
+                </Button>
               </Col>
             </Row>
           ))

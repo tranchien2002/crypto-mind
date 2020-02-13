@@ -1,35 +1,10 @@
 import * as room from 'actions/roomAction';
 
 const initialState = {
-  games: [
-    {
-      id: 0,
-      member: 3,
-      currentMember: 2,
-      time: 5,
-      amount: 3
-    },
-    {
-      id: 1,
-      member: 3,
-      currentMember: 1,
-      time: 15,
-      amount: 3
-    },
-    {
-      id: 2,
-      member: 4,
-      currentMember: 1,
-      time: 10,
-      amount: 5
-    }
-  ],
   waitingRooms: null,
+  currentGame: null,
   currentGameID: null,
-  gameMember: null,
-  currentGameMember: null,
-  currentGameTime: null,
-  currentGameAmount: null
+  isJoinGame: false
 };
 
 const roomReducer = (state = initialState, action) => {
@@ -37,18 +12,23 @@ const roomReducer = (state = initialState, action) => {
     case room.CURRENT_ROOM:
       return {
         ...state,
-        currentGameID: action.currentGameID,
-        gameMember: action.gameMember,
-        currentGameMember: action.currentGameMember,
-        currentGameTime: action.currentGameTime,
-        currentGameAmount: action.currentGameAmount
+        currentGame: action.currentGame
       };
     case room.WAITING_ROOM:
       return {
         ...state,
         waitingRooms: action.waitingRooms
       };
-
+    case room.UPDATE_CURRENTID:
+      return {
+        ...state,
+        currentGameID: action.currentGameID
+      };
+    case room.IS_JOIN_ROOM:
+      return {
+        ...state,
+        isJoinGame: action.isJoinGame
+      };
     default:
       return state;
   }
