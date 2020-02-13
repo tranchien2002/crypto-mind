@@ -3,7 +3,7 @@ import * as room from 'actions/roomAction';
 const initialState = {
   waitingRooms: null,
   currentGame: null,
-  isJoinGame: false
+  gameStatus: null
 };
 
 const roomReducer = (state = initialState, action) => {
@@ -18,10 +18,10 @@ const roomReducer = (state = initialState, action) => {
         ...state,
         waitingRooms: action.waitingRooms
       };
-    case room.IS_JOIN_ROOM:
+    case room.GAME_STATUS:
       return {
         ...state,
-        isJoinGame: action.isJoinGame
+        gameStatus: action.gameStatus
       };
     default:
       return state;
