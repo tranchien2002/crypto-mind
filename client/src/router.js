@@ -6,7 +6,6 @@ import NotFound from './views/NotFound';
 import UserProfile from './views/UserProfile';
 import BattleMode from './views/BattleMode';
 import TrainingMode from './views/TrainingMode';
-import CreateGame from './views/CreateGame';
 import WaitingRoom from './views/WaitingRoom';
 import Reward from './views/Reward';
 
@@ -18,7 +17,6 @@ function Router() {
         <Route exact path='/' component={Home} />
         <Route exact path='/profile' component={UserProfile} />
         <Route exact path='/battle' component={BattleMode} />
-        <Route exact path='/create' component={CreateGame} />
         <Route exact path='/waiting' component={WaitingRoom} />
         <Route exact path='/training' component={TrainingMode} />
         <Route exact path='/reward' component={Reward} />
