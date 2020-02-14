@@ -53,3 +53,19 @@ export const getProfile = () => async (dispatch, getState) => {
     }
   }
 };
+
+export const checkBeforeDoTransaction = () => (dispatch, getState) => {
+  const state = getState();
+  let web3 = state.infoStatus.web3;
+  let cryptoMind = state.gameStatus.cryptoMind;
+  let address = state.infoStatus.userAddress;
+  if (!address) {
+    return 'You need to login metamask';
+  }
+
+  if (!web3 || !cryptoMind) {
+    return 'Loading web3 and cryptoMind. Please try again';
+  }
+
+  return '';
+};
