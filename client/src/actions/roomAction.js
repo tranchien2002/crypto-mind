@@ -59,6 +59,25 @@ export const updateCurrentRoom = () => async (dispatch, getState) => {
   }
 };
 
+export const createRoom = (bounty, roomSize, blockTimeout) => async (dispatch, getState) => {
+  const state = getState();
+  const crytoMind = state.gameStatus.cryptoMind;
+  let web3 = state.infoStatus.web3;
+  if (crytoMind) {
+    const from = state.infoStatus.userAddress;
+    bounty = web3.utils.toWei(bounty, 'ether');
+    await crytoMind.methods
+      .createRoom(bounty, roomSize, blockTimeout)
+      .send({ from: from, value: bounty })
+      .then(() => {
+        dispatch(gameStatus());
+      })
+      .catch((e) => {
+        console.log("Error: can't create room", e);
+      });
+  }
+};
+
 export const joinRoom = (roomID, bounty) => async (dispatch, getState) => {
   const state = getState();
   const crytoMind = state.gameStatus.cryptoMind;

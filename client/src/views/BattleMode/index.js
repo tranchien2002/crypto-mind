@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import useInterval from 'useInterval';
-import { Row, Col, Button, Avatar, Badge, Icon, Layout } from 'antd';
+import { Row, Col, Button, Avatar, Badge, Icon, Layout, Modal } from 'antd';
 import { Link } from 'react-router-dom';
 import RedirectRouter from 'components/RedirectRouter';
+import CreateGame from 'views/CreateGame';
 import * as room from 'actions/roomAction';
 
 import './battleMode.css';
@@ -11,8 +12,12 @@ import './battleMode.css';
 const { Header, Content, Footer } = Layout;
 
 function BattleMode() {
+  const [bounty, setBounty] = useState(2);
+  const [roomSize, setRoomSize] = useState(5);
+  const [blockTimeout, setBlockTimeout] = useState(6);
   const content = useSelector((state) => state.roomStatus);
   const dispatch = useDispatch();
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     dispatch(room.updateWaitingRoom());
@@ -27,9 +32,29 @@ function BattleMode() {
     dispatch(room.joinRoom(id, bounty));
   }
 
+  function createGame(bounty, roomSize, blockTimeout) {
+    dispatch(room.createRoom(bounty, roomSize, blockTimeout / 2));
+    setVisible(false);
+  }
+
   return (
     <Layout>
       <RedirectRouter />
+      <Modal
+        title=''
+        visible={visible}
+        onOk={() => createGame(bounty, roomSize, blockTimeout)}
+        onCancel={() => setVisible(false)}
+      >
+        <CreateGame
+          bounty={bounty}
+          setBounty={setBounty}
+          roomSize={roomSize}
+          setRoomSize={setRoomSize}
+          blockTimeout={blockTimeout}
+          setBlockTimeout={setBlockTimeout}
+        />
+      </Modal>
       <Header>
         <Row type='flex' justify='space-between'>
           <Col xs={4}>
@@ -84,8 +109,8 @@ function BattleMode() {
         )}
       </Content>
       <Footer>
-        <Button type='primary' size='large'>
-          <Link to='create'>Create Room</Link>
+        <Button type='primary' size='large' onClick={() => setVisible(true)}>
+          Create Room
         </Button>
       </Footer>
     </Layout>
