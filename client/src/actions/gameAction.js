@@ -33,3 +33,38 @@ export const initContract = () => async (dispatch, getState) => {
     });
   }
 };
+
+export const listenEventStart = () => async (dispatch, getState) => {
+  const state = getState();
+  let cryptoMind = state.gameStatus.cryptoMind;
+  let currentGame = state.roomStatus.currentGame;
+  if (currentGame.blockStart > 0) {
+    cryptoMind
+      .getPastEvents(
+        'StartGame',
+        {
+          filter: { roomId: [currentGame.roomId] },
+          fromBlock: 0,
+          toBlock: 'latest'
+        },
+        function(error, events) {
+          console.log(events[0].returnValues.seed);
+        }
+      )
+      .then((e) => {
+        console.log(e); // same results as the optional callback above
+      });
+  } else {
+    cryptoMind.events
+      .StartGame(
+        {
+          filter: { roomId: [currentGame.roomId] },
+          fromBlock: 0
+        },
+        function(error, events) {
+          console.log(events[0].returnValues.seed);
+        }
+      )
+      .on('error', console.error);
+  }
+};

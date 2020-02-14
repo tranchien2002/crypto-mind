@@ -30,7 +30,7 @@ contract CryptoMind {
   uint256[] public waitingRoom;
   mapping(address => uint256) public playerRoom;
 
-  event StartGame(uint256 roomId, bytes32 seed);
+  event StartGame(uint256 indexed roomId, uint256 seed);
 
   constructor() public {
     manager = msg.sender;
@@ -57,6 +57,10 @@ contract CryptoMind {
       }
     }
     require(msg.value >= _bounty, 'must send value more than bounty');
+    require(
+      _roomSize > 1 && _roomSize < 20,
+      'must more than 1 players in room and less than 20 players'
+    );
     require(
       playerRoom[msg.sender] == 0 ||
         rooms[playerRoom[msg.sender]].result > 0 ||
@@ -144,7 +148,7 @@ contract CryptoMind {
     Room storage room = rooms[_roomId];
     require(room.players.length == room.roomSize, 'room must be full');
     room.blockStart = block.number;
-    emit StartGame(_roomId, blockhash(block.number));
+    emit StartGame(_roomId, uint256(block.timestamp) ^ uint256(blockhash(block.number - 1)));
   }
 
   function submitAnswer(uint256 result) public {
@@ -244,7 +248,9 @@ contract CryptoMind {
       removePlayerInRunningRoom(roomId, player);
     } else {
       removePlayerInWaitingRoom(roomId, player);
-      removeFromWatingRoom(roomId);
+      if (room.players.length == 0) {
+        removeFromWatingRoom(roomId);
+      }
     }
   }
 
