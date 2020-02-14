@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Row, Col, Avatar, Statistic, Button, Layout, Icon } from 'antd';
+import { Row, Col, Avatar, Statistic, Button, Layout, Icon, message } from 'antd';
 import { Link, Redirect } from 'react-router-dom';
 import * as gameAction from 'actions/gameAction';
 
@@ -31,11 +31,19 @@ function TrainingMode(props) {
     setIsAnswer(false);
   }
 
-  function checkAns(ans) {
+  async function checkAns(ans) {
     /* eslint no-eval: 0 */
     if (eval(content.gameStatus.question[content.gameStatus.currentQues].ques) === ans) {
-      dispatch(gameAction.updateScore(content.gameStatus.score + 1));
       setIsAnswer(true);
+      await message.loading('Submiting..', 0.5);
+      await dispatch(gameAction.updateScore(content.gameStatus.score + 1));
+      message.success('Answer correct', 1.0);
+      onFinish();
+    } else {
+      setIsAnswer(true);
+      await message.loading('Submiting..', 0.5);
+      message.error('Answer wrong', 1.0);
+      onFinish();
     }
   }
 
