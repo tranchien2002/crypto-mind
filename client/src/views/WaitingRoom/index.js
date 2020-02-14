@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import useInterval from 'useInterval';
 import { Row, Col, Avatar, Layout, Icon, Badge } from 'antd';
+import RedirectRouter from 'components/RedirectRouter';
 import { Link } from 'react-router-dom';
 import * as room from 'actions/roomAction';
 
@@ -10,8 +11,13 @@ import './waitingRoom.css';
 const { Header, Content, Footer } = Layout;
 
 function WaitingRoom() {
-  const currentGame = useSelector((state) => state.roomStatus.currentGame);
+  const roomStatus = useSelector((state) => state.roomStatus);
+  const currentGame = roomStatus.currentGame;
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(room.updateCurrentRoom());
+  }, [dispatch]);
 
   useInterval(() => {
     dispatch(room.updateCurrentRoom());
@@ -19,12 +25,13 @@ function WaitingRoom() {
 
   return (
     <Layout>
+      <RedirectRouter />
       <Header>
         <Row type='flex' justify='space-between'>
           <Col xs={4}>
-            <Link to='/battle'>
+            <div onClick={() => dispatch(room.quitGame())}>
               <Icon type='left' style={{ fontSize: '15px', color: '#fff' }} />
-            </Link>
+            </div>
           </Col>
           <Col xs={4}>
             <Link to='/profile'>

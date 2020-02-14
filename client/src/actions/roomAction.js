@@ -1,7 +1,7 @@
 export const CURRENT_ROOM = 'CURRENT_ROOM';
 export const SCORE = 'SCORE';
 export const WAITING_ROOM = 'WAITING_ROOM';
-export const IS_JOIN_ROOM = 'IS_JOIN_ROOM';
+export const GAME_STATUS = 'GAME_STATUS';
 
 export const updateWaitingRoom = () => async (dispatch, getState) => {
   const state = getState();
@@ -26,6 +26,8 @@ export const updateWaitingRoom = () => async (dispatch, getState) => {
       type: WAITING_ROOM,
       waitingRooms
     });
+
+    dispatch(gameStatus());
   }
 };
 
@@ -51,6 +53,8 @@ export const updateCurrentRoom = () => async (dispatch, getState) => {
         type: CURRENT_ROOM,
         currentGame
       });
+
+      dispatch(gameStatus());
     }
   }
 };
@@ -66,7 +70,7 @@ export const joinRoom = (roomID, bounty) => async (dispatch, getState) => {
       .joinRoom(roomID)
       .send({ from: from, value: bounty })
       .then(() => {
-        dispatch(isJoinGame(true));
+        dispatch(gameStatus());
       })
       .catch((e) => {
         console.log("Error: can't join room", e);
@@ -74,9 +78,34 @@ export const joinRoom = (roomID, bounty) => async (dispatch, getState) => {
   }
 };
 
-export const isJoinGame = (isJoin) => async (dispatch) => {
-  dispatch({
-    type: IS_JOIN_ROOM,
-    isJoinGame: isJoin
-  });
+export const quitGame = () => async (dispatch, getState) => {
+  const state = getState();
+  const crytoMind = state.gameStatus.cryptoMind;
+  if (crytoMind) {
+    const from = state.infoStatus.userAddress;
+    await crytoMind.methods
+      .quitGame()
+      .send({ from: from })
+      .then(() => {
+        dispatch(gameStatus());
+      })
+      .catch((e) => {
+        console.log("Error: can't quit room", e);
+      });
+  }
+};
+
+export const gameStatus = () => async (dispatch, getState) => {
+  const state = getState();
+  const crytoMind = state.gameStatus.cryptoMind;
+  if (crytoMind) {
+    const from = state.infoStatus.userAddress;
+    if (from) {
+      let currentGame = await crytoMind.methods.roomOf(from).call({ from });
+      dispatch({
+        type: GAME_STATUS,
+        gameStatus: currentGame
+      });
+    }
+  }
 };

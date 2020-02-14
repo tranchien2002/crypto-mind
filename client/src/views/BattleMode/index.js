@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import useInterval from 'useInterval';
 import { Row, Col, Button, Avatar, Badge, Icon, Layout } from 'antd';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import RedirectRouter from 'components/RedirectRouter';
 import * as room from 'actions/roomAction';
 
 import './battleMode.css';
@@ -15,7 +16,6 @@ function BattleMode() {
 
   useEffect(() => {
     dispatch(room.updateWaitingRoom());
-    dispatch(room.isJoinGame(false));
   }, [dispatch]);
 
   useInterval(() => {
@@ -29,7 +29,7 @@ function BattleMode() {
 
   return (
     <Layout>
-      {content.isJoinGame ? <Redirect to='/waiting' /> : <></>}
+      <RedirectRouter />
       <Header>
         <Row type='flex' justify='space-between'>
           <Col xs={4}>
