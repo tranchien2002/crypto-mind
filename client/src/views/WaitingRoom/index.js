@@ -4,23 +4,24 @@ import useInterval from 'useInterval';
 import { Row, Col, Avatar, Layout, Icon, Badge } from 'antd';
 import RedirectRouter from 'components/RedirectRouter';
 import { Link } from 'react-router-dom';
-import * as room from 'actions/roomAction';
+import * as contract from 'actions/contractAction';
+import * as game from 'actions/gameAction';
 
 import './waitingRoom.css';
 
 const { Header, Content, Footer } = Layout;
 
 function WaitingRoom() {
-  const roomStatus = useSelector((state) => state.roomStatus);
+  const roomStatus = useSelector((state) => state.contractStatus);
   const currentGame = roomStatus.currentGame;
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(room.updateCurrentRoom());
-  }, [dispatch]);
+    dispatch(game.listenEventStart());
+  }, [roomStatus.blockStart, dispatch]);
 
   useInterval(() => {
-    dispatch(room.updateCurrentRoom());
+    dispatch(contract.updateCurrentRoom());
   }, 1000);
 
   return (
@@ -29,7 +30,7 @@ function WaitingRoom() {
       <Header>
         <Row type='flex' justify='space-between'>
           <Col xs={4}>
-            <div onClick={() => dispatch(room.quitGame())}>
+            <div onClick={() => dispatch(contract.quitGame())}>
               <Icon type='left' style={{ fontSize: '15px', color: '#fff' }} />
             </div>
           </Col>

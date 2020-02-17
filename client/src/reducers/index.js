@@ -1,12 +1,12 @@
 import infoReducer from './InfoReducer';
 import gameReducer from './GameReducer';
-import roomReducer from './RoomReducer';
+import contractReducer from './ContractReducer';
 import { combineReducers } from 'redux';
 
 const rootReducer = combineReducers({
   infoStatus: infoReducer,
   gameStatus: gameReducer,
-  roomStatus: roomReducer
+  contractStatus: contractReducer
 });
 
 export default rootReducer;

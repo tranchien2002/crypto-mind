@@ -29,7 +29,7 @@ const initialState = {
   ],
   currentQues: 0,
   score: 0,
-  cryptoMind: null
+  questions: []
 };
 
 const gameReducer = (state = initialState, action) => {
@@ -44,10 +44,10 @@ const gameReducer = (state = initialState, action) => {
         ...state,
         score: action.score
       };
-    case game.INIT_CONTRACT:
+    case game.UPDATE_QUESTIONS:
       return {
         ...state,
-        cryptoMind: action.cryptoMind
+        questions: action.questions
       };
     default:
       return state;

@@ -5,7 +5,7 @@ import { Row, Col, Button, Avatar, Badge, Icon, Layout, Modal } from 'antd';
 import { Link } from 'react-router-dom';
 import RedirectRouter from 'components/RedirectRouter';
 import CreateGame from 'views/CreateGame';
-import * as room from 'actions/roomAction';
+import * as room from 'actions/contractAction';
 
 import './battleMode.css';
 
@@ -15,7 +15,7 @@ function BattleMode() {
   const [bounty, setBounty] = useState(2);
   const [roomSize, setRoomSize] = useState(5);
   const [blockTimeout, setBlockTimeout] = useState(6);
-  const content = useSelector((state) => state.roomStatus);
+  const content = useSelector((state) => state.contractStatus);
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
 

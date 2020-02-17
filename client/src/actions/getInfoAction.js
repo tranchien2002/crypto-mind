@@ -1,5 +1,5 @@
 import { MetaMark, TomoWallet } from 'utils/getWeb3';
-import * as gameAction from 'actions/gameAction';
+import * as contractAction from 'actions/contractAction';
 
 export const WEB3_CONNECT = 'WEB3_CONNECT';
 export const GET_USERINFO = 'GET_USERINFO';
@@ -19,7 +19,8 @@ export const web3Connect = () => async (dispatch) => {
         web3
       });
 
-      dispatch(gameAction.initContract());
+      dispatch(contractAction.initContract());
+      dispatch(getProfile);
     }
   } catch (error) {
     alert(`Failed to load web3, accounts, or contract. Check console for details.`);
@@ -57,7 +58,7 @@ export const getProfile = () => async (dispatch, getState) => {
 export const checkBeforeDoTransaction = () => (dispatch, getState) => {
   const state = getState();
   let web3 = state.infoStatus.web3;
-  let cryptoMind = state.gameStatus.cryptoMind;
+  let cryptoMind = state.contractStatus.cryptoMind;
   let address = state.infoStatus.userAddress;
   if (!address) {
     return 'You need to login metamask';
