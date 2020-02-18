@@ -181,7 +181,9 @@ contract CryptoMind {
       uint256 result,
       uint256 blockStart,
       uint256 blockTimeout,
-      address payable[] memory players
+      address payable[] memory players,
+      address payable[] memory submited,
+      uint256 highscore
     )
   {
     roomId = playerRoom[_player];
@@ -193,6 +195,17 @@ contract CryptoMind {
     blockStart = room.blockStart;
     blockTimeout = room.blockTimeout;
     players = room.players;
+    submited = room.submited;
+    highscore = room.highscore;
+  }
+
+  function getAnswerInRoom(address _player, uint256 _roomId)
+    external
+    view
+    returns (uint256 answer)
+  {
+    Room storage room = rooms[_roomId];
+    answer = room.answers[_player];
   }
 
   function claimReward() internal {
