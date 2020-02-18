@@ -1,4 +1,5 @@
 /*eslint no-loop-func: */
+/* eslint no-eval: 0 */
 
 import seedRamdom from 'seedrandom';
 let rng;
@@ -21,7 +22,8 @@ function randomRange() {
   return parseInt(rng() * 100);
 }
 
-var x = ['/', '*', '-', '+'];
+// var x = ['/', '*', '-', '+'];
+var x = ['-', '+'];
 
 function buildTree(numNodes) {
   if (numNodes === 1) return randomRange();
@@ -51,16 +53,36 @@ let simplify = (a) => {
   return a;
 };
 
+let genAnswer = (question) => {
+  let answers = [];
+  let answer = eval(question);
+  for (let i = 0; i < 3; i++) {
+    let ans;
+    let randomly;
+
+    do {
+      randomly = Math.floor(rng() * 100);
+    } while (randomly === 0);
+
+    if (i % 2 === 0) ans = answer + randomly;
+    else ans = answer - randomly;
+    answers.push(ans);
+  }
+  answers.push(answer);
+  // suffle element in array
+  answers.sort(() => Math.random() - 0.5);
+
+  return answers;
+};
+
 const genQuestion = (seed, numQuestion, numElement) => {
   rng = seedRamdom(seed);
   let questions = [];
   for (let i = 0; i < numQuestion; i++) {
-    // fake ans for question
     var QuesAns = {};
 
     QuesAns.ques = simplify(buildTree(numElement).toString());
-    QuesAns.ans = [232, 132, 245, 214];
-    /////
+    QuesAns.ans = genAnswer(QuesAns.ques);
 
     questions.push(QuesAns);
   }
