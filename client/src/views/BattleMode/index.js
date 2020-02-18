@@ -32,8 +32,9 @@ function BattleMode() {
     dispatch(room.joinRoom(id, bounty));
   }
 
-  function createGame(bounty, roomSize, blockTimeout) {
-    dispatch(room.createRoom(bounty, roomSize, blockTimeout / 2));
+  function createGame(bounty, roomSize, timePerQues) {
+    const blockTimeout = (timePerQues / 2) * 10;
+    dispatch(room.createRoom(bounty, roomSize, blockTimeout));
     setVisible(false);
   }
 

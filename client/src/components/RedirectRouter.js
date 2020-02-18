@@ -11,8 +11,11 @@ function RedirectRouter() {
         gameStatus.result === '0' ? (
           gameStatus.blockStart === '0' ? (
             <Redirect to='/waiting' />
+          ) : gameStatus.currentBlock >
+            parseInt(gameStatus.blockStart) + parseInt(gameStatus.blockTimeout) ? (
+            <Redirect to='/battle' />
           ) : (
-            <Redirect to='/training' />
+            <Redirect to='/battleGame' />
           )
         ) : (
           <Redirect to='/battle' />

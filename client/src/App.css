@@ -15,3 +15,11 @@
 .p_break {
   word-break: keep-all;
 }
+
+button {
+  word-wrap: break-word;
+}
+
+body {
+  background-color: #f0f2f5 !important;
+}
