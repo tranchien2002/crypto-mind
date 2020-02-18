@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import useInterval from 'useInterval';
 import { Row, Col, Button, Avatar, Badge, Icon, Layout, Modal } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import RedirectRouter from 'components/RedirectRouter';
 import CreateGame from 'views/CreateGame';
 import * as room from 'actions/contractAction';
@@ -18,6 +18,8 @@ function BattleMode() {
   const content = useSelector((state) => state.contractStatus);
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
+
+  let history = useHistory();
 
   useEffect(() => {
     dispatch(room.updateWaitingRoom());
@@ -64,7 +66,7 @@ function BattleMode() {
             </Link>
           </Col>
           <Col xs={4}>
-            <Link to='/profile'>
+            <Link to='/profile' onClick={() => history.push('/battle')}>
               <Avatar style={{ backgroundColor: '#87d068' }} icon='user' size='large' />
             </Link>
           </Col>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import { Button, Layout, Avatar, Row, Col } from 'antd';
 
@@ -9,6 +9,7 @@ import './UserProfile.css';
 function UserProfile() {
   const content = useSelector((state) => state); //this hook gives us redux store state
   const { Header, Footer, Content } = Layout;
+  let history = useHistory();
 
   return (
     <div>
@@ -32,8 +33,8 @@ function UserProfile() {
           </Row>
         </Content>
         <Footer>
-          <Button type='primary'>
-            <Link to='/'>Back</Link>
+          <Button type='primary' onClick={() => history.goBack()}>
+            Back
           </Button>
         </Footer>
       </Layout>

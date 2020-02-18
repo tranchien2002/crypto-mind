@@ -23,3 +23,7 @@ button {
 body {
   background-color: #f0f2f5 !important;
 }
+
+.bt_length {
+  width: 250px !important;
+}

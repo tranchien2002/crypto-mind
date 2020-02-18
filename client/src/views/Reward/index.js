@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { Button, Layout, Avatar, Row, Col } from 'antd';
 
@@ -10,13 +10,15 @@ function Reward() {
   const { Header, Footer, Content } = Layout;
   const content = useSelector((state) => state);
 
+  let history = useHistory();
+
   return (
     <Layout>
       <Header>
         <Row type='flex' justify='space-between'>
           <Col></Col>
           <Col xs={4}>
-            <Link to='/profile'>
+            <Link to='/profile' onClick={() => history.push('/reward')}>
               <Avatar style={{ backgroundColor: '#87d068' }} icon='user' size='large' />
             </Link>
           </Col>

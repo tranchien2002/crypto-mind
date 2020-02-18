@@ -1,11 +1,13 @@
 import React from 'react';
 import { Row, Col, Avatar, Button, Layout } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import './home.css';
 
 const { Header, Content, Footer } = Layout;
 
 function Home() {
+  let history = useHistory();
+
   return (
     <div>
       <Layout>
@@ -13,7 +15,7 @@ function Home() {
           <Row type='flex' justify='space-between'>
             <Col xs={4} />
             <Col xs={4}>
-              <Link to='/profile'>
+              <Link to='/profile' onClick={() => history.push('/')}>
                 <Avatar style={{ backgroundColor: '#87d068' }} icon='user' size='large' />
               </Link>
             </Col>
