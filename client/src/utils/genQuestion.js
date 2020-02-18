@@ -55,7 +55,14 @@ const genQuestion = (seed, numQuestion, numElement) => {
   rng = seedRamdom(seed);
   let questions = [];
   for (let i = 0; i < numQuestion; i++) {
-    questions.push(simplify(buildTree(numElement).toString()));
+    // fake ans for question
+    var QuesAns = {};
+
+    QuesAns.ques = simplify(buildTree(numElement).toString());
+    QuesAns.ans = [232, 132, 245, 214];
+    /////
+
+    questions.push(QuesAns);
   }
   return questions;
 };

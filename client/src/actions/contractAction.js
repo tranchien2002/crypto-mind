@@ -134,10 +134,13 @@ export const quitGame = () => async (dispatch, getState) => {
 export const gameStatus = () => async (dispatch, getState) => {
   const state = getState();
   const crytoMind = state.contractStatus.cryptoMind;
+  let web3 = state.infoStatus.web3;
   if (crytoMind) {
     const from = state.infoStatus.userAddress;
     if (from) {
       let currentGame = await crytoMind.methods.roomOf(from).call({ from });
+      currentGame.currentBlock = await web3.eth.getBlockNumber();
+
       dispatch({
         type: GAME_STATUS,
         gameStatus: currentGame
