@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as gameAction from 'actions/gameAction';
 import { message } from 'antd';
@@ -8,10 +8,15 @@ import { Redirect } from 'react-router-dom';
 function BattleGame() {
   const dispatch = useDispatch();
   const gameStatus = useSelector((state) => state.gameStatus);
-  const roomStatus = useSelector((state) => state.contractStatus);
-  const timePerQues = (roomStatus.currentGame.blockTimeout / 10) * 2;
+  const contractStatus = useSelector((state) => state.contractStatus);
+  const timePerQues = (contractStatus.currentGame.blockTimeout / 10) * 2;
   const [isAnswer, setIsAnswer] = useState(false);
   const [targetTime, setTargetTime] = useState(Date.now() + timePerQues * 1000);
+
+  useEffect(() => {
+    dispatch(gameAction.updateCurrentQuestion(0));
+    dispatch(gameAction.updateScore(0));
+  }, [dispatch]);
 
   function onFinish() {
     dispatch(gameAction.updateCurrentQuestion(gameStatus.currentQues + 1));
@@ -21,7 +26,7 @@ function BattleGame() {
 
   async function checkAns(ans) {
     /* eslint no-eval: 0 */
-    if (eval(gameStatus.question[gameStatus.currentQues].ques) === ans) {
+    if (eval(gameStatus.battleQuestions[gameStatus.currentQues].ques) === ans) {
       setIsAnswer(true);
       await message.loading('Submiting..', 0.5);
       dispatch(gameAction.updateScore(gameStatus.score + 1));
@@ -33,8 +38,14 @@ function BattleGame() {
     }
   }
 
-  return gameStatus.question[gameStatus.currentQues] ? (
-    <Game targetTime={targetTime} onFinish={onFinish} isAnswer={isAnswer} checkAns={checkAns} />
+  return gameStatus.battleQuestions[gameStatus.currentQues] ? (
+    <Game
+      targetTime={targetTime}
+      onFinish={onFinish}
+      isAnswer={isAnswer}
+      checkAns={checkAns}
+      question={gameStatus.battleQuestions}
+    />
   ) : (
     <Redirect push to='/reward' />
   );

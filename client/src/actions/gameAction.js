@@ -33,10 +33,10 @@ export const listenEventStart = () => async (dispatch, getState) => {
             toBlock: 'latest'
           },
           function(error, events) {
-            let questions = genQuestion(events[0].returnValues['seed'], 10, 5);
+            let battleQuestions = genQuestion(events[0].returnValues['seed'], 10, 5);
             dispatch({
               type: UPDATE_QUESTIONS,
-              questions
+              battleQuestions
             });
           }
         )
@@ -49,10 +49,10 @@ export const listenEventStart = () => async (dispatch, getState) => {
             fromBlock: currentBlock
           },
           function(error, events) {
-            let questions = genQuestion(events[0].returnValues['seed'], 10, 5);
+            let battleQuestions = genQuestion(events.returnValues['seed'], 10, 5);
             dispatch({
               type: UPDATE_QUESTIONS,
-              questions
+              battleQuestions
             });
           }
         )

@@ -1,21 +1,14 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Row, Col, Avatar, Statistic, Button, Layout, Icon } from 'antd';
 import { Link } from 'react-router-dom';
-import * as gameAction from 'actions/gameAction';
 
 const { Header, Content, Footer } = Layout;
 const { Countdown } = Statistic;
 
-function Game({ isAnswer, targetTime, onFinish, checkAns }) {
-  const dispatch = useDispatch();
+function Game({ isAnswer, targetTime, onFinish, checkAns, question }) {
   const abcd = ['A', 'B', 'C', 'D'];
   const gameStatus = useSelector((state) => state.gameStatus);
-
-  useEffect(() => {
-    dispatch(gameAction.updateCurrentQuestion(0));
-    dispatch(gameAction.updateScore(0));
-  }, [dispatch]);
 
   return (
     <Layout>
@@ -45,10 +38,10 @@ function Game({ isAnswer, targetTime, onFinish, checkAns }) {
           </Col>
 
           <Col span={22}>
-            <p>{gameStatus.question[gameStatus.currentQues].ques}</p>
+            <p>{question[gameStatus.currentQues].ques}</p>
           </Col>
 
-          {gameStatus.question[gameStatus.currentQues].ans.map((ans, index) => (
+          {question[gameStatus.currentQues].ans.map((ans, index) => (
             <Col span={22} key={index}>
               {isAnswer ? (
                 <Button disabled>
