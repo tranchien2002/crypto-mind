@@ -1,27 +1,35 @@
-import * as room from 'actions/roomAction';
+import * as contract from 'actions/contractAction';
 
 const initialState = {
   waitingRooms: null,
   currentGame: null,
-  gameStatus: null
+  gameStatus: null,
+  blockStart: null,
+  cryptoMind: null
 };
 
 const roomReducer = (state = initialState, action) => {
   switch (action.type) {
-    case room.CURRENT_ROOM:
+    case contract.CURRENT_ROOM:
       return {
         ...state,
-        currentGame: action.currentGame
+        currentGame: action.currentGame,
+        blockStart: action.blockStart
       };
-    case room.WAITING_ROOM:
+    case contract.WAITING_ROOM:
       return {
         ...state,
         waitingRooms: action.waitingRooms
       };
-    case room.GAME_STATUS:
+    case contract.GAME_STATUS:
       return {
         ...state,
         gameStatus: action.gameStatus
+      };
+    case contract.INIT_CONTRACT:
+      return {
+        ...state,
+        cryptoMind: action.cryptoMind
       };
     default:
       return state;

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 function RedirectRouter() {
-  const gameStatus = useSelector((state) => state.roomStatus.gameStatus);
+  const gameStatus = useSelector((state) => state.contractStatus.gameStatus);
 
   return (
     <div>

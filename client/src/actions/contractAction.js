@@ -1,13 +1,15 @@
+import CryptoMind from 'contracts/CryptoMind.json';
 import { checkBeforeDoTransaction } from 'actions/getInfoAction';
 import { message } from 'antd';
 export const CURRENT_ROOM = 'CURRENT_ROOM';
 export const SCORE = 'SCORE';
 export const WAITING_ROOM = 'WAITING_ROOM';
 export const GAME_STATUS = 'GAME_STATUS';
+export const INIT_CONTRACT = 'INIT_CONTRACT';
 
 export const updateWaitingRoom = () => async (dispatch, getState) => {
   const state = getState();
-  const crytoMind = state.gameStatus.cryptoMind;
+  const crytoMind = state.contractStatus.cryptoMind;
   let web3 = state.infoStatus.web3;
   let msg = dispatch(checkBeforeDoTransaction());
   if (!crytoMind) {
@@ -38,7 +40,7 @@ export const updateWaitingRoom = () => async (dispatch, getState) => {
 
 export const updateCurrentRoom = () => async (dispatch, getState) => {
   const state = getState();
-  const crytoMind = state.gameStatus.cryptoMind;
+  const crytoMind = state.contractStatus.cryptoMind;
   let web3 = state.infoStatus.web3;
   let msg = dispatch(checkBeforeDoTransaction());
   if (msg) {
@@ -46,6 +48,7 @@ export const updateCurrentRoom = () => async (dispatch, getState) => {
   } else {
     const from = state.infoStatus.userAddress;
     let currentGame = await crytoMind.methods.roomOf(from).call({ from });
+    let blockStart = currentGame.blockStart;
     currentGame.bounty = web3.utils.fromWei(currentGame.bounty);
     currentGame.players = await crytoMind.methods.getPlayerRoom(currentGame.roomId).call({ from });
     currentGame.playerCount = currentGame.players.length;
@@ -56,7 +59,8 @@ export const updateCurrentRoom = () => async (dispatch, getState) => {
     }
     dispatch({
       type: CURRENT_ROOM,
-      currentGame
+      currentGame,
+      blockStart
     });
 
     dispatch(gameStatus());
@@ -65,7 +69,7 @@ export const updateCurrentRoom = () => async (dispatch, getState) => {
 
 export const createRoom = (bounty, roomSize, blockTimeout) => async (dispatch, getState) => {
   const state = getState();
-  const crytoMind = state.gameStatus.cryptoMind;
+  const crytoMind = state.contractStatus.cryptoMind;
   let web3 = state.infoStatus.web3;
   let msg = dispatch(checkBeforeDoTransaction());
   if (msg) {
@@ -87,7 +91,7 @@ export const createRoom = (bounty, roomSize, blockTimeout) => async (dispatch, g
 
 export const joinRoom = (roomID, bounty) => async (dispatch, getState) => {
   const state = getState();
-  const crytoMind = state.gameStatus.cryptoMind;
+  const crytoMind = state.contractStatus.cryptoMind;
   let web3 = state.infoStatus.web3;
   let msg = dispatch(checkBeforeDoTransaction());
   if (msg) {
@@ -109,7 +113,7 @@ export const joinRoom = (roomID, bounty) => async (dispatch, getState) => {
 
 export const quitGame = () => async (dispatch, getState) => {
   const state = getState();
-  const crytoMind = state.gameStatus.cryptoMind;
+  const crytoMind = state.contractStatus.cryptoMind;
   let msg = dispatch(checkBeforeDoTransaction());
   if (msg) {
     message.warning(msg);
@@ -129,7 +133,7 @@ export const quitGame = () => async (dispatch, getState) => {
 
 export const gameStatus = () => async (dispatch, getState) => {
   const state = getState();
-  const crytoMind = state.gameStatus.cryptoMind;
+  const crytoMind = state.contractStatus.cryptoMind;
   if (crytoMind) {
     const from = state.infoStatus.userAddress;
     if (from) {
@@ -139,5 +143,21 @@ export const gameStatus = () => async (dispatch, getState) => {
         gameStatus: currentGame
       });
     }
+  }
+};
+
+export const initContract = () => async (dispatch, getState) => {
+  const state = getState();
+  let web3 = state.infoStatus.web3;
+  if (web3) {
+    const networkId = process.env.REACT_APP_TOMO_ID;
+    let cryptoMindAddress = CryptoMind.networks[networkId].address;
+    let cryptoMind = new web3.eth.Contract(CryptoMind.abi, cryptoMindAddress, {
+      transactionConfirmationBlocks: 1
+    });
+    dispatch({
+      type: INIT_CONTRACT,
+      cryptoMind
+    });
   }
 };
