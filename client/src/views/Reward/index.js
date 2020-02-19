@@ -15,7 +15,7 @@ function Reward() {
   let history = useHistory();
 
   useInterval(() => {
-    dispatch(contract.gameStatus());
+    dispatch(contract.updateCurrentRoom());
   }, 1000);
 
   return (

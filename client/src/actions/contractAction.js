@@ -35,7 +35,7 @@ export const updateWaitingRoom = () => async (dispatch, getState) => {
       waitingRooms
     });
 
-    dispatch(gameStatus());
+    dispatch(updateCurrentRoom());
   }
 };
 
@@ -58,13 +58,12 @@ export const updateCurrentRoom = () => async (dispatch, getState) => {
         currentGame.players.push(undefined);
       }
     }
+    currentGame.currentBlock = await web3.eth.getBlockNumber();
     dispatch({
       type: CURRENT_ROOM,
       currentGame,
       blockStart
     });
-
-    dispatch(gameStatus());
   }
 };
 
@@ -82,7 +81,7 @@ export const createRoom = (bounty, roomSize, blockTimeout) => async (dispatch, g
       .createRoom(bounty, roomSize, blockTimeout)
       .send({ from: from, value: bounty })
       .then(() => {
-        dispatch(gameStatus());
+        dispatch(updateCurrentRoom());
       })
       .catch((e) => {
         console.log("Error: can't create room", e);
@@ -104,7 +103,7 @@ export const joinRoom = (roomID, bounty) => async (dispatch, getState) => {
       .joinRoom(roomID)
       .send({ from: from, value: bounty })
       .then(async () => {
-        await dispatch(gameStatus());
+        await dispatch(updateCurrentRoom());
         await dispatch(listenEventStart());
       })
       .catch((e) => {
@@ -125,7 +124,7 @@ export const quitGame = () => async (dispatch, getState) => {
       .quitGame()
       .send({ from: from })
       .then(() => {
-        dispatch(gameStatus());
+        dispatch(updateCurrentRoom());
       })
       .catch((e) => {
         console.log("Error: can't quit room", e);

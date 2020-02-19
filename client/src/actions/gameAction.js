@@ -19,7 +19,7 @@ export const updateScore = (score) => async (dispatch) => {
 export const listenEventStart = () => async (dispatch, getState) => {
   const state = getState();
   let cryptoMind = state.contractStatus.cryptoMind;
-  let currentGame = state.contractStatus.gameStatus;
+  let currentGame = state.contractStatus.currentGame;
   let web3 = state.infoStatus.web3;
   if (currentGame && web3) {
     let currentBlock = await web3.eth.getBlockNumber();

@@ -12,7 +12,7 @@ function BattleGame() {
   const dispatch = useDispatch();
   const gameStatus = useSelector((state) => state.gameStatus);
   const contractStatus = useSelector((state) => state.contractStatus);
-  const timePerQues = (contractStatus.gameStatus.blockTimeout / 10) * 2;
+  const timePerQues = (contractStatus.currentGame.blockTimeout / 10) * 2;
   const [isAnswer, setIsAnswer] = useState(false);
   const [targetTime, setTargetTime] = useState(Date.now() + timePerQues * 1000);
 
@@ -24,7 +24,7 @@ function BattleGame() {
   }, [dispatch]);
 
   useInterval(() => {
-    dispatch(contract.gameStatus());
+    dispatch(contract.updateCurrentRoom());
   }, 1000);
 
   function onFinish() {
@@ -67,9 +67,9 @@ function BattleGame() {
           currentBlock < blockstart + blockTimeout: Must not run out of time
           currentQuestion < battleQuestions.length
        */}
-      {contractStatus.gameStatus.currentBlock <
-        parseInt(contractStatus.gameStatus.blockStart) +
-          parseInt(contractStatus.gameStatus.blockTimeout) ||
+      {contractStatus.currentGame.currentBlock <
+        parseInt(contractStatus.currentGame.blockStart) +
+          parseInt(contractStatus.currentGame.blockTimeout) ||
       gameStatus.currentQues < gameStatus.battleQuestions.length - 1 ? (
         <Game
           targetTime={targetTime}

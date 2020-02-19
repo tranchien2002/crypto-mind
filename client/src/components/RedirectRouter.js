@@ -3,16 +3,16 @@ import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 function RedirectRouter() {
-  const gameStatus = useSelector((state) => state.contractStatus.gameStatus);
+  const currentGame = useSelector((state) => state.contractStatus.currentGame);
 
   return (
     <div>
-      {gameStatus ? (
-        gameStatus.result === '0' ? (
-          gameStatus.blockStart === '0' ? (
+      {currentGame ? (
+        currentGame.result === '0' ? (
+          currentGame.blockStart === '0' ? (
             <Redirect to='/waiting' />
-          ) : gameStatus.currentBlock >
-            parseInt(gameStatus.blockStart) + parseInt(gameStatus.blockTimeout) ? (
+          ) : currentGame.currentBlock >
+            parseInt(currentGame.blockStart) + parseInt(currentGame.blockTimeout) ? (
             <Redirect to='/battle' />
           ) : (
             <Redirect to='/battleGame' />
