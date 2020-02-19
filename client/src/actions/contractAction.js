@@ -153,7 +153,8 @@ export const gameStatus = () => async (dispatch, getState) => {
 export const submitAnswer = () => async (dispatch, getState) => {
   const state = getState();
   let cryptoMind = state.contractStatus.cryptoMind;
-  let score = state.contractStatus.score;
+  let score = state.gameStatus.score;
+
   let msg = dispatch(checkBeforeDoTransaction());
   if (msg) {
     console.log(msg);

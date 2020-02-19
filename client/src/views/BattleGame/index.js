@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as gameAction from 'actions/gameAction';
+import * as contractAction from 'actions/contractAction';
 import { Row, Col, Avatar, Icon, Layout, message } from 'antd';
 import Game from 'components/Game';
 import { Redirect, Link, useHistory } from 'react-router-dom';
@@ -12,7 +13,8 @@ function BattleGame() {
   const dispatch = useDispatch();
   const gameStatus = useSelector((state) => state.gameStatus);
   const contractStatus = useSelector((state) => state.contractStatus);
-  const timePerQues = (contractStatus.currentGame.blockTimeout / 10) * 2;
+  // 4 block for submit
+  const timePerQues = ((contractStatus.currentGame.blockTimeout - 4) / 10) * 2;
   const [isAnswer, setIsAnswer] = useState(false);
   const [targetTime, setTargetTime] = useState(Date.now() + timePerQues * 1000);
 
@@ -28,9 +30,13 @@ function BattleGame() {
   }, 1000);
 
   function onFinish() {
-    dispatch(gameAction.updateCurrentQuestion(gameStatus.currentQues + 1));
-    setTargetTime(Date.now() + timePerQues * 1000);
-    setIsAnswer(false);
+    if (gameStatus.currentQues === 9) {
+      message.loading('Ready for submit', 1).then(() => dispatch(contractAction.submitAnswer()));
+    } else {
+      dispatch(gameAction.updateCurrentQuestion(gameStatus.currentQues + 1));
+      setTargetTime(Date.now() + timePerQues * 1000);
+      setIsAnswer(false);
+    }
   }
 
   async function checkAns(ans) {
