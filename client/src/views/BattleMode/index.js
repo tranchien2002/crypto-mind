@@ -35,7 +35,8 @@ function BattleMode() {
   }
 
   function createGame(bounty, roomSize, timePerQues) {
-    const blockTimeout = (timePerQues / 2) * 10;
+    // 4 block for submit
+    const blockTimeout = (timePerQues / 2) * 10 + 4;
     dispatch(room.createRoom(bounty, roomSize, blockTimeout));
     setVisible(false);
   }
