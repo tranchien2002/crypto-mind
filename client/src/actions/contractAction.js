@@ -149,6 +149,28 @@ export const gameStatus = () => async (dispatch, getState) => {
   }
 };
 
+export const submitAnswer = () => async (dispatch, getState) => {
+  const state = getState();
+  let cryptoMind = state.contractStatus.cryptoMind;
+  let score = state.contractStatus.score;
+  let msg = dispatch(checkBeforeDoTransaction());
+  if (msg) {
+    console.log(msg);
+  } else {
+    const from = state.infoStatus.userAddress;
+    await cryptoMind.methods
+      .submitAnswer(score)
+      .send({ from: from })
+      .then(() => {
+        // dispatch(gameStatus());
+        console.log('success');
+      })
+      .catch((e) => {
+        console.log("Error: can't create room", e);
+      });
+  }
+};
+
 export const initContract = () => async (dispatch, getState) => {
   const state = getState();
   let web3 = state.infoStatus.web3;

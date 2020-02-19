@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as gameAction from 'actions/gameAction';
-import { message } from 'antd';
+import { Row, Col, message, Avatar, Icon, Layout } from 'antd';
 import Game from 'components/Game';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link, useHistory } from 'react-router-dom';
+
+const { Header } = Layout;
 
 function BattleGame() {
   const dispatch = useDispatch();
@@ -12,6 +14,8 @@ function BattleGame() {
   const timePerQues = (contractStatus.currentGame.blockTimeout / 10) * 2;
   const [isAnswer, setIsAnswer] = useState(false);
   const [targetTime, setTargetTime] = useState(Date.now() + timePerQues * 1000);
+
+  let history = useHistory();
 
   useEffect(() => {
     dispatch(gameAction.updateCurrentQuestion(0));
@@ -38,16 +42,34 @@ function BattleGame() {
     }
   }
 
-  return gameStatus.battleQuestions[gameStatus.currentQues] ? (
-    <Game
-      targetTime={targetTime}
-      onFinish={onFinish}
-      isAnswer={isAnswer}
-      checkAns={checkAns}
-      question={gameStatus.battleQuestions}
-    />
-  ) : (
-    <Redirect push to='/reward' />
+  return (
+    <Layout>
+      <Header>
+        <Row type='flex' justify='space-between'>
+          <Col xs={4}>
+            <Link to='/'>
+              <Icon type='left' style={{ fontSize: '15px', color: '#fff' }} />
+            </Link>
+          </Col>
+          <Col xs={4}>
+            <Link to='/profile' onClick={() => history.push('/battleGame')}>
+              <Avatar style={{ backgroundColor: '#87d068' }} icon='user' size='large' />
+            </Link>
+          </Col>
+        </Row>
+      </Header>
+      {gameStatus.battleQuestions[gameStatus.currentQues] ? (
+        <Game
+          targetTime={targetTime}
+          onFinish={onFinish}
+          isAnswer={isAnswer}
+          checkAns={checkAns}
+          question={gameStatus.battleQuestions}
+        />
+      ) : (
+        <Redirect push to='/reward' />
+      )}
+    </Layout>
   );
 }
 

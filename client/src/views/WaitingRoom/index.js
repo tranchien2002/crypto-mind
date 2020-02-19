@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import useInterval from 'useInterval';
 import { Row, Col, Avatar, Layout, Icon, Badge } from 'antd';
 import RedirectRouter from 'components/RedirectRouter';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import * as contract from 'actions/contractAction';
 import * as game from 'actions/gameAction';
 
@@ -15,6 +15,8 @@ function WaitingRoom() {
   const roomStatus = useSelector((state) => state.contractStatus);
   const currentGame = roomStatus.currentGame;
   const dispatch = useDispatch();
+
+  let history = useHistory();
 
   useEffect(() => {
     dispatch(game.listenEventStart());
@@ -35,7 +37,7 @@ function WaitingRoom() {
             </div>
           </Col>
           <Col xs={4}>
-            <Link to='/profile'>
+            <Link to='/profile' onClick={() => history.push('/waiting')}>
               <Avatar style={{ backgroundColor: '#87d068' }} icon='user' size='large' />
             </Link>
           </Col>

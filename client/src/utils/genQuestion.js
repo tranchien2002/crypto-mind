@@ -14,8 +14,8 @@ var TreeNode = function(left, right, operator) {
   };
 };
 
-function randomNumberRange(min, max) {
-  return Math.floor(Math.random() * (max - min) + min);
+function randomNumberRange(max) {
+  return parseInt(rng() * 100) % max;
 }
 
 function randomRange() {
@@ -33,7 +33,7 @@ function buildTree(numNodes) {
   var numRight = Math.ceil(numNodes / 2);
   var rightSubTree = buildTree(numRight);
 
-  var m = randomNumberRange(0, x.length);
+  var m = randomNumberRange(x.length);
   var str = x[m];
   return new TreeNode(leftSubTree, rightSubTree, str);
 }
