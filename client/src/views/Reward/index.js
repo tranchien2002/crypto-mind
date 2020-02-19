@@ -1,16 +1,22 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 
 import { Button, Layout, Avatar, Row, Col } from 'antd';
 
 import './reward.css';
+import useInterval from 'useInterval';
+import * as contract from 'actions/contractAction';
 
 function Reward() {
   const { Header, Footer, Content } = Layout;
   const content = useSelector((state) => state);
-
+  const dispatch = useDispatch();
   let history = useHistory();
+
+  useInterval(() => {
+    dispatch(contract.gameStatus());
+  }, 1000);
 
   return (
     <Layout>
