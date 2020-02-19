@@ -1,5 +1,6 @@
 import CryptoMind from 'contracts/CryptoMind.json';
 import { checkBeforeDoTransaction } from 'actions/getInfoAction';
+import { listenEventStart } from 'actions/gameAction';
 import { message } from 'antd';
 export const CURRENT_ROOM = 'CURRENT_ROOM';
 export const SCORE = 'SCORE';
@@ -102,8 +103,9 @@ export const joinRoom = (roomID, bounty) => async (dispatch, getState) => {
     await crytoMind.methods
       .joinRoom(roomID)
       .send({ from: from, value: bounty })
-      .then(() => {
-        dispatch(gameStatus());
+      .then(async () => {
+        await dispatch(gameStatus());
+        await dispatch(listenEventStart());
       })
       .catch((e) => {
         console.log("Error: can't join room", e);

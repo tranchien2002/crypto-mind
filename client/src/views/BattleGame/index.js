@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as gameAction from 'actions/gameAction';
-import { Row, Col, message, Avatar, Icon, Layout } from 'antd';
+import { Row, Col, Avatar, Icon, Layout, message } from 'antd';
 import Game from 'components/Game';
 import { Redirect, Link, useHistory } from 'react-router-dom';
-
+import * as contract from 'actions/contractAction';
+import useInterval from 'useInterval';
 const { Header } = Layout;
 
 function BattleGame() {
   const dispatch = useDispatch();
   const gameStatus = useSelector((state) => state.gameStatus);
   const contractStatus = useSelector((state) => state.contractStatus);
-  const timePerQues = (contractStatus.currentGame.blockTimeout / 10) * 2;
+  const timePerQues = (contractStatus.gameStatus.blockTimeout / 10) * 2;
   const [isAnswer, setIsAnswer] = useState(false);
   const [targetTime, setTargetTime] = useState(Date.now() + timePerQues * 1000);
 
@@ -21,6 +22,10 @@ function BattleGame() {
     dispatch(gameAction.updateCurrentQuestion(0));
     dispatch(gameAction.updateScore(0));
   }, [dispatch]);
+
+  useInterval(() => {
+    dispatch(contract.gameStatus());
+  }, 1000);
 
   function onFinish() {
     dispatch(gameAction.updateCurrentQuestion(gameStatus.currentQues + 1));
@@ -58,7 +63,14 @@ function BattleGame() {
           </Col>
         </Row>
       </Header>
-      {gameStatus.battleQuestions[gameStatus.currentQues] ? (
+      {/*
+          currentBlock < blockstart + blockTimeout: Must not run out of time
+          currentQuestion < battleQuestions.length
+       */}
+      {contractStatus.gameStatus.currentBlock <
+        parseInt(contractStatus.gameStatus.blockStart) +
+          parseInt(contractStatus.gameStatus.blockTimeout) ||
+      gameStatus.currentQues < gameStatus.battleQuestions.length - 1 ? (
         <Game
           targetTime={targetTime}
           onFinish={onFinish}
