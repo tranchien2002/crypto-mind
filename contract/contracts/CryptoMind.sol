@@ -45,11 +45,12 @@ contract CryptoMind {
   }
 
   function createRoom(uint256 _bounty, uint256 _roomSize, uint256 blockTimeout) external payable {
-    if (playerRoom[msg.sender] != 0) {
+    uint256 roomId = playerRoom[msg.sender];
+    Room storage currentRoom = rooms[roomId];
+    if (playerRoom[msg.sender] != 0 && currentRoom.result == 0) {
       if (
-        block.number >
-        rooms[playerRoom[msg.sender]].blockStart + rooms[playerRoom[msg.sender]].blockTimeout &&
-        rooms[playerRoom[msg.sender]].blockStart != 0
+        block.number > currentRoom.blockStart + currentRoom.blockTimeout &&
+        currentRoom.blockStart != 0
       ) {
         claimReward();
       } else {
@@ -63,9 +64,8 @@ contract CryptoMind {
     );
     require(
       playerRoom[msg.sender] == 0 ||
-        rooms[playerRoom[msg.sender]].result > 0 ||
-        block.number >
-        rooms[playerRoom[msg.sender]].blockStart + rooms[playerRoom[msg.sender]].blockTimeout,
+        currentRoom.result > 0 ||
+        block.number > currentRoom.blockStart + currentRoom.blockTimeout,
       'quit previous room or previousRoom submited or playerRoom timeup before join new game'
     );
     address payable[] memory players;
@@ -113,12 +113,10 @@ contract CryptoMind {
   }
 
   function joinRoom(uint256 _roomId) external payable {
-    if (playerRoom[msg.sender] != 0) {
-      if (
-        block.number >
-        rooms[playerRoom[msg.sender]].blockStart + rooms[playerRoom[msg.sender]].blockTimeout &&
-        rooms[playerRoom[msg.sender]].blockStart != 0
-      ) {
+    require(_roomId < rooms.length, 'roomId must be less than rooms length');
+    Room storage room = rooms[_roomId];
+    if (playerRoom[msg.sender] != 0 && room.result == 0) {
+      if (block.number > room.blockStart + room.blockTimeout && room.blockStart != 0) {
         claimReward();
       } else {
         submitAnswer(0);
@@ -126,15 +124,12 @@ contract CryptoMind {
     }
     require(
       playerRoom[msg.sender] == 0 ||
-        rooms[playerRoom[msg.sender]].result > 0 ||
-        block.number >
-        rooms[playerRoom[msg.sender]].blockStart + rooms[playerRoom[msg.sender]].blockTimeout,
+        room.result > 0 ||
+        block.number > room.blockStart + room.blockTimeout,
       'quit previous room or previousRoom submited or playerRoom timeup before join new game'
     );
     require(waitingRoom.length > 0, 'must more than one waiting room');
-    Room storage room = rooms[_roomId];
     require(room.players.length < room.roomSize, 'players in room must be less than roomSize');
-    require(_roomId < rooms.length, 'roomId must be less than rooms length');
     require(msg.value >= room.bounty);
     room.players.push(msg.sender);
     playerRoom[msg.sender] = _roomId;
@@ -226,18 +221,21 @@ contract CryptoMind {
       room.result = 1;
       return;
     }
-    address payable[] memory winners;
+    uint8 winnerCount = 0;
 
     //Find winners
     for (uint256 i = 0; i < room.players.length; i++) {
       if (room.answers[room.players[i]] == room.highscore) {
-        winners[winners.length] = (room.players[i]);
+        winnerCount++;
       }
     }
 
-    for (uint256 i = 0; i < winners.length; i++) {
-      winners[i].transfer(totalBounty / winners.length);
+    for (uint256 i = 0; i < room.players.length; i++) {
+      if (room.answers[room.players[i]] == room.highscore) {
+        room.players[i].transfer(totalBounty / winnerCount);
+      }
     }
+
     room.result = 1;
   }
 
