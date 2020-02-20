@@ -2,6 +2,7 @@ import CryptoMind from 'contracts/CryptoMind.json';
 import { checkBeforeDoTransaction } from 'actions/getInfoAction';
 import { listenEventStart } from 'actions/gameAction';
 import { message } from 'antd';
+
 export const CURRENT_ROOM = 'CURRENT_ROOM';
 export const SCORE = 'SCORE';
 export const WAITING_ROOM = 'WAITING_ROOM';

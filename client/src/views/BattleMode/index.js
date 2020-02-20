@@ -87,7 +87,7 @@ function BattleMode() {
                   </span>
                   <span>
                     <Icon type='clock-circle' style={{ fontSize: '24px' }} theme='twoTone' />
-                    {game.blockTimeout * 2} s
+                    {((game.blockTimeout - 4) * 2) / 10} s
                   </span>
 
                   <span>

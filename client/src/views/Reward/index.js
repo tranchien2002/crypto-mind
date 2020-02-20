@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 
@@ -7,20 +7,27 @@ import { Button, Layout, Avatar, Row, Col } from 'antd';
 import './reward.css';
 import useInterval from 'useInterval';
 import * as contract from 'actions/contractAction';
+import * as gameActions from 'actions/gameAction';
 
 function Reward() {
   const { Header, Footer, Content } = Layout;
-  const content = useSelector((state) => state);
+  const gameStatus = useSelector((state) => state.gameStatus);
   const dispatch = useDispatch();
   let history = useHistory();
 
+  useEffect(() => {
+    dispatch(gameActions.getResultOfRoom());
+  }, [dispatch, gameStatus.gameResult.length]);
+
   useInterval(() => {
     dispatch(contract.updateCurrentRoom());
+    dispatch(gameActions.getResultOfRoom());
   }, 1000);
 
   return (
     <Layout>
       <Header>
+        {/* {console.log(gameStatus.gameResult)} */}
         <Row type='flex' justify='space-between'>
           <Col></Col>
           <Col xs={4}>
@@ -35,38 +42,20 @@ function Reward() {
           <h1 className='t_bold'>BATTLE REWARDS</h1>
           <Col span={24}>
             <p>User Score</p>
-            <p>{content.gameStatus.score}</p>
+            <p>{gameStatus.score}</p>
           </Col>
           <Col>
-            <Row type='flex'>
-              <Col span={4}>
-                <Avatar size={50} icon='user' />
-              </Col>
-              <Col span={20} className='a_left'>
-                <p className='t_bold'>First Prime</p>
-                <p className='fs_09em'>0x4C637fC36ecA2d02d5214b53c0aEc272f31F7E53</p>
-              </Col>
-            </Row>
-
-            <Row type='flex'>
-              <Col span={4}>
-                <Avatar size={50} icon='user' />
-              </Col>
-              <Col span={20} className='a_left'>
-                <p className='t_bold'>Second Prime</p>
-                <p className='fs_09em'>0x4C637fC36ecA2d02d5214b53c0aEc272f31F7E53</p>
-              </Col>
-            </Row>
-
-            <Row type='flex'>
-              <Col span={4}>
-                <Avatar size={50} icon='user' />
-              </Col>
-              <Col span={20} className='a_left'>
-                <p className='t_bold'>Third Prime</p>
-                <p className='fs_09em'>0x4C637fC36ecA2d02d5214b53c0aEc272f31F7E53</p>
-              </Col>
-            </Row>
+            {gameStatus.gameResult.map((player, index) => (
+              <Row type='flex' key={index}>
+                <Col span={4}>
+                  <Avatar size={50} icon='user' />
+                </Col>
+                <Col span={20} className='a_left'>
+                  <p className='t_bold'>Score : {player.score}</p>
+                  <p className='fs_09em'>{player.address}</p>
+                </Col>
+              </Row>
+            ))}
           </Col>
         </Row>
       </Content>
