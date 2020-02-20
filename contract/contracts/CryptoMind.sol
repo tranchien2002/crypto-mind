@@ -122,8 +122,8 @@ contract CryptoMind {
   function joinRoom(uint256 _roomId) external payable {
     require(_roomId < rooms.length, 'roomId must be less than rooms length');
     Room storage room = rooms[_roomId];
-    if (leftOngoingGame(_roomId)) {
-      if (lastGameTimeOut(_roomId)) {
+    if (leftOngoingGame(playerRoom[msg.sender])) {
+      if (lastGameTimeOut(playerRoom[msg.sender])) {
         claimReward();
       } else {
         submitAnswer(0);
