@@ -61,7 +61,7 @@ function WaitingRoom() {
                   </span>
                   <span>
                     <Icon type='clock-circle' style={{ fontSize: '24px' }} theme='twoTone' />
-                    {currentGame.blockTimeout * 2} s
+                    {((currentGame.blockTimeout - 4) * 2) / 10} s
                   </span>
 
                   <span>

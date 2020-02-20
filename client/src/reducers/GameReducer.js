@@ -3,7 +3,8 @@ import * as game from 'actions/gameAction';
 const initialState = {
   battleQuestions: [],
   currentQues: 0,
-  score: 0
+  score: 0,
+  gameResult: []
 };
 
 const gameReducer = (state = initialState, action) => {
@@ -22,6 +23,11 @@ const gameReducer = (state = initialState, action) => {
       return {
         ...state,
         battleQuestions: action.battleQuestions
+      };
+    case game.GAME_RESULT:
+      return {
+        ...state,
+        gameResult: action.gameResult
       };
     default:
       return state;
