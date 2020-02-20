@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as gameAction from 'actions/gameAction';
 import * as contractAction from 'actions/contractAction';
-import { Row, Col, Avatar, Icon, Layout, message } from 'antd';
+import { Row, Col, Avatar, Icon, Layout, message, Spin } from 'antd';
 import Game from 'components/Game';
 import { Redirect, Link, useHistory } from 'react-router-dom';
 import * as contract from 'actions/contractAction';
+import * as game from 'actions/gameAction';
 import useInterval from 'useInterval';
+import './battleGame.css';
 const { Header } = Layout;
 
 function BattleGame() {
@@ -14,16 +16,19 @@ function BattleGame() {
   const gameStatus = useSelector((state) => state.gameStatus);
   const contractStatus = useSelector((state) => state.contractStatus);
   // 4 block for submit
-  const timePerQues = ((contractStatus.currentGame.blockTimeout - 4) / 10) * 2;
-  const [isAnswer, setIsAnswer] = useState(false);
+  let timePerQues = 0;
   const [targetTime, setTargetTime] = useState(Date.now() + timePerQues * 1000);
-
+  const [isAnswer, setIsAnswer] = useState(false);
+  if (contractStatus.currentGame) {
+    timePerQues = ((contractStatus.currentGame.blockTimeout - 4) / 10) * 2;
+  }
   let history = useHistory();
-
   useEffect(() => {
     dispatch(gameAction.updateCurrentQuestion(0));
     dispatch(gameAction.updateScore(0));
-  }, [dispatch]);
+    dispatch(game.listenEventStart());
+    setTargetTime(Date.now() + timePerQues * 1000);
+  }, [contractStatus.blockStart, dispatch, timePerQues]);
 
   useInterval(() => {
     dispatch(contract.updateCurrentRoom());
@@ -71,21 +76,25 @@ function BattleGame() {
       </Header>
       {/*
           currentBlock < blockstart + blockTimeout: Must not run out of time
-          currentQuestion < battleQuestions.length
        */}
-      {contractStatus.currentGame.currentBlock <
+      {contractStatus.currentGame ? (
+        contractStatus.currentGame.currentBlock <
         parseInt(contractStatus.currentGame.blockStart) +
-          parseInt(contractStatus.currentGame.blockTimeout) ||
-      gameStatus.currentQues < gameStatus.battleQuestions.length - 1 ? (
-        <Game
-          targetTime={targetTime}
-          onFinish={onFinish}
-          isAnswer={isAnswer}
-          checkAns={checkAns}
-          question={gameStatus.battleQuestions}
-        />
+          parseInt(contractStatus.currentGame.blockTimeout) ? (
+          <Game
+            targetTime={targetTime}
+            onFinish={onFinish}
+            isAnswer={isAnswer}
+            checkAns={checkAns}
+            question={gameStatus.battleQuestions}
+          />
+        ) : (
+          <Redirect push to='/reward' />
+        )
       ) : (
-        <Redirect push to='/reward' />
+        <div>
+          <Spin className='loading' size='large' />
+        </div>
       )}
     </Layout>
   );
