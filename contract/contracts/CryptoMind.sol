@@ -44,14 +44,23 @@ contract CryptoMind {
     _;
   }
 
+  function lastGameTimeOut(uint256 _roomId) internal view returns (bool) {
+    Room storage currentRoom = rooms[_roomId];
+    return
+      block.number > currentRoom.blockStart + currentRoom.blockTimeout &&
+      currentRoom.blockStart != 0;
+  }
+
+  function leftOngoingGame(uint256 _roomId) internal view returns (bool) {
+    Room storage currentRoom = rooms[_roomId];
+    return playerRoom[msg.sender] != 0 && currentRoom.result == 0;
+  }
+
   function createRoom(uint256 _bounty, uint256 _roomSize, uint256 blockTimeout) external payable {
     uint256 roomId = playerRoom[msg.sender];
     Room storage currentRoom = rooms[roomId];
-    if (playerRoom[msg.sender] != 0 && currentRoom.result == 0) {
-      if (
-        block.number > currentRoom.blockStart + currentRoom.blockTimeout &&
-        currentRoom.blockStart != 0
-      ) {
+    if (leftOngoingGame(roomId)) {
+      if (lastGameTimeOut(roomId)) {
         claimReward();
       } else {
         submitAnswer(0);
@@ -63,9 +72,7 @@ contract CryptoMind {
       'must more than 1 players in room and less than 20 players'
     );
     require(
-      playerRoom[msg.sender] == 0 ||
-        currentRoom.result > 0 ||
-        block.number > currentRoom.blockStart + currentRoom.blockTimeout,
+      playerRoom[msg.sender] == 0 || currentRoom.result > 0 || lastGameTimeOut(roomId),
       'quit previous room or previousRoom submited or playerRoom timeup before join new game'
     );
     address payable[] memory players;
@@ -115,17 +122,15 @@ contract CryptoMind {
   function joinRoom(uint256 _roomId) external payable {
     require(_roomId < rooms.length, 'roomId must be less than rooms length');
     Room storage room = rooms[_roomId];
-    if (playerRoom[msg.sender] != 0 && room.result == 0) {
-      if (block.number > room.blockStart + room.blockTimeout && room.blockStart != 0) {
+    if (leftOngoingGame(_roomId)) {
+      if (lastGameTimeOut(_roomId)) {
         claimReward();
       } else {
         submitAnswer(0);
       }
     }
     require(
-      playerRoom[msg.sender] == 0 ||
-        room.result > 0 ||
-        block.number > room.blockStart + room.blockTimeout,
+      playerRoom[msg.sender] == 0 || room.result > 0 || lastGameTimeOut(_roomId),
       'quit previous room or previousRoom submited or playerRoom timeup before join new game'
     );
     require(waitingRoom.length > 0, 'must more than one waiting room');
@@ -205,12 +210,7 @@ contract CryptoMind {
 
   function claimReward() internal {
     uint256 roomId = playerRoom[msg.sender];
-    Room storage room = rooms[roomId];
-    uint256 currentBlock = block.number;
-    require(
-      currentBlock > room.blockStart + room.blockTimeout,
-      'claimReward only executed after time up'
-    );
+    require(lastGameTimeOut(roomId), 'claimReward only executed after time up');
     shareBounty(roomId);
   }
 
