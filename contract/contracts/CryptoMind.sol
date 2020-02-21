@@ -121,7 +121,7 @@ contract CryptoMind {
 
   function joinRoom(uint256 _roomId) external payable {
     require(_roomId < rooms.length, 'roomId must be less than rooms length');
-    Room storage room = rooms[_roomId];
+    Room storage currentRoom = rooms[playerRoom[msg.sender]];
     if (leftOngoingGame(playerRoom[msg.sender])) {
       if (lastGameTimeOut(playerRoom[msg.sender])) {
         claimReward();
@@ -130,15 +130,21 @@ contract CryptoMind {
       }
     }
     require(
-      playerRoom[msg.sender] == 0 || room.result > 0 || lastGameTimeOut(_roomId),
+      playerRoom[msg.sender] == 0 ||
+        currentRoom.result > 0 ||
+        lastGameTimeOut(playerRoom[msg.sender]),
       'quit previous room or previousRoom submited or playerRoom timeup before join new game'
     );
     require(waitingRoom.length > 0, 'must more than one waiting room');
-    require(room.players.length < room.roomSize, 'players in room must be less than roomSize');
-    require(msg.value >= room.bounty);
-    room.players.push(msg.sender);
+    Room storage newRoom = rooms[_roomId];
+    require(
+      newRoom.players.length < newRoom.roomSize,
+      'players in room must be less than roomSize'
+    );
+    require(msg.value >= newRoom.bounty);
+    newRoom.players.push(msg.sender);
     playerRoom[msg.sender] = _roomId;
-    if (room.players.length == room.roomSize) {
+    if (newRoom.players.length == newRoom.roomSize) {
       removeFromWatingRoom(_roomId);
       startGame(_roomId);
     }
