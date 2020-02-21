@@ -2,7 +2,7 @@ import CryptoMind from 'contracts/CryptoMind.json';
 import { checkBeforeDoTransaction } from 'actions/getInfoAction';
 import { listenEventStart } from 'actions/gameAction';
 import { message } from 'antd';
-
+import getBlockNumber from 'utils/getBlockNumber';
 export const CURRENT_ROOM = 'CURRENT_ROOM';
 export const SCORE = 'SCORE';
 export const WAITING_ROOM = 'WAITING_ROOM';
@@ -59,7 +59,9 @@ export const updateCurrentRoom = () => async (dispatch, getState) => {
         currentGame.players.push(undefined);
       }
     }
-    currentGame.currentBlock = await web3.eth.getBlockNumber();
+    let res = await getBlockNumber('https://rpc.testnet.tomochain.com');
+    let blockNumber = parseInt(res.result, 16);
+    currentGame.currentBlock = blockNumber;
     dispatch({
       type: CURRENT_ROOM,
       currentGame,
