@@ -8,7 +8,8 @@
   },
   "scripts": {
     "dev": "lite-server",
-    "test": "./scripts/test.sh --network ganache"
+    "test": "./scripts/test.sh --network ganache",
+    "coverage": "./node_modules/.bin/truffle run coverage"
   },
   "author": "",
   "license": "MIT",
@@ -16,9 +17,9 @@
     "lite-server": "^2.3.0"
   },
   "dependencies": {
-    "ganache-cli": "^6.4.4",
     "dotenv": "^8.1.0",
-    "solidity-coverage": "^0.6.4",
+    "ganache-cli": "^6.4.4",
+    "solidity-coverage": "^0.7.2",
     "truffle": "^5.0.12",
     "truffle-assertions": "^0.9.1",
     "truffle-hdwallet-provider": "^1.0.0-web3one.4"
