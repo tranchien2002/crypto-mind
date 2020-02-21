@@ -37,8 +37,8 @@ jobs:
             - contract/node_modules
           key: v1-dependencies-{{ checksum "contract/package.json" }}
 
-      # run tests!
-      - run: cd contract && npm test
+      # run coverage!
+      - run: cd contract && ./node_modules/.bin/truffle run coverage
 
       # notificaion
       - run:
