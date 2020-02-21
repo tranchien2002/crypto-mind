@@ -75,7 +75,7 @@ let genAnswer = (question) => {
   return answers;
 };
 
-const genQuestion = (seed, numQuestion, numElement) => {
+const genQuestion = async (seed, numQuestion, numElement) => {
   rng = seedRamdom(seed);
   let questions = [];
   for (let i = 0; i < numQuestion; i++) {

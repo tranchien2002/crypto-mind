@@ -41,6 +41,7 @@ export const updateWaitingRoom = () => async (dispatch, getState) => {
 };
 
 export const updateCurrentRoom = () => async (dispatch, getState) => {
+  console.log('log');
   const state = getState();
   const crytoMind = state.contractStatus.cryptoMind;
   let web3 = state.infoStatus.web3;

@@ -28,11 +28,12 @@ function BattleGame() {
     dispatch(gameAction.updateScore(0));
     dispatch(game.listenEventStart());
     setTargetTime(Date.now() + timePerQues * 1000);
+    dispatch(contract.updateCurrentRoom());
   }, [contractStatus.blockStart, dispatch, timePerQues]);
 
-  useInterval(() => {
-    dispatch(contract.updateCurrentRoom());
-  }, 1000);
+  // useInterval(() => {
+  //   dispatch(contract.updateCurrentRoom());
+  // }, 1000);
 
   function onFinish() {
     if (gameStatus.currentQues === 9) {

@@ -1,6 +1,6 @@
 import genQuestion from 'utils/genQuestion';
 import { checkBeforeDoTransaction } from 'actions/getInfoAction';
-
+import { updateCurrentRoom } from 'actions/contractAction';
 export const CURRENT_QUES = 'CURRENT_QUES';
 export const SCORE = 'SCORE';
 export const UPDATE_QUESTIONS = 'UPDATE_QUESTIONS';
@@ -78,8 +78,9 @@ export const listenEventStart = () => async (dispatch, getState) => {
             fromBlock: currentGame.blockStart,
             toBlock: 'latest'
           },
-          function(error, events) {
-            let battleQuestions = genQuestion(events[0].returnValues['seed'], 10, 5);
+          async function(error, events) {
+            await dispatch(updateCurrentRoom());
+            let battleQuestions = await genQuestion(events[0].returnValues['seed'], 10, 5);
             dispatch({
               type: UPDATE_QUESTIONS,
               battleQuestions
@@ -94,8 +95,9 @@ export const listenEventStart = () => async (dispatch, getState) => {
             filter: { roomId: [currentGame.roomId] },
             fromBlock: currentBlock
           },
-          function(error, events) {
-            let battleQuestions = genQuestion(events.returnValues['seed'], 10, 5);
+          async function(error, events) {
+            await dispatch(updateCurrentRoom());
+            let battleQuestions = await genQuestion(events.returnValues['seed'], 10, 5);
             dispatch({
               type: UPDATE_QUESTIONS,
               battleQuestions
