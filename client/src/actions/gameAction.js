@@ -1,5 +1,6 @@
 import genQuestion from 'utils/genQuestion';
 import { checkBeforeDoTransaction } from 'actions/getInfoAction';
+import { updateCurrentRoom } from 'actions/contractAction';
 
 export const CURRENT_QUES = 'CURRENT_QUES';
 export const SCORE = 'SCORE';
@@ -62,19 +63,19 @@ export const getResultOfRoom = () => async (dispatch, getState) => {
   }
 };
 
-export const listenEventStart = () => async (dispatch, getState) => {
+export const listenEventStart = (roomId) => async (dispatch, getState) => {
   const state = getState();
   let cryptoMind = state.contractStatus.cryptoMind;
   let currentGame = state.contractStatus.currentGame;
   let web3 = state.infoStatus.web3;
   if (currentGame && web3) {
-    let currentBlock = await web3.eth.getBlockNumber();
+    let currentBlock = state.contractStatus.currentBlock;
     if (currentGame.blockStart > 0) {
       cryptoMind
         .getPastEvents(
           'StartGame',
           {
-            filter: { roomId: [currentGame.roomId] },
+            filter: { roomId: [roomId] },
             fromBlock: currentGame.blockStart,
             toBlock: 'latest'
           },
@@ -91,15 +92,16 @@ export const listenEventStart = () => async (dispatch, getState) => {
       cryptoMind.events
         .StartGame(
           {
-            filter: { roomId: [currentGame.roomId] },
+            filter: { roomId: [roomId] },
             fromBlock: currentBlock
           },
           function(error, events) {
-            let battleQuestions = genQuestion(events.returnValues['seed'], 10, 5);
-            dispatch({
-              type: UPDATE_QUESTIONS,
-              battleQuestions
-            });
+            dispatch(updateCurrentRoom());
+            // let battleQuestions = genQuestion(events.returnValues['seed'], 10, 5);
+            // dispatch({
+            //   type: UPDATE_QUESTIONS,
+            //   battleQuestions
+            // });
           }
         )
         .on('error', console.error);

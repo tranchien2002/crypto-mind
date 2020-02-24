@@ -12,9 +12,9 @@ import './battleMode.css';
 const { Header, Content, Footer } = Layout;
 
 function BattleMode() {
-  const [bounty, setBounty] = useState(2);
-  const [roomSize, setRoomSize] = useState(5);
-  const [blockTimeout, setBlockTimeout] = useState(6);
+  const [bounty, setBounty] = useState('3');
+  const [roomSize, setRoomSize] = useState('2');
+  const [blockTimeout, setBlockTimeout] = useState('6');
   const content = useSelector((state) => state.contractStatus);
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
