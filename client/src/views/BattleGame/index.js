@@ -32,6 +32,7 @@ function BattleGame() {
 
   useInterval(() => {
     dispatch(contract.updateCurrentRoom());
+    dispatch(contract.updateCurrentBlock());
   }, 1000);
 
   function onFinish() {
@@ -78,7 +79,7 @@ function BattleGame() {
           currentBlock < blockstart + blockTimeout: Must not run out of time
        */}
       {contractStatus.currentGame ? (
-        contractStatus.currentGame.currentBlock <
+        contractStatus.currentBlock <
         parseInt(contractStatus.currentGame.blockStart) +
           parseInt(contractStatus.currentGame.blockTimeout) ? (
           <Game

@@ -19,8 +19,10 @@ function WaitingRoom() {
   let history = useHistory();
 
   useEffect(() => {
-    dispatch(game.listenEventStart());
-  }, [roomStatus.blockStart, dispatch]);
+    if (currentGame) {
+      dispatch(game.listenEventStart(currentGame.roomId));
+    }
+  }, [roomStatus.blockStart, dispatch, currentGame]);
 
   useInterval(() => {
     dispatch(contract.updateCurrentRoom());

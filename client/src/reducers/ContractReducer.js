@@ -4,7 +4,8 @@ const initialState = {
   waitingRooms: null,
   currentGame: null,
   blockStart: null,
-  cryptoMind: null
+  cryptoMind: null,
+  currentBlock: 0
 };
 
 const roomReducer = (state = initialState, action) => {
@@ -24,6 +25,11 @@ const roomReducer = (state = initialState, action) => {
       return {
         ...state,
         cryptoMind: action.cryptoMind
+      };
+    case contract.CURRENT_BLOCK:
+      return {
+        ...state,
+        currentBlock: action.currentBlock
       };
     default:
       return state;

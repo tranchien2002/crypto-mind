@@ -8,6 +8,7 @@ export const SCORE = 'SCORE';
 export const WAITING_ROOM = 'WAITING_ROOM';
 export const GAME_STATUS = 'GAME_STATUS';
 export const INIT_CONTRACT = 'INIT_CONTRACT';
+export const CURRENT_BLOCK = 'CURRENT_BLOCK';
 
 export const updateWaitingRoom = () => async (dispatch, getState) => {
   const state = getState();
@@ -59,9 +60,6 @@ export const updateCurrentRoom = () => async (dispatch, getState) => {
         currentGame.players.push(undefined);
       }
     }
-    let res = await getBlockNumber('https://rpc.testnet.tomochain.com');
-    let blockNumber = parseInt(res.result, 16);
-    currentGame.currentBlock = blockNumber;
     dispatch({
       type: CURRENT_ROOM,
       currentGame,
@@ -102,12 +100,16 @@ export const joinRoom = (roomID, bounty) => async (dispatch, getState) => {
   } else {
     const from = state.infoStatus.userAddress;
     bounty = web3.utils.toWei(bounty, 'ether');
+
     await crytoMind.methods
       .joinRoom(roomID)
       .send({ from: from, value: bounty })
-      .then(async () => {
-        await dispatch(updateCurrentRoom());
-        await dispatch(listenEventStart());
+      .on('receipt', async (receipt) => {
+        if (receipt.events && receipt.events['StartGame']) {
+          await dispatch(updateCurrentRoom());
+          await dispatch(listenEventStart(roomID));
+          console.log('StartGame');
+        }
       })
       .catch((e) => {
         console.log("Error: can't join room", e);
@@ -156,6 +158,16 @@ export const submitAnswer = () => async (dispatch, getState) => {
         console.log("Error: can't create room", e);
       });
   }
+};
+
+export const updateCurrentBlock = () => async (dispatch, getState) => {
+  let res = await getBlockNumber(process.env.REACT_APP_BLOCKCHAIN_URL);
+  let currentBlock = parseInt(res.result, 16);
+
+  dispatch({
+    type: CURRENT_BLOCK,
+    currentBlock
+  });
 };
 
 export const initContract = () => async (dispatch, getState) => {
