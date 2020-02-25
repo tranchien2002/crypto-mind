@@ -1,7 +1,6 @@
 import genQuestion from 'utils/genQuestion';
 import { checkBeforeDoTransaction } from 'actions/getInfoAction';
 import { updateCurrentRoom } from 'actions/contractAction';
-
 export const CURRENT_QUES = 'CURRENT_QUES';
 export const SCORE = 'SCORE';
 export const UPDATE_QUESTIONS = 'UPDATE_QUESTIONS';
@@ -63,7 +62,7 @@ export const getResultOfRoom = () => async (dispatch, getState) => {
   }
 };
 
-export const listenEventStart = (roomId) => async (dispatch, getState) => {
+export const listenEventStart = () => async (dispatch, getState) => {
   const state = getState();
   let cryptoMind = state.contractStatus.cryptoMind;
   let currentGame = state.contractStatus.currentGame;
@@ -75,7 +74,7 @@ export const listenEventStart = (roomId) => async (dispatch, getState) => {
         .getPastEvents(
           'StartGame',
           {
-            filter: { roomId: [roomId] },
+            filter: { roomId: [currentGame.roomId] },
             fromBlock: currentGame.blockStart,
             toBlock: 'latest'
           },
@@ -92,7 +91,7 @@ export const listenEventStart = (roomId) => async (dispatch, getState) => {
       cryptoMind.events
         .StartGame(
           {
-            filter: { roomId: [roomId] },
+            filter: { roomId: [currentGame.roomId] },
             fromBlock: currentBlock
           },
           function(error, events) {
@@ -106,5 +105,47 @@ export const listenEventStart = (roomId) => async (dispatch, getState) => {
         )
         .on('error', console.error);
     }
+  }
+};
+
+export const listenJoinRoom = () => async (dispatch, getState) => {
+  const state = getState();
+  let cryptoMind = state.contractStatus.cryptoMind;
+  let currentGame = state.contractStatus.currentGame;
+  let web3 = state.infoStatus.web3;
+  if (currentGame && web3) {
+    let currentBlock = state.contractStatus.currentBlock;
+    cryptoMind.events
+      .JoinRoom(
+        {
+          filter: { roomId: [currentGame.roomId] },
+          fromBlock: currentBlock
+        },
+        function(error, events) {
+          console.log(events.returnValues['newPlayer']);
+        }
+      )
+      .on('error', console.error);
+  }
+};
+
+export const listenQuitRoom = () => async (dispatch, getState) => {
+  const state = getState();
+  let cryptoMind = state.contractStatus.cryptoMind;
+  let currentGame = state.contractStatus.currentGame;
+  let web3 = state.infoStatus.web3;
+  if (currentGame && web3) {
+    let currentBlock = state.contractStatus.currentBlock;
+    cryptoMind.events
+      .QuitRoom(
+        {
+          filter: { roomId: [currentGame.roomId] },
+          fromBlock: currentBlock
+        },
+        function(error, events) {
+          console.log(events.returnValues['quitPlayer']);
+        }
+      )
+      .on('error', console.error);
   }
 };
