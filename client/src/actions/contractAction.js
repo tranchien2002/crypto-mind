@@ -107,8 +107,7 @@ export const joinRoom = (roomID, bounty) => async (dispatch, getState) => {
       .on('receipt', async (receipt) => {
         if (receipt.events && receipt.events['StartGame']) {
           await dispatch(updateCurrentRoom());
-          await dispatch(listenEventStart(roomID));
-          console.log('StartGame');
+          await dispatch(listenEventStart());
         }
       })
       .catch((e) => {
