@@ -61,5 +61,6 @@ const getLogs = async (_fromBlock, _address, _roomId, _url, _event) => {
 };
 
 const dec2hexString = (value, len) => {
-  return '0x' + ('0'.repeat(len) + value.toString(16).toUpperCase()).slice(-len);
+  value = parseInt(value);
+  return '0x' + ('0'.repeat(len) + value.toString(16)).slice(-len);
 };

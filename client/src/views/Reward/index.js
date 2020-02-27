@@ -22,12 +22,12 @@ function Reward() {
   useInterval(() => {
     dispatch(contract.updateCurrentRoom());
     dispatch(gameActions.getResultOfRoom());
+    dispatch(contract.updateCurrentBlock());
   }, 1000);
 
   return (
     <Layout>
       <Header>
-        {/* {console.log(gameStatus.gameResult)} */}
         <Row type='flex' justify='space-between'>
           <Col></Col>
           <Col xs={4}>
