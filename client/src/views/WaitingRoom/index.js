@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Row, Col, Avatar, Layout, Icon, Badge } from 'antd';
+import AvatarUser from 'components/AvatarUser';
 import RedirectRouter from 'components/RedirectRouter';
 import { Link, useHistory } from 'react-router-dom';
 import * as contract from 'actions/contractAction';
@@ -44,7 +45,7 @@ function WaitingRoom() {
           </Col>
           <Col xs={4}>
             <Link to='/profile' onClick={() => history.push('/waiting')}>
-              <Avatar style={{ backgroundColor: '#87d068' }} icon='user' size='large' />
+              <AvatarUser icon='user' size='large' />
             </Link>
           </Col>
         </Row>

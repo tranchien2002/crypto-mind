@@ -5,6 +5,7 @@ import { Row, Col, Button, Avatar, Badge, Icon, Layout, Modal } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
 import RedirectRouter from 'components/RedirectRouter';
 import CreateGame from 'views/CreateGame';
+import AvatarUser from 'components/AvatarUser';
 import * as room from 'actions/contractAction';
 
 import './battleMode.css';
@@ -68,7 +69,7 @@ function BattleMode() {
           </Col>
           <Col xs={4}>
             <Link to='/profile' onClick={() => history.push('/battle')}>
-              <Avatar style={{ backgroundColor: '#87d068' }} icon='user' size='large' />
+              <AvatarUser icon='user' size='large' />
             </Link>
           </Col>
         </Row>

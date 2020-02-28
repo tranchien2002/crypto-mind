@@ -1,13 +1,13 @@
 import React from 'react';
-import { Row, Col, Avatar, Button, Layout } from 'antd';
+import { Row, Col, Button, Layout } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
+import AvatarUser from 'components/AvatarUser';
 import './home.css';
 
 const { Header, Content, Footer } = Layout;
 
 function Home() {
   let history = useHistory();
-
   return (
     <div>
       <Layout>
@@ -16,7 +16,7 @@ function Home() {
             <Col xs={4} />
             <Col xs={4}>
               <Link to='/profile' onClick={() => history.push('/')}>
-                <Avatar style={{ backgroundColor: '#87d068' }} icon='user' size='large' />
+                <AvatarUser size='large' icon='user' />
               </Link>
             </Col>
           </Row>
