@@ -6,6 +6,8 @@ import RedirectRouter from 'components/RedirectRouter';
 import { Link, useHistory } from 'react-router-dom';
 import * as contract from 'actions/contractAction';
 import * as game from 'actions/gameAction';
+import { getStartGame } from 'utils/getRpc';
+import CryptoMind from 'contracts/CryptoMind.json';
 
 import './waitingRoom.css';
 
@@ -24,8 +26,15 @@ function WaitingRoom() {
     dispatch(game.listenQuitRoom());
   }, [roomStatus.blockStart, dispatch]);
 
-  useInterval(() => {
+  useInterval(async () => {
     dispatch(contract.updateCurrentRoom());
+    let res = await getStartGame(
+      1,
+      CryptoMind.networks[process.env.REACT_APP_TOMO_ID].address,
+      1,
+      process.env.REACT_APP_BLOCKCHAIN_URL
+    );
+    console.log('res', res);
   }, 1000);
 
   return (
