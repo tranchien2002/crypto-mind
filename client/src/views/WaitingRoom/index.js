@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import useInterval from 'useInterval';
 import { Row, Col, Avatar, Layout, Icon, Badge } from 'antd';
 import RedirectRouter from 'components/RedirectRouter';
 import { Link, useHistory } from 'react-router-dom';
@@ -8,10 +7,12 @@ import * as contract from 'actions/contractAction';
 import * as game from 'actions/gameAction';
 
 import './waitingRoom.css';
+import useInterval from 'useInterval';
 const { Header, Content, Footer } = Layout;
 
 function WaitingRoom() {
   const roomStatus = useSelector((state) => state.contractStatus);
+  const contractStatus = useSelector((state) => state.contractStatus);
   const currentGame = roomStatus.currentGame;
   const dispatch = useDispatch();
 
@@ -19,12 +20,16 @@ function WaitingRoom() {
 
   useEffect(() => {
     dispatch(game.listenEventStart());
-    dispatch(game.listenJoinRoom());
-    dispatch(game.listenQuitRoom());
+    // dispatch(game.listenJoinRoom());
+    // dispatch(game.listenQuitRoom());
   }, [roomStatus.blockStart, dispatch]);
 
-  useInterval(async () => {
-    dispatch(contract.updateCurrentRoom());
+  useEffect(() => {
+    if (!contractStatus.currentGame) dispatch(contract.updateCurrentRoom());
+  }, [dispatch, contractStatus]);
+
+  useInterval(() => {
+    dispatch(game.listenEventStart());
   }, 1000);
 
   return (

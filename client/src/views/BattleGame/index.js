@@ -15,11 +15,11 @@ function BattleGame() {
   const dispatch = useDispatch();
   const gameStatus = useSelector((state) => state.gameStatus);
   const contractStatus = useSelector((state) => state.contractStatus);
-  // 4 block for submit
   let timePerQues = 0;
   const [targetTime, setTargetTime] = useState(Date.now() + timePerQues * 1000);
   const [isAnswer, setIsAnswer] = useState(false);
   if (contractStatus.currentGame) {
+    // 4 block for submit
     timePerQues = ((contractStatus.currentGame.blockTimeout - 4) / 10) * 2;
   }
   let history = useHistory();
@@ -29,6 +29,10 @@ function BattleGame() {
     dispatch(game.listenEventStart());
     setTargetTime(Date.now() + timePerQues * 1000);
   }, [contractStatus.blockStart, dispatch, timePerQues]);
+
+  useEffect(() => {
+    dispatch(contract.updateCurrentRoom());
+  }, [dispatch, contractStatus.cryptoMind]);
 
   useInterval(() => {
     dispatch(contract.updateCurrentRoom());

@@ -3,6 +3,8 @@ import { checkBeforeDoTransaction } from 'actions/getInfoAction';
 import { listenEventStart } from 'actions/gameAction';
 import { message } from 'antd';
 import getBlockNumber from 'utils/getBlockNumber';
+import { getStartGame } from 'utils/getRpc';
+
 export const CURRENT_ROOM = 'CURRENT_ROOM';
 export const SCORE = 'SCORE';
 export const WAITING_ROOM = 'WAITING_ROOM';
@@ -37,7 +39,7 @@ export const updateWaitingRoom = () => async (dispatch, getState) => {
       waitingRooms
     });
 
-    dispatch(updateCurrentRoom());
+    // dispatch(updateCurrentRoom());
   }
 };
 
@@ -49,21 +51,44 @@ export const updateCurrentRoom = () => async (dispatch, getState) => {
   if (msg) {
     console.log(msg);
   } else {
+    const currentBlock = state.contractStatus.currentBlock;
+    const networkId = process.env.REACT_APP_TOMO_ID;
+    const contractAddress = CryptoMind.networks[networkId].address;
+    const chainUrl = process.env.REACT_APP_BLOCKCHAIN_URL;
+
     const from = state.infoStatus.userAddress;
     let currentGame = await crytoMind.methods.roomOf(from).call({ from });
-    let blockStart = currentGame.blockStart;
     currentGame.bounty = web3.utils.fromWei(currentGame.bounty);
     currentGame.players = await crytoMind.methods.getPlayerRoom(currentGame.roomId).call({ from });
     currentGame.playerCount = currentGame.players.length;
+
     for (let i = 0; i < currentGame.roomSize; i++) {
       if (!currentGame.players[i]) {
         currentGame.players.push(undefined);
       }
     }
+
+    // not update blockStart = 0
+
+    if (currentGame.blockStart === '0') {
+      let res = await getStartGame(
+        // fromBlock : alway read block before start game
+        currentBlock - currentGame.blockTimeout,
+
+        contractAddress,
+        currentGame.roomId,
+        chainUrl
+      );
+      if (res) {
+        //update blockStart, blockTimeout
+        currentGame.blockStart = res.blockStart;
+        currentGame.blockTimeout = res.blockTimeout;
+      }
+    }
+
     dispatch({
       type: CURRENT_ROOM,
-      currentGame,
-      blockStart
+      currentGame
     });
   }
 };

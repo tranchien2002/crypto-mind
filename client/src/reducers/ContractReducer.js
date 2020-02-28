@@ -3,7 +3,6 @@ import * as contract from 'actions/contractAction';
 const initialState = {
   waitingRooms: null,
   currentGame: null,
-  blockStart: null,
   cryptoMind: null,
   currentBlock: 0
 };
@@ -13,8 +12,7 @@ const roomReducer = (state = initialState, action) => {
     case contract.CURRENT_ROOM:
       return {
         ...state,
-        currentGame: action.currentGame,
-        blockStart: action.blockStart
+        currentGame: action.currentGame
       };
     case contract.WAITING_ROOM:
       return {
