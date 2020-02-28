@@ -13,6 +13,24 @@ export const getStartGame = async (_fromBlock, _address, _roomId, _url) => {
   }
 };
 
+export const getJoinRoom = async (_fromBlock, _address, _roomId, _url) => {
+  let event = Web3.utils.sha3('JoinRoom(uint256,address)');
+  let res = await getLogs(_fromBlock, _address, _roomId, _url, event);
+  if (res.result[0]) {
+    let data = res.result[0].data;
+    return '0x' + data.substr(-40);
+  }
+};
+
+export const getQuitRoom = async (_fromBlock, _address, _roomId, _url) => {
+  let event = Web3.utils.sha3('QuitRoom(uint256,address)');
+  let res = await getLogs(_fromBlock, _address, _roomId, _url, event);
+  if (res.result[0]) {
+    let data = res.result[0].data;
+    return '0x' + data.substr(-40);
+  }
+};
+
 const getLogs = async (_fromBlock, _address, _roomId, _url, _event) => {
   let roomId = dec2hexString(_roomId, 64);
   let fromBlock = dec2hexString(_fromBlock);
