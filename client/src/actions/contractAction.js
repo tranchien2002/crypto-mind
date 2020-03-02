@@ -130,7 +130,7 @@ export const joinRoom = (roomID, bounty) => async (dispatch, getState) => {
       .joinRoom(roomID)
       .send({ from: from, value: bounty })
       .on('receipt', async (receipt) => {
-        if (receipt.events && receipt.events['StartGame']) {
+        if (receipt.events) {
           await dispatch(updateCurrentRoom());
           await dispatch(listenEventStart());
         }

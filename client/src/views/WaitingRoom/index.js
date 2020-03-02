@@ -21,9 +21,9 @@ function WaitingRoom() {
 
   useEffect(() => {
     dispatch(game.listenEventStart());
-    // dispatch(game.listenJoinRoom());
-    // dispatch(game.listenQuitRoom());
-  }, [roomStatus.blockStart, dispatch]);
+    dispatch(game.listenJoinRoom());
+    dispatch(game.listenQuitRoom());
+  }, [roomStatus.blockStart, dispatch, currentGame]);
 
   useEffect(() => {
     if (!contractStatus.currentGame) dispatch(contract.updateCurrentRoom());
