@@ -16,6 +16,7 @@ function BattleGame() {
   const dispatch = useDispatch();
   const gameStatus = useSelector((state) => state.gameStatus);
   const contractStatus = useSelector((state) => state.contractStatus);
+  const infoStatus = useSelector((state) => state.infoStatus);
   let timePerQues = 0;
   const [targetTime, setTargetTime] = useState(Date.now() + timePerQues * 1000);
   const [isAnswer, setIsAnswer] = useState(false);
@@ -75,7 +76,7 @@ function BattleGame() {
           </Col>
           <Col xs={4}>
             <Link to='/profile' onClick={() => history.push('/battleGame')}>
-              <AvatarUser icon='user' size='large' />
+              <AvatarUser address={infoStatus.userAddress} icon='user' size='large' />
             </Link>
           </Col>
         </Row>

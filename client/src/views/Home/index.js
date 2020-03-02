@@ -2,12 +2,14 @@ import React from 'react';
 import { Row, Col, Button, Layout } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
 import AvatarUser from 'components/AvatarUser';
+import { useSelector } from 'react-redux';
 import './home.css';
 
 const { Header, Content, Footer } = Layout;
 
 function Home() {
   let history = useHistory();
+  const infoStatus = useSelector((state) => state.infoStatus);
   return (
     <div>
       <Layout>
@@ -16,7 +18,7 @@ function Home() {
             <Col xs={4} />
             <Col xs={4}>
               <Link to='/profile' onClick={() => history.push('/')}>
-                <AvatarUser size='large' icon='user' />
+                <AvatarUser address={infoStatus.userAddress} size='large' icon='user' />
               </Link>
             </Col>
           </Row>

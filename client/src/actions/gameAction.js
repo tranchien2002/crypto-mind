@@ -137,7 +137,17 @@ export const listenJoinRoom = () => async (dispatch, getState) => {
           fromBlock: currentBlock
         },
         function(error, events) {
-          console.log(events.returnValues['newPlayer']);
+          let players = currentGame.players;
+          let newPlayer = events.returnValues['newPlayer'];
+          if (players.indexOf(newPlayer) < 0 && players.indexOf(undefined) >= 0) {
+            players[players.indexOf(undefined)] = newPlayer;
+            currentGame.playerCount++;
+          }
+          currentGame.players = players;
+          dispatch({
+            type: CURRENT_ROOM,
+            currentGame
+          });
         }
       )
       .on('error', console.error);
@@ -158,7 +168,17 @@ export const listenQuitRoom = () => async (dispatch, getState) => {
           fromBlock: currentBlock
         },
         function(error, events) {
-          console.log(events.returnValues['quitPlayer']);
+          let players = currentGame.players;
+          let quitPlayer = events.returnValues['quitPlayer'];
+          if (players.indexOf(quitPlayer) >= 0) {
+            players[players.indexOf(quitPlayer)] = undefined;
+            currentGame.playerCount--;
+          }
+          currentGame.players = players;
+          dispatch({
+            type: CURRENT_ROOM,
+            currentGame
+          });
         }
       )
       .on('error', console.error);

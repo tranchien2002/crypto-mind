@@ -14,6 +14,7 @@ const { Header } = Layout;
 function TrainingGame() {
   const dispatch = useDispatch();
   const gameStatus = useSelector((state) => state.gameStatus);
+  const infoStatus = useSelector((state) => state.infoStatus);
   const [isAnswer, setIsAnswer] = useState(false);
   const [targetTime, setTargetTime] = useState(Date.now() + 10000);
   const [question, setQuestion] = useState(genQuestion(Date.now(), 10, 5));
@@ -64,7 +65,7 @@ function TrainingGame() {
           </Col>
           <Col xs={4}>
             <Link to='/profile' onClick={() => history.push('/training')}>
-              <AvatarUser icon='user' size='large' />
+              <AvatarUser address={infoStatus.userAddress} icon='user' size='large' />
             </Link>
           </Col>
         </Row>
