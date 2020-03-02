@@ -13,6 +13,7 @@ import * as gameActions from 'actions/gameAction';
 function Reward() {
   const { Header, Footer, Content } = Layout;
   const gameStatus = useSelector((state) => state.gameStatus);
+  const infoStatus = useSelector((state) => state.infoStatus);
   const dispatch = useDispatch();
   let history = useHistory();
 
@@ -33,7 +34,7 @@ function Reward() {
           <Col></Col>
           <Col xs={4}>
             <Link to='/profile' onClick={() => history.push('/reward')}>
-              <AvatarUser icon='user' size='large' />
+              <AvatarUser address={infoStatus.userAddress} icon='user' size='large' />
             </Link>
           </Col>
         </Row>
@@ -49,7 +50,7 @@ function Reward() {
             {gameStatus.gameResult.map((player, index) => (
               <Row type='flex' key={index}>
                 <Col span={4}>
-                  <AvatarUser playerAddress={player.address} size={50} icon='user' />
+                  <AvatarUser address={player.address} size={50} icon='user' />
                 </Col>
                 <Col span={20} className='a_left'>
                   <p className='t_bold'>Score : {player.score}</p>

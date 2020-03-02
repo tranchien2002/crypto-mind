@@ -17,6 +17,7 @@ function BattleMode() {
   const [roomSize, setRoomSize] = useState('2');
   const [blockTimeout, setBlockTimeout] = useState('6');
   const content = useSelector((state) => state.contractStatus);
+  const infoStatus = useSelector((state) => state.infoStatus);
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
 
@@ -69,7 +70,7 @@ function BattleMode() {
           </Col>
           <Col xs={4}>
             <Link to='/profile' onClick={() => history.push('/battle')}>
-              <AvatarUser icon='user' size='large' />
+              <AvatarUser address={infoStatus.userAddress} icon='user' size='large' />
             </Link>
           </Col>
         </Row>

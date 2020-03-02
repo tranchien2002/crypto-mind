@@ -14,6 +14,7 @@ const { Header, Content, Footer } = Layout;
 function WaitingRoom() {
   const roomStatus = useSelector((state) => state.contractStatus);
   const contractStatus = useSelector((state) => state.contractStatus);
+  const infoStatus = useSelector((state) => state.infoStatus);
   const currentGame = roomStatus.currentGame;
   const dispatch = useDispatch();
 
@@ -45,7 +46,7 @@ function WaitingRoom() {
           </Col>
           <Col xs={4}>
             <Link to='/profile' onClick={() => history.push('/waiting')}>
-              <AvatarUser icon='user' size='large' />
+              <AvatarUser address={infoStatus.userAddress} icon='user' size='large' />
             </Link>
           </Col>
         </Row>

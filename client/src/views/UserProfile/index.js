@@ -21,7 +21,7 @@ function UserProfile() {
           <Row type='flex' justify='center' align='middle' className='h_100per'>
             <div>
               <Col className='mgb_10vh'>
-                <AvatarUser size={64} icon='user' />
+                <AvatarUser address={content.infoStatus.userAddress} size={64} icon='user' />
               </Col>
               <Col justify='center'>
                 <p className='p_break'>{content.infoStatus.userAddress}</p>
