@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as gameAction from 'actions/gameAction';
 import * as contractAction from 'actions/contractAction';
-import { Row, Col, Avatar, Icon, Layout, message, Spin } from 'antd';
+import { Row, Col, Icon, Layout, message, Spin } from 'antd';
 import Game from 'components/Game';
 import { Redirect, Link, useHistory } from 'react-router-dom';
 import * as contract from 'actions/contractAction';
 import * as game from 'actions/gameAction';
+import AvatarUser from 'components/AvatarUser';
 import useInterval from 'useInterval';
 import './battleGame.css';
 const { Header } = Layout;
@@ -74,7 +75,7 @@ function BattleGame() {
           </Col>
           <Col xs={4}>
             <Link to='/profile' onClick={() => history.push('/battleGame')}>
-              <Avatar style={{ backgroundColor: '#87d068' }} icon='user' size='large' />
+              <AvatarUser icon='user' size='large' />
             </Link>
           </Col>
         </Row>

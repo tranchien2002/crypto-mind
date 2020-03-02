@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-
-import { Button, Layout, Avatar, Row, Col } from 'antd';
+import AvatarUser from 'components/AvatarUser';
+import { Button, Layout, Row, Col } from 'antd';
 
 import './UserProfile.css';
 
@@ -21,7 +21,7 @@ function UserProfile() {
           <Row type='flex' justify='center' align='middle' className='h_100per'>
             <div>
               <Col className='mgb_10vh'>
-                <Avatar size={64} icon='user' />
+                <AvatarUser size={64} icon='user' />
               </Col>
               <Col justify='center'>
                 <p className='p_break'>{content.infoStatus.userAddress}</p>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Row, Col, message, Avatar, Icon, Layout } from 'antd';
+import { Row, Col, message, Icon, Layout } from 'antd';
+import AvatarUser from 'components/AvatarUser';
 import * as gameAction from 'actions/gameAction';
 import genQuestion from 'utils/genQuestion';
 import { Link, useHistory } from 'react-router-dom';
@@ -63,7 +64,7 @@ function TrainingGame() {
           </Col>
           <Col xs={4}>
             <Link to='/profile' onClick={() => history.push('/training')}>
-              <Avatar style={{ backgroundColor: '#87d068' }} icon='user' size='large' />
+              <AvatarUser icon='user' size='large' />
             </Link>
           </Col>
         </Row>
