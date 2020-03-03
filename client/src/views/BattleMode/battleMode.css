@@ -9,3 +9,8 @@ main {
   margin-top: 3vh;
   height: 70vh;
 }
+
+.overflow {
+  overflow: auto;
+  overscroll-behavior-y: contain;
+}

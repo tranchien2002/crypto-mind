@@ -75,10 +75,17 @@ function BattleMode() {
           </Col>
         </Row>
       </Header>
-      <Content>
+      <Content className='overflow'>
         {content.waitingRooms ? (
           content.waitingRooms.map((game, index) => (
-            <Row gutter={[0, 16]} type='flex' justify='center' align='middle' key={index}>
+            <Row
+              gutter={[0, 16]}
+              type='flex'
+              justify='center'
+              align='middle'
+              key={index}
+              style={{ margin: '0px 8px' }}
+            >
               <Col xs={18}>
                 <Row className='info-room' type='flex' justify='space-around' align='middle'>
                   <span>RoomID: {game.roomID} </span>

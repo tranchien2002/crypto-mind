@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "lite-server",
     "test": "./scripts/test.sh --network ganache",
-    "coverage": "./node_modules/.bin/truffle run coverage"
+    "coverage": "./node_modules/.bin/truffle run coverage",
+    "auto": "./node_modules/.bin/truffle exec ./scripts/MultiplayerSimulation.js"
   },
   "author": "",
   "license": "MIT",
