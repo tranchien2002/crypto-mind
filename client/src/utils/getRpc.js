@@ -64,3 +64,24 @@ const dec2hexString = (value, len) => {
   value = parseInt(value);
   return '0x' + ('0'.repeat(len) + value.toString(16)).slice(-len);
 };
+
+export const getTrxByHash = async (_hash, _url) => {
+  const response = await fetch(_url, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer', // no-referrer, *client
+    body: JSON.stringify({
+      jsonrpc: '2.0',
+      method: 'eth_getTransactionByHash',
+      params: [_hash],
+      id: 74
+    })
+  });
+  return await response.json();
+};

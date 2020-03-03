@@ -3,7 +3,7 @@ import { checkBeforeDoTransaction } from 'actions/getInfoAction';
 import { listenEventStart } from 'actions/gameAction';
 import { message } from 'antd';
 import getBlockNumber from 'utils/getBlockNumber';
-import { getStartGame } from 'utils/getRpc';
+import { getStartGame, getTrxByHash } from 'utils/getRpc';
 
 export const CURRENT_ROOM = 'CURRENT_ROOM';
 export const SCORE = 'SCORE';
@@ -43,6 +43,39 @@ export const updateWaitingRoom = () => async (dispatch, getState) => {
   }
 };
 
+export const updateRoomById = (room) => async (dispatch, getState) => {
+  const state = getState();
+  let web3 = state.infoStatus.web3;
+  let currentGame = room;
+  const currentBlock = state.contractStatus.currentBlock;
+  const networkId = process.env.REACT_APP_TOMO_ID;
+  const contractAddress = CryptoMind.networks[networkId].address;
+  const chainUrl = process.env.REACT_APP_BLOCKCHAIN_URL;
+  currentGame.bounty = web3.utils.fromWei(currentGame.bounty);
+  currentGame.playerCount = currentGame.players.length;
+  currentGame.players[currentGame.roomSize - 1] = state.infoStatus.userAddress;
+
+  // not update blockStart = 0
+  if (currentGame.blockStart === '0') {
+    let res = await getStartGame(
+      // fromBlock : alway read block before start game
+      currentBlock - currentGame.blockTimeout,
+      contractAddress,
+      currentGame.roomId,
+      chainUrl
+    );
+    if (res) {
+      //update blockStart, blockTimeout
+      currentGame.blockStart = res.blockStart;
+      currentGame.blockTimeout = res.blockTimeout;
+    }
+  }
+  dispatch({
+    type: CURRENT_ROOM,
+    currentGame
+  });
+};
+
 export const updateCurrentRoom = () => async (dispatch, getState) => {
   const state = getState();
   const crytoMind = state.contractStatus.cryptoMind;
@@ -55,41 +88,48 @@ export const updateCurrentRoom = () => async (dispatch, getState) => {
     const networkId = process.env.REACT_APP_TOMO_ID;
     const contractAddress = CryptoMind.networks[networkId].address;
     const chainUrl = process.env.REACT_APP_BLOCKCHAIN_URL;
-
     const from = state.infoStatus.userAddress;
-    let currentGame = await crytoMind.methods.roomOf(from).call({ from });
-    currentGame.bounty = web3.utils.fromWei(currentGame.bounty);
-    currentGame.players = await crytoMind.methods.getPlayerRoom(currentGame.roomId).call({ from });
-    currentGame.playerCount = currentGame.players.length;
+    let lastGame = state.contractStatus.currentGame;
+    if (
+      lastGame &&
+      parseInt(lastGame.blockStart) + parseInt(lastGame.blockTimeout) > parseInt(currentBlock)
+    ) {
+      return;
+    } else {
+      let currentGame = await crytoMind.methods.roomOf(from).call({ from });
+      currentGame.bounty = web3.utils.fromWei(currentGame.bounty);
+      currentGame.players = await crytoMind.methods
+        .getPlayerRoom(currentGame.roomId)
+        .call({ from });
+      currentGame.playerCount = currentGame.players.length;
 
-    for (let i = 0; i < currentGame.roomSize; i++) {
-      if (!currentGame.players[i]) {
-        currentGame.players.push(undefined);
+      for (let i = 0; i < currentGame.roomSize; i++) {
+        if (!currentGame.players[i]) {
+          currentGame.players.push(undefined);
+        }
       }
-    }
 
-    // not update blockStart = 0
+      // not update blockStart = 0
 
-    if (currentGame.blockStart === '0') {
-      let res = await getStartGame(
-        // fromBlock : alway read block before start game
-        currentBlock - currentGame.blockTimeout,
-
-        contractAddress,
-        currentGame.roomId,
-        chainUrl
-      );
-      if (res) {
-        //update blockStart, blockTimeout
-        currentGame.blockStart = res.blockStart;
-        currentGame.blockTimeout = res.blockTimeout;
+      if (currentGame.blockStart === '0') {
+        let res = await getStartGame(
+          // fromBlock : alway read block before start game
+          currentBlock - currentGame.blockTimeout,
+          contractAddress,
+          currentGame.roomId,
+          chainUrl
+        );
+        if (res) {
+          //update blockStart, blockTimeout
+          currentGame.blockStart = res.blockStart;
+          currentGame.blockTimeout = res.blockTimeout;
+        }
       }
+      dispatch({
+        type: CURRENT_ROOM,
+        currentGame
+      });
     }
-
-    dispatch({
-      type: CURRENT_ROOM,
-      currentGame
-    });
   }
 };
 
@@ -125,19 +165,47 @@ export const joinRoom = (roomID, bounty) => async (dispatch, getState) => {
   } else {
     const from = state.infoStatus.userAddress;
     bounty = web3.utils.toWei(bounty, 'ether');
+    let room = await crytoMind.methods.roomById(roomID).call();
+    if (room.roomSize - room.players.length > 1) {
+      await crytoMind.methods
+        .joinRoom(roomID)
+        .send({ from: from, value: bounty })
+        .on('receipt', (receipt) => {
+          if (receipt.events) {
+            dispatch(updateCurrentRoom());
+          }
+        })
+        .catch((e) => {
+          console.log("Error: can't join room", e);
+        });
+    } else {
+      await crytoMind.methods
+        .joinRoom(roomID)
+        .send({ from: from, value: bounty })
+        .on('transactionHash', async (hash) => {
+          let interval = setInterval(async function() {
+            let res = await getTrxByHash(hash, process.env.REACT_APP_BLOCKCHAIN_URL);
+            dispatch(listenBlockStart(roomID, res.result.blockHash, interval));
+          }, 1000);
+        })
+        .catch((e) => {
+          console.log("Error: can't join room", e);
+        });
+    }
+  }
+};
 
-    await crytoMind.methods
-      .joinRoom(roomID)
-      .send({ from: from, value: bounty })
-      .on('receipt', async (receipt) => {
-        if (receipt.events) {
-          await dispatch(updateCurrentRoom());
-          await dispatch(listenEventStart());
-        }
-      })
-      .catch((e) => {
-        console.log("Error: can't join room", e);
-      });
+const listenBlockStart = (roomId, hash, interval) => async (dispatch, getState) => {
+  const state = getState();
+  let web3 = state.infoStatus.web3;
+  const crytoMind = state.contractStatus.cryptoMind;
+  if (web3 && crytoMind) {
+    let room = await crytoMind.methods.roomById(roomId).call();
+    if (hash) {
+      await dispatch(updateRoomById(room));
+      await dispatch(listenEventStart());
+      clearInterval(interval);
+    }
   }
 };
 
