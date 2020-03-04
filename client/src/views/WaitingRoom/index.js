@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Row, Col, Avatar, Layout, Icon, Badge } from 'antd';
+import { Row, Col, Avatar, Layout, Icon, Badge, Button } from 'antd';
 import AvatarUser from 'components/AvatarUser';
 import RedirectRouter from 'components/RedirectRouter';
 import { Link, useHistory } from 'react-router-dom';
@@ -110,7 +110,11 @@ function WaitingRoom() {
           )}
         </Row>
       </Content>
-      <Footer></Footer>
+      <Footer>
+        <Button type='danger' onClick={() => dispatch(contract.quitGame())}>
+          Quit
+        </Button>
+      </Footer>
     </Layout>
   );
 }
