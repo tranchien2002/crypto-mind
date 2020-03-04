@@ -55,7 +55,7 @@ export const getResultOfRoom = () => async (dispatch, getState) => {
       let gameResult = await Promise.all(getAllScore);
 
       // sort by score
-      gameResult.sort((a, b) => a.score - b.score);
+      gameResult.sort((a, b) => b.score - a.score);
 
       dispatch({
         type: GAME_RESULT,
@@ -83,7 +83,6 @@ export const listenEventStart = () => async (dispatch, getState) => {
         currentGame.roomId,
         chainUrl
       );
-
       if (res) {
         let battleQuestions = genQuestion(res.seed, 10, 5);
 
@@ -95,7 +94,6 @@ export const listenEventStart = () => async (dispatch, getState) => {
         //update blockStart, blockTimeout
         currentGame.blockStart = res.blockStart;
         currentGame.blockTimeout = res.blockTimeout;
-
         dispatch({
           type: CURRENT_ROOM,
           currentGame
@@ -113,7 +111,6 @@ export const listenEventStart = () => async (dispatch, getState) => {
         //update blockStart, blockTimeout
         currentGame.blockStart = res.blockStart;
         currentGame.blockTimeout = res.blockTimeout;
-
         dispatch({
           type: CURRENT_ROOM,
           currentGame

@@ -213,6 +213,36 @@ contract CryptoMind {
     highscore = room.highscore;
   }
 
+  function roomById(uint256 _roomId)
+    external
+    view
+    returns (
+      uint256 roomId,
+      uint256 bounty,
+      address owner,
+      uint256 roomSize,
+      uint256 result,
+      uint256 blockStart,
+      uint256 blockTimeout,
+      address payable[] memory players,
+      address payable[] memory submited,
+      uint256 highscore
+    )
+  {
+    require(_roomId < rooms.length, 'roomId must be less than rooms length');
+    Room storage room = rooms[_roomId];
+    roomId = _roomId;
+    bounty = room.bounty;
+    owner = room.owner;
+    roomSize = room.roomSize;
+    result = room.result;
+    blockStart = room.blockStart;
+    blockTimeout = room.blockTimeout;
+    players = room.players;
+    submited = room.submited;
+    highscore = room.highscore;
+  }
+
   function getAnswerInRoom(address _player, uint256 _roomId)
     external
     view
