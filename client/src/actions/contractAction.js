@@ -53,7 +53,11 @@ export const updateRoomById = (room) => async (dispatch, getState) => {
   const chainUrl = process.env.REACT_APP_BLOCKCHAIN_URL;
   currentGame.bounty = web3.utils.fromWei(currentGame.bounty);
   currentGame.playerCount = currentGame.players.length;
-  currentGame.players[currentGame.roomSize - 1] = state.infoStatus.userAddress;
+  for (let i = 0; i < currentGame.roomSize; i++) {
+    if (!currentGame.players[i]) {
+      currentGame.players.push(undefined);
+    }
+  }
 
   // not update blockStart = 0
   if (currentGame.blockStart === '0') {
@@ -90,13 +94,20 @@ export const updateCurrentRoom = () => async (dispatch, getState) => {
     const chainUrl = process.env.REACT_APP_BLOCKCHAIN_URL;
     const from = state.infoStatus.userAddress;
     let lastGame = state.contractStatus.currentGame;
+    let currentGame = await crytoMind.methods.roomOf(from).call({ from });
     if (
       lastGame &&
-      parseInt(lastGame.blockStart) + parseInt(lastGame.blockTimeout) > parseInt(currentBlock)
+      //New user or just quit game
+      currentGame.roomId !== '0' &&
+      //lastGame is running
+      (parseInt(lastGame.blockStart) + parseInt(lastGame.blockTimeout) > parseInt(currentBlock) ||
+        //lastGame is waitting
+        (parseInt(lastGame.blockStart) === 0 && lastGame.roomId !== '0'))
     ) {
+      console.log('current', currentGame);
+      console.log('last', lastGame);
       return;
     } else {
-      let currentGame = await crytoMind.methods.roomOf(from).call({ from });
       currentGame.bounty = web3.utils.fromWei(currentGame.bounty);
       currentGame.players = await crytoMind.methods
         .getPlayerRoom(currentGame.roomId)
@@ -165,33 +176,18 @@ export const joinRoom = (roomID, bounty) => async (dispatch, getState) => {
   } else {
     const from = state.infoStatus.userAddress;
     bounty = web3.utils.toWei(bounty, 'ether');
-    let room = await crytoMind.methods.roomById(roomID).call();
-    if (room.roomSize - room.players.length > 1) {
-      await crytoMind.methods
-        .joinRoom(roomID)
-        .send({ from: from, value: bounty })
-        .on('receipt', (receipt) => {
-          if (receipt.events) {
-            dispatch(updateCurrentRoom());
-          }
-        })
-        .catch((e) => {
-          console.log("Error: can't join room", e);
-        });
-    } else {
-      await crytoMind.methods
-        .joinRoom(roomID)
-        .send({ from: from, value: bounty })
-        .on('transactionHash', async (hash) => {
-          let interval = setInterval(async function() {
-            let res = await getTrxByHash(hash, process.env.REACT_APP_BLOCKCHAIN_URL);
-            dispatch(listenBlockStart(roomID, res.result.blockHash, interval));
-          }, 1000);
-        })
-        .catch((e) => {
-          console.log("Error: can't join room", e);
-        });
-    }
+    await crytoMind.methods
+      .joinRoom(roomID)
+      .send({ from: from, value: bounty })
+      .on('transactionHash', async (hash) => {
+        let interval = setInterval(async function() {
+          let res = await getTrxByHash(hash, process.env.REACT_APP_BLOCKCHAIN_URL);
+          dispatch(listenBlockStart(roomID, res.result.blockHash, interval));
+        }, 1000);
+      })
+      .catch((e) => {
+        console.log("Error: can't join room", e);
+      });
   }
 };
 
