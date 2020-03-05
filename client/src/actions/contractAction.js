@@ -80,6 +80,23 @@ export const updateRoomById = (room) => async (dispatch, getState) => {
   });
 };
 
+export const updateCurrentRoomAfterQuit = () => async (dispatch, getState) => {
+  const state = getState();
+  const crytoMind = state.contractStatus.cryptoMind;
+  let msg = dispatch(checkBeforeDoTransaction());
+  if (msg) {
+    console.log(msg);
+  } else {
+    const from = state.infoStatus.userAddress;
+    const currentGame = await crytoMind.methods.roomOf(from).call({ from });
+
+    dispatch({
+      type: CURRENT_ROOM,
+      currentGame
+    });
+  }
+};
+
 export const updateCurrentRoom = () => async (dispatch, getState) => {
   const state = getState();
   const crytoMind = state.contractStatus.cryptoMind;
@@ -94,11 +111,8 @@ export const updateCurrentRoom = () => async (dispatch, getState) => {
     const chainUrl = process.env.REACT_APP_BLOCKCHAIN_URL;
     const from = state.infoStatus.userAddress;
     let lastGame = state.contractStatus.currentGame;
-    let currentGame = await crytoMind.methods.roomOf(from).call({ from });
     if (
       lastGame &&
-      //New user or just quit game
-      currentGame.roomId !== '0' &&
       //lastGame is running
       (parseInt(lastGame.blockStart) + parseInt(lastGame.blockTimeout) > parseInt(currentBlock) ||
         //lastGame is waitting
@@ -106,6 +120,8 @@ export const updateCurrentRoom = () => async (dispatch, getState) => {
     ) {
       return;
     } else {
+      let currentGame = await crytoMind.methods.roomOf(from).call({ from });
+
       currentGame.bounty = web3.utils.fromWei(currentGame.bounty);
       currentGame.players = await crytoMind.methods
         .getPlayerRoom(currentGame.roomId)
@@ -221,7 +237,7 @@ export const quitGame = () => async (dispatch, getState) => {
       .quitGame()
       .send({ from: from })
       .then(() => {
-        dispatch(updateCurrentRoom());
+        dispatch(updateCurrentRoomAfterQuit());
       })
       .catch((e) => {
         console.log("Error: can't quit room", e);

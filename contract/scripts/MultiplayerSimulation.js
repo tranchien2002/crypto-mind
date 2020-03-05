@@ -30,10 +30,13 @@ const creatRoom = async (faucet, instance) => {
   await web3.eth.sendTransaction({
     from: faucet,
     to: adminRandom,
-    value: web3.utils.toWei('1', 'ether')
+    value: web3.utils.toWei('5', 'ether')
   });
 
-  let create = await instance.createRoom(100, 3, 44, { from: adminRandom, value: 100 });
+  let create = await instance.createRoom(web3.utils.toWei('3', 'ether'), 3, 44, {
+    from: adminRandom,
+    value: web3.utils.toWei('3', 'ether')
+  });
 
   // Log create room status
   if (create.receipt.blockHash) {
@@ -50,12 +53,15 @@ const joinRoom = async (faucet, instance) => {
   await web3.eth.sendTransaction({
     from: faucet,
     to: playerRandom,
-    value: web3.utils.toWei('1', 'ether')
+    value: web3.utils.toWei('5', 'ether')
   });
 
   let waiting = await instance.getWaitingRoom({ from: playerRandom });
   if (waiting[0]) {
-    let join = await instance.joinRoom(waiting[0], { from: playerRandom, value: 100 });
+    let join = await instance.joinRoom(waiting[0], {
+      from: playerRandom,
+      value: web3.utils.toWei('3', 'ether')
+    });
 
     // Log join room status
     if (join.receipt.blockHash) {
