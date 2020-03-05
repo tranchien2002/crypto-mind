@@ -78,7 +78,7 @@ export const getTrxByHash = async (_hash, _url) => {
     referrerPolicy: 'no-referrer', // no-referrer, *client
     body: JSON.stringify({
       jsonrpc: '2.0',
-      method: 'eth_getTransactionByHash',
+      method: 'eth_getTransactionReceipt',
       params: [_hash],
       id: 74
     })

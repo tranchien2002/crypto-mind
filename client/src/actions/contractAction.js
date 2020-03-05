@@ -104,8 +104,6 @@ export const updateCurrentRoom = () => async (dispatch, getState) => {
         //lastGame is waitting
         (parseInt(lastGame.blockStart) === 0 && lastGame.roomId !== '0'))
     ) {
-      console.log('current', currentGame);
-      console.log('last', lastGame);
       return;
     } else {
       currentGame.bounty = web3.utils.fromWei(currentGame.bounty);
@@ -176,13 +174,14 @@ export const joinRoom = (roomID, bounty) => async (dispatch, getState) => {
   } else {
     const from = state.infoStatus.userAddress;
     bounty = web3.utils.toWei(bounty, 'ether');
+
     await crytoMind.methods
       .joinRoom(roomID)
       .send({ from: from, value: bounty })
       .on('transactionHash', async (hash) => {
         let interval = setInterval(async function() {
-          let res = await getTrxByHash(hash, process.env.REACT_APP_BLOCKCHAIN_URL);
-          dispatch(listenBlockStart(roomID, res.result.blockHash, interval));
+          let trx = await getTrxByHash(hash, process.env.REACT_APP_BLOCKCHAIN_URL);
+          dispatch(listenBlockStart(roomID, trx, interval));
         }, 1000);
       })
       .catch((e) => {
@@ -191,16 +190,21 @@ export const joinRoom = (roomID, bounty) => async (dispatch, getState) => {
   }
 };
 
-const listenBlockStart = (roomId, hash, interval) => async (dispatch, getState) => {
+const listenBlockStart = (roomId, trx, interval) => async (dispatch, getState) => {
   const state = getState();
   let web3 = state.infoStatus.web3;
   const crytoMind = state.contractStatus.cryptoMind;
   if (web3 && crytoMind) {
     let room = await crytoMind.methods.roomById(roomId).call();
-    if (hash) {
-      await dispatch(updateRoomById(room));
-      await dispatch(listenEventStart());
-      clearInterval(interval);
+    if (trx.result) {
+      if (trx.result.status === '0x1') {
+        await dispatch(updateRoomById(room));
+        await dispatch(listenEventStart());
+        clearInterval(interval);
+      } else {
+        message.warning('Room was full');
+        clearInterval(interval);
+      }
     }
   }
 };
