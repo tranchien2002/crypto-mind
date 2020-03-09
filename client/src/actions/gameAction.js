@@ -165,6 +165,7 @@ export const listenQuitRoom = () => async (dispatch, getState) => {
           fromBlock: currentBlock
         },
         function(error, events) {
+          currentGame = getState().contractStatus.currentGame;
           let players = currentGame.players;
           let quitPlayer = events.returnValues['quitPlayer'];
           if (players.indexOf(quitPlayer) >= 0) {
