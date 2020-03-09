@@ -25,7 +25,8 @@ function BattleMode() {
 
   useEffect(() => {
     dispatch(room.updateWaitingRoom());
-  }, [dispatch]);
+    dispatch(room.updateCurrentRoom());
+  }, [dispatch, infoStatus.userAddress]);
 
   useInterval(() => {
     dispatch(room.updateWaitingRoom());
