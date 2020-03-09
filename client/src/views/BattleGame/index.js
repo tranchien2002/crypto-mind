@@ -69,10 +69,8 @@ function BattleGame() {
     <Layout>
       <Header>
         <Row type='flex' justify='space-between'>
-          <Col xs={4}>
-            <Link to='/'>
-              <Icon type='left' style={{ fontSize: '15px', color: '#fff' }} />
-            </Link>
+          <Col xs={4} onClick={() => dispatch(contract.quitGame())}>
+            <Icon type='left' style={{ fontSize: '15px', color: '#fff' }} />
           </Col>
           <Col xs={4}>
             <Link to='/profile' onClick={() => history.push('/battleGame')}>
