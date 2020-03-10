@@ -2,9 +2,10 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import AvatarUser from 'components/AvatarUser';
-import { Button, Layout, Row, Col } from 'antd';
+import { Layout, Row, Col } from 'antd';
 
 import './UserProfile.css';
+import PixelButton from 'components/PixelButton';
 
 function UserProfile() {
   const content = useSelector((state) => state); //this hook gives us redux store state
@@ -33,9 +34,9 @@ function UserProfile() {
           </Row>
         </Content>
         <Footer>
-          <Button type='primary' onClick={() => history.goBack()}>
-            Back
-          </Button>
+          <div className='ft_size' onClick={() => history.goBack()}>
+            <PixelButton title='Back' type='danger' size='large' />
+          </div>
         </Footer>
       </Layout>
     </div>

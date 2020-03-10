@@ -1,9 +1,10 @@
 import React from 'react';
-import { Row, Col, Button, Layout } from 'antd';
+import { Row, Col, Layout } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
 import AvatarUser from 'components/AvatarUser';
 import { useSelector } from 'react-redux';
 import './home.css';
+import PixelButton from 'components/PixelButton';
 
 const { Header, Content, Footer } = Layout;
 
@@ -27,22 +28,15 @@ function Home() {
         <Content>
           <Row gutter={[0, 16]} type='flex' justify='center'>
             <Col xs={24}>
-              <Button type='primary' size='large'>
-                <Link
-                  to={{
-                    pathname: '/training',
-                    state: { isTraining: true }
-                  }}
-                >
-                  Training Mode
-                </Link>
-              </Button>
+              <Link to='/training'>
+                <PixelButton title='Training Mode' type='primary' size='large' />
+              </Link>
             </Col>
 
             <Col xs={24}>
-              <Button type='danger' size='large'>
-                <Link to='/battle'>Battle Mode</Link>
-              </Button>
+              <Link to='/battle'>
+                <PixelButton title='Battle Mode' type='danger' size='large' />
+              </Link>
             </Col>
           </Row>
         </Content>

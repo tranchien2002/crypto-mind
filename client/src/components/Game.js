@@ -23,7 +23,13 @@ function Game({ isAnswer, targetTime, onFinish, checkAns, question }) {
     <Content>
       <Row gutter={[0, 16]} type='flex' justify='center'>
         <Col span={24}>
-          <Countdown title='Timer' value={targetTime} onFinish={onFinish} format='mm:ss' />
+          <Countdown
+            valueStyle={{ fontFamily: "'Press Start 2P', 'cursive'", fontSize: '20px' }}
+            title='Timer'
+            value={targetTime}
+            onFinish={onFinish}
+            format='mm:ss'
+          />
         </Col>
 
         <Col span={24}>
@@ -38,11 +44,11 @@ function Game({ isAnswer, targetTime, onFinish, checkAns, question }) {
             {question[gameStatus.currentQues].ans.map((ans, index) => (
               <Col span={16} key={index}>
                 {isAnswer ? (
-                  <Button disabled className='bt_length'>
+                  <Button disabled className='bt_length ans_font'>
                     {abcd[index]}. {ans}
                   </Button>
                 ) : (
-                  <Button onClick={() => checkAns(ans)} className='bt_length'>
+                  <Button onClick={() => checkAns(ans)} className='bt_length ans_font'>
                     {abcd[index]}. {ans}
                   </Button>
                 )}

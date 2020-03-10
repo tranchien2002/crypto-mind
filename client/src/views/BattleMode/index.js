@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import useInterval from 'useInterval';
-import { Row, Col, Button, Avatar, Badge, Icon, Layout, Modal } from 'antd';
+import { Row, Col, Badge, Icon, Layout, Modal } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
 import RedirectRouter from 'components/RedirectRouter';
 import CreateGame from 'views/CreateGame';
@@ -9,6 +9,7 @@ import AvatarUser from 'components/AvatarUser';
 import * as room from 'actions/contractAction';
 
 import './battleMode.css';
+import PixelButton from 'components/PixelButton';
 
 const { Header, Content, Footer } = Layout;
 
@@ -91,30 +92,36 @@ function BattleMode() {
                 <Row className='info-room' type='flex' justify='space-around' align='middle'>
                   <span>RoomID: {game.roomID} </span>
                   <span>
-                    <Badge count={game.players.length + '/' + game.roomSize}>
-                      <Avatar shaspane='circle' icon='user' size={24} />
+                    <Badge
+                      style={{ fontSize: '8px' }}
+                      count={game.players.length + '/' + game.roomSize}
+                    >
+                      <div className='clock'>
+                        <div className='pixel_user'></div>
+                      </div>
                     </Badge>
                   </span>
-                  <span>
-                    <Icon type='clock-circle' style={{ fontSize: '24px' }} theme='twoTone' />
-                    {((game.blockTimeout - 4) * 2) / 10} s
-                  </span>
 
-                  <span>
-                    <Icon type='money-collect' style={{ fontSize: '24px' }} theme='filled' />
-                    {game.bounty} TOMO
-                  </span>
+                  <Row type='flex' align='middle'>
+                    <div className='clock'>
+                      <div className='pixel_clock' />
+                    </div>
+                    <span className='sp_m'>{((game.blockTimeout - 4) * 2) / 10 + 'S'}</span>
+                  </Row>
+
+                  <Row type='flex' align='middle'>
+                    <div className='clock'>
+                      <div className='pixel_coin' />
+                    </div>
+                    <span className='sp_m'>{game.bounty + ' TOMO'}</span>
+                  </Row>
                 </Row>
               </Col>
 
               <Col xs={6}>
-                <Button
-                  type='danger'
-                  size='large'
-                  onClick={() => selectRoom(game.roomID, game.bounty)}
-                >
-                  Join
-                </Button>
+                <div onClick={() => selectRoom(game.roomID, game.bounty)}>
+                  <PixelButton title='Join' type='danger' size='small' />
+                </div>
               </Col>
             </Row>
           ))
@@ -123,9 +130,9 @@ function BattleMode() {
         )}
       </Content>
       <Footer>
-        <Button type='primary' size='large' onClick={() => setVisible(true)}>
-          Create Room
-        </Button>
+        <div className='ft_size' onClick={() => setVisible(true)}>
+          <PixelButton title='Create Room' type='primary' size='large' />
+        </div>
       </Footer>
     </Layout>
   );

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Row, Col, message, Icon, Layout, Button } from 'antd';
+import { Row, Col, message, Icon, Layout } from 'antd';
 import AvatarUser from 'components/AvatarUser';
 import * as gameAction from 'actions/gameAction';
 import { genQuestion } from 'utils/genQuestion';
@@ -8,6 +8,7 @@ import { Link, useHistory } from 'react-router-dom';
 
 import './trainingGame.css';
 import Game from 'components/Game';
+import PixelButton from 'components/PixelButton';
 
 const { Header, Footer } = Layout;
 
@@ -78,9 +79,9 @@ function TrainingGame() {
         question={question}
       />
       <Footer>
-        <Button type='danger'>
-          <Link to='/'>Quit</Link>
-        </Button>
+        <Link to='/'>
+          <PixelButton title='Quit' type='danger' size='large' />
+        </Link>
       </Footer>
     </Layout>
   );
