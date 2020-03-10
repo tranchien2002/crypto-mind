@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Row, Col, message, Icon, Layout, Button } from 'antd';
 import AvatarUser from 'components/AvatarUser';
 import * as gameAction from 'actions/gameAction';
-import genQuestion from 'utils/genQuestion';
+import { genQuestion } from 'utils/genQuestion';
 import { Link, useHistory } from 'react-router-dom';
 
 import './trainingGame.css';
