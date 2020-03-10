@@ -23,7 +23,7 @@ function App() {
   }, 2000);
 
   return (
-    <div className='App'>
+    <div className='App pixel_font'>
       <Router />
     </div>
   );

@@ -1,3 +1,82 @@
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
+
+.pixel_font {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.clock {
+  height: 27px;
+  width: 27px;
+}
+
+.pixel_coin {
+  box-shadow: 12px 3px 0 0 #ffc107, 18px 3px 0 0 #ffc107, 9px 6px 0 0 #ffc107, 12px 6px 0 0 #ffc107,
+    15px 6px 0 0 #ffc107, 18px 6px 0 0 #ffc107, 9px 9px 0 0 #ffc107, 21px 9px 0 0 #ffc107,
+    9px 12px 0 0 #ffc107, 12px 12px 0 0 #ffc107, 15px 12px 0 0 #ffc107, 18px 12px 0 0 #ffc107,
+    9px 15px 0 0 #ffc107, 21px 15px 0 0 #ffc107, 9px 18px 0 0 #ffc107, 21px 18px 0 0 #ffc107,
+    9px 21px 0 0 #ffc107, 12px 21px 0 0 #ffc107, 15px 21px 0 0 #ffc107, 18px 21px 0 0 #ffc107,
+    12px 24px 0 0 #ffc107, 18px 24px 0 0 #ffc107;
+  height: 3px;
+  width: 3px;
+}
+
+.pixel_user {
+  box-shadow: 9px 3px 0 0 rgba(204, 204, 204, 1), 12px 3px 0 0 rgba(204, 204, 204, 1),
+    15px 3px 0 0 rgba(204, 204, 204, 1), 18px 3px 0 0 rgba(204, 204, 204, 1),
+    6px 6px 0 0 rgba(204, 204, 204, 1), 9px 6px 0 0 rgba(204, 204, 204, 1),
+    12px 6px 0 0 rgba(133, 128, 121, 1), 15px 6px 0 0 rgba(133, 128, 121, 1),
+    18px 6px 0 0 rgba(204, 204, 204, 1), 21px 6px 0 0 rgba(204, 204, 204, 1),
+    3px 9px 0 0 rgba(204, 204, 204, 1), 6px 9px 0 0 rgba(204, 204, 204, 1),
+    9px 9px 0 0 rgba(133, 128, 121, 1), 12px 9px 0 0 rgba(204, 204, 204, 1),
+    15px 9px 0 0 rgba(204, 204, 204, 1), 18px 9px 0 0 rgba(133, 128, 121, 1),
+    21px 9px 0 0 rgba(204, 204, 204, 1), 24px 9px 0 0 rgba(204, 204, 204, 1),
+    3px 12px 0 0 rgba(204, 204, 204, 1), 6px 12px 0 0 rgba(204, 204, 204, 1),
+    9px 12px 0 0 rgba(133, 128, 121, 1), 12px 12px 0 0 rgba(204, 204, 204, 1),
+    15px 12px 0 0 rgba(204, 204, 204, 1), 18px 12px 0 0 rgba(133, 128, 121, 1),
+    21px 12px 0 0 rgba(204, 204, 204, 1), 24px 12px 0 0 rgba(204, 204, 204, 1),
+    3px 15px 0 0 rgba(204, 204, 204, 1), 6px 15px 0 0 rgba(204, 204, 204, 1),
+    9px 15px 0 0 rgba(204, 204, 204, 1), 12px 15px 0 0 rgba(133, 128, 121, 1),
+    15px 15px 0 0 rgba(133, 128, 121, 1), 18px 15px 0 0 rgba(204, 204, 204, 1),
+    21px 15px 0 0 rgba(204, 204, 204, 1), 24px 15px 0 0 rgba(204, 204, 204, 1),
+    3px 18px 0 0 rgba(204, 204, 204, 1), 6px 18px 0 0 rgba(133, 128, 121, 1),
+    9px 18px 0 0 rgba(133, 128, 121, 1), 12px 18px 0 0 rgba(133, 128, 121, 1),
+    15px 18px 0 0 rgba(133, 128, 121, 1), 18px 18px 0 0 rgba(133, 128, 121, 1),
+    21px 18px 0 0 rgba(133, 128, 121, 1), 24px 18px 0 0 rgba(204, 204, 204, 1),
+    6px 21px 0 0 rgba(133, 128, 121, 1), 9px 21px 0 0 rgba(133, 128, 121, 1),
+    12px 21px 0 0 rgba(133, 128, 121, 1), 15px 21px 0 0 rgba(133, 128, 121, 1),
+    18px 21px 0 0 rgba(133, 128, 121, 1), 21px 21px 0 0 rgba(133, 128, 121, 1),
+    9px 24px 0 0 rgba(133, 128, 121, 1), 12px 24px 0 0 rgba(133, 128, 121, 1),
+    15px 24px 0 0 rgba(133, 128, 121, 1), 18px 24px 0 0 rgba(133, 128, 121, 1);
+  height: 3px;
+  width: 3px;
+}
+
+.pixel_clock {
+  box-shadow: 9px 3px 0 0 rgba(66, 127, 201, 1), 12px 3px 0 0 rgba(66, 127, 201, 1),
+    15px 3px 0 0 rgba(66, 127, 201, 1), 18px 3px 0 0 rgba(66, 127, 201, 1),
+    6px 6px 0 0 rgba(66, 127, 201, 1), 21px 6px 0 0 rgba(66, 127, 201, 1),
+    3px 9px 0 0 rgba(66, 127, 201, 1), 12px 9px 0 0 rgba(66, 127, 201, 1),
+    24px 9px 0 0 rgba(66, 127, 201, 1), 3px 12px 0 0 rgba(66, 127, 201, 1),
+    12px 12px 0 0 rgba(66, 127, 201, 1), 24px 12px 0 0 rgba(66, 127, 201, 1),
+    3px 15px 0 0 rgba(66, 127, 201, 1), 12px 15px 0 0 rgba(66, 127, 201, 1),
+    15px 15px 0 0 rgba(66, 127, 201, 1), 18px 15px 0 0 rgba(66, 127, 201, 1),
+    24px 15px 0 0 rgba(66, 127, 201, 1), 3px 18px 0 0 rgba(66, 127, 201, 1),
+    24px 18px 0 0 rgba(66, 127, 201, 1), 6px 21px 0 0 rgba(66, 127, 201, 1),
+    21px 21px 0 0 rgba(66, 127, 201, 1), 9px 24px 0 0 rgba(66, 127, 201, 1),
+    12px 24px 0 0 rgba(66, 127, 201, 1), 15px 24px 0 0 rgba(66, 127, 201, 1),
+    18px 24px 0 0 rgba(66, 127, 201, 1);
+  height: 3px;
+  width: 3px;
+}
+
+.ft_size {
+  width: 200px;
+  height: 50px;
+  margin: auto;
+}
+
 .App {
   text-align: center;
   max-width: 425px;

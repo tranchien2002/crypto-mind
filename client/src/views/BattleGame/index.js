@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as gameAction from 'actions/gameAction';
 import * as contractAction from 'actions/contractAction';
-import { Row, Col, Icon, Layout, message, Spin, Button } from 'antd';
+import { Row, Col, Icon, Layout, message, Spin } from 'antd';
 import Game from 'components/Game';
 import { Redirect, Link, useHistory } from 'react-router-dom';
 import * as contract from 'actions/contractAction';
@@ -10,6 +10,7 @@ import * as game from 'actions/gameAction';
 import AvatarUser from 'components/AvatarUser';
 import useInterval from 'useInterval';
 import './battleGame.css';
+import PixelButton from 'components/PixelButton';
 const { Header, Footer } = Layout;
 
 function BattleGame() {
@@ -102,9 +103,9 @@ function BattleGame() {
         </div>
       )}
       <Footer>
-        <Button type='danger' onClick={() => dispatch(contract.quitGame())}>
-          Quit
-        </Button>
+        <div className='ft_size' onClick={() => dispatch(contract.quitGame())}>
+          <PixelButton title='Quit' type='danger' size='large' />
+        </div>
       </Footer>
     </Layout>
   );

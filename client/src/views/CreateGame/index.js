@@ -5,12 +5,12 @@ import './createGame.css';
 
 function CreateGame({ bounty, setBounty, roomSize, setRoomSize, blockTimeout, setBlockTimeout }) {
   return (
-    <div>
+    <div className='pixel_font'>
       <Row type='flex' justify='center' align='middle'>
         <p className='p_break'>Room Information</p>
       </Row>
       <Col>
-        <Col>
+        <Col className='mg_b'>
           <p>Total Players</p>
           <Radio.Group
             className='w_100per'
@@ -25,7 +25,7 @@ function CreateGame({ bounty, setBounty, roomSize, setRoomSize, blockTimeout, se
           </Radio.Group>
         </Col>
 
-        <Col>
+        <Col className='mg_b'>
           <p>Time for each question</p>
           <Radio.Group
             className='w_100per'
@@ -40,7 +40,7 @@ function CreateGame({ bounty, setBounty, roomSize, setRoomSize, blockTimeout, se
           </Radio.Group>
         </Col>
 
-        <Col>
+        <Col className='mg_b'>
           <p>Bet (TOMO)</p>
           <Radio.Group
             className='w_100per'

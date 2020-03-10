@@ -2,13 +2,14 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 
-import { Button, Layout, Row, Col } from 'antd';
+import { Layout, Row, Col } from 'antd';
 import AvatarUser from 'components/AvatarUser';
 
 import './reward.css';
 import useInterval from 'useInterval';
 import * as contract from 'actions/contractAction';
 import * as gameActions from 'actions/gameAction';
+import PixelButton from 'components/PixelButton';
 
 function Reward() {
   const { Header, Footer, Content } = Layout;
@@ -62,9 +63,9 @@ function Reward() {
         </Row>
       </Content>
       <Footer>
-        <Button type='primary' size='large'>
-          <Link to='/'>Back</Link>
-        </Button>
+        <Link to='/'>
+          <PixelButton title='Back' type='danger' size='large' />
+        </Link>
       </Footer>
     </Layout>
   );

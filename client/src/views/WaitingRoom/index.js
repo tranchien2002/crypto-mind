@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Row, Col, Avatar, Layout, Icon, Badge, Button } from 'antd';
+import { Row, Col, Layout, Icon, Badge } from 'antd';
+
 import AvatarUser from 'components/AvatarUser';
 import RedirectRouter from 'components/RedirectRouter';
 import { Link, useHistory } from 'react-router-dom';
@@ -9,6 +10,7 @@ import * as game from 'actions/gameAction';
 
 import './waitingRoom.css';
 import useInterval from 'useInterval';
+import PixelButton from 'components/PixelButton';
 const { Header, Content, Footer } = Layout;
 
 function WaitingRoom() {
@@ -63,23 +65,33 @@ function WaitingRoom() {
                 <Row className='info-room' type='flex' justify='space-around' align='middle'>
                   <span>RoomID: {currentGame.roomId} </span>
                   <span>
-                    <Badge count={currentGame.playerCount + '/' + currentGame.roomSize}>
-                      <Avatar shaspane='circle' icon='user' size={24} />
+                    <Badge
+                      style={{ fontSize: '8px' }}
+                      count={currentGame.playerCount + '/' + currentGame.roomSize}
+                    >
+                      <div className='clock'>
+                        <div className='pixel_user'></div>
+                      </div>
                     </Badge>
                   </span>
-                  <span>
-                    <Icon type='clock-circle' style={{ fontSize: '24px' }} theme='twoTone' />
-                    {((currentGame.blockTimeout - 4) * 2) / 10} s
-                  </span>
 
-                  <span>
-                    <Icon type='money-collect' style={{ fontSize: '24px' }} theme='filled' />
-                    {currentGame.bounty} TOMO
-                  </span>
+                  <Row type='flex' align='middle'>
+                    <div className='clock'>
+                      <div className='pixel_clock' />
+                    </div>
+                    <span className='sp_m'>{((currentGame.blockTimeout - 4) * 2) / 10 + 'S'}</span>
+                  </Row>
+
+                  <Row type='flex' align='middle'>
+                    <div className='clock'>
+                      <div className='pixel_coin' />
+                    </div>
+                    <span className='sp_m'>{currentGame.bounty + ' TOMO'} </span>
+                  </Row>
                 </Row>
               </Col>
 
-              <Col span={22}>
+              <Col span={22} className='des_mg'>
                 <p>
                   Players have to pass 10 questions about mental arithmetic by beat other players to
                   record prize of game.
@@ -111,9 +123,9 @@ function WaitingRoom() {
         </Row>
       </Content>
       <Footer>
-        <Button type='danger' onClick={() => dispatch(contract.quitGame())}>
-          Quit
-        </Button>
+        <div className='ft_size' onClick={() => dispatch(contract.quitGame())}>
+          <PixelButton title='Quit' type='danger' size='large' />
+        </div>
       </Footer>
     </Layout>
   );
