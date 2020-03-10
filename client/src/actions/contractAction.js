@@ -89,7 +89,6 @@ export const updateCurrentRoomAfterQuit = () => async (dispatch, getState) => {
   } else {
     const from = state.infoStatus.userAddress;
     const currentGame = await crytoMind.methods.roomOf(from).call({ from });
-
     dispatch({
       type: CURRENT_ROOM,
       currentGame
