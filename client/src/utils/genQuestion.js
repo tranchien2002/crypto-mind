@@ -75,18 +75,31 @@ let genAnswer = (question) => {
   return answers;
 };
 
-const genQuestion = (seed, numQuestion, numElement) => {
+export const genQuestion = (seed, numQuestion, numElement) => {
   rng = seedRamdom(seed);
   let questions = [];
   for (let i = 0; i < numQuestion; i++) {
-    var QuesAns = {};
+    var quesAns = {};
 
-    QuesAns.ques = simplify(buildTree(numElement).toString());
-    QuesAns.ans = genAnswer(QuesAns.ques);
+    quesAns.ques = simplify(buildTree(numElement).toString());
+    quesAns.ans = genAnswer(quesAns.ques);
 
-    questions.push(QuesAns);
+    questions.push(quesAns);
   }
   return questions;
 };
 
-export default genQuestion;
+export const genQuestionIncLv = (seed, numQuestion) => {
+  rng = seedRamdom(seed);
+  let questions = [];
+  let incLevel;
+  for (let i = 0; i < numQuestion; i++) {
+    var quesAns = {};
+    incLevel = parseInt(i / 3);
+    if (i === numQuestion - 1) incLevel = parseInt(i / 3) + 1;
+    quesAns.ques = simplify(buildTree(2 + incLevel).toString());
+    quesAns.ans = genAnswer(quesAns.ques);
+    questions.push(quesAns);
+  }
+  return questions;
+};

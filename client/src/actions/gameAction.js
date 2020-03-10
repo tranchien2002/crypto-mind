@@ -1,4 +1,4 @@
-import genQuestion from 'utils/genQuestion';
+import { genQuestionIncLv } from 'utils/genQuestion';
 import { checkBeforeDoTransaction } from 'actions/getInfoAction';
 import { CURRENT_ROOM } from 'actions/contractAction';
 import { getStartGame } from 'utils/getRpc';
@@ -84,7 +84,7 @@ export const listenEventStart = () => async (dispatch, getState) => {
         chainUrl
       );
       if (res) {
-        let battleQuestions = genQuestion(res.seed, 10, 5);
+        let battleQuestions = genQuestionIncLv(res.seed, 10);
 
         dispatch({
           type: UPDATE_QUESTIONS,
@@ -102,7 +102,7 @@ export const listenEventStart = () => async (dispatch, getState) => {
     } else {
       let res = await getStartGame(currentBlock, contractAddress, currentGame.roomId, chainUrl);
       if (res) {
-        let battleQuestions = genQuestion(res.seed, 10, 5);
+        let battleQuestions = genQuestionIncLv(res.seed, 10);
         dispatch({
           type: UPDATE_QUESTIONS,
           battleQuestions
