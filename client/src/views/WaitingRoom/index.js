@@ -75,19 +75,24 @@ function WaitingRoom() {
                     </Badge>
                   </span>
 
-                  <Row type='flex' align='middle'>
-                    <div className='clock'>
-                      <div className='pixel_clock' />
-                    </div>
-                    <span className='sp_m'>{((currentGame.blockTimeout - 4) * 2) / 10 + 'S'}</span>
-                  </Row>
+                  <span>
+                    <Badge
+                      style={{ fontSize: '8px' }}
+                      count={((currentGame.blockTimeout - 4) * 2) / 10 + 'S'}
+                    >
+                      <div className='clock'>
+                        <div className='pixel_clock' />
+                      </div>
+                    </Badge>
+                  </span>
 
-                  <Row type='flex' align='middle'>
-                    <div className='clock'>
-                      <div className='pixel_coin' />
-                    </div>
-                    <span className='sp_m'>{currentGame.bounty + ' TOMO'} </span>
-                  </Row>
+                  <span>
+                    <Badge style={{ fontSize: '8px' }} count={currentGame.bounty}>
+                      <div className='clock'>
+                        <div className='pixel_coin' />
+                      </div>
+                    </Badge>
+                  </span>
                 </Row>
               </Col>
 
@@ -101,18 +106,23 @@ function WaitingRoom() {
               {currentGame.players.map((player, index) =>
                 player ? (
                   <Col key={index} span={20} offset={4} className='addres-user'>
-                    <Icon
-                      type='check-circle'
-                      theme='twoTone'
-                      style={{ fontSize: '24px' }}
-                      twoToneColor='#52c41a'
-                    />
-                    <span>{` ${player.substr(0, 6)}...${player.substr(-4)}`}</span>
+                    <Row type='flex' align='middle'>
+                      <div className='clock'>
+                        <div className='pixel_checked' />
+                      </div>
+                      <span className='sp_m'>{` ${player.substr(0, 6)}...${player.substr(
+                        -4
+                      )}`}</span>
+                    </Row>
                   </Col>
                 ) : (
                   <Col key={index} span={20} offset={4} className='addres-user'>
-                    <Icon type='sync' spin style={{ fontSize: '24px' }} />
-                    <span> Waiting User</span>
+                    <Row type='flex' align='middle'>
+                      <div className='clock'>
+                        <div className='pixel_loading' />
+                      </div>
+                      <span className='sp_m'> Waiting User</span>
+                    </Row>
                   </Col>
                 )
               )}

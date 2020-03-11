@@ -102,19 +102,24 @@ function BattleMode() {
                     </Badge>
                   </span>
 
-                  <Row type='flex' align='middle'>
-                    <div className='clock'>
-                      <div className='pixel_clock' />
-                    </div>
-                    <span className='sp_m'>{((game.blockTimeout - 4) * 2) / 10 + 'S'}</span>
-                  </Row>
+                  <span>
+                    <Badge
+                      style={{ fontSize: '8px' }}
+                      count={((game.blockTimeout - 4) * 2) / 10 + 'S'}
+                    >
+                      <div className='clock'>
+                        <div className='pixel_clock' />
+                      </div>
+                    </Badge>
+                  </span>
 
-                  <Row type='flex' align='middle'>
-                    <div className='clock'>
-                      <div className='pixel_coin' />
-                    </div>
-                    <span className='sp_m'>{game.bounty + ' TOMO'}</span>
-                  </Row>
+                  <span>
+                    <Badge style={{ fontSize: '8px' }} count={game.bounty}>
+                      <div className='clock'>
+                        <div className='pixel_coin' />
+                      </div>
+                    </Badge>
+                  </span>
                 </Row>
               </Col>
 
