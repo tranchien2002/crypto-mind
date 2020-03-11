@@ -32,6 +32,10 @@ function WaitingRoom() {
     if (!contractStatus.currentGame) dispatch(contract.updateCurrentRoom());
   }, [dispatch, contractStatus]);
 
+  useEffect(() => {
+    dispatch(contract.updateCurrentRoomAfterChangeAcc());
+  }, [dispatch, infoStatus.userAddress]);
+
   useInterval(() => {
     dispatch(game.listenEventStart());
   }, 1000);
