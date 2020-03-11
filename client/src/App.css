@@ -11,13 +11,79 @@
   width: 27px;
 }
 
+.pixel_loading {
+  position: absolute;
+  animation: x 1s infinite;
+  -webkit-animation: x 1s infinite;
+  -moz-animation: x 1s infinite;
+  -o-animation: x 1s infinite;
+}
+
+@keyframes x {
+  0%,
+  33.3% {
+    box-shadow: 9px 3px 0 0 rgba(70, 89, 104, 1), 12px 3px 0 0 rgba(70, 89, 104, 1),
+      15px 3px 0 0 rgba(70, 89, 104, 1), 18px 3px 0 0 rgba(70, 89, 104, 1),
+      6px 6px 0 0 rgba(70, 89, 104, 1), 21px 6px 0 0 rgba(70, 89, 104, 1),
+      3px 9px 0 0 rgba(70, 89, 104, 1), 6px 9px 0 0 rgba(70, 89, 104, 1),
+      6px 12px 0 0 rgba(70, 89, 104, 1), 21px 15px 0 0 rgba(70, 89, 104, 1),
+      21px 18px 0 0 rgba(70, 89, 104, 1), 24px 18px 0 0 rgba(70, 89, 104, 1),
+      6px 21px 0 0 rgba(70, 89, 104, 1), 21px 21px 0 0 rgba(70, 89, 104, 1),
+      9px 24px 0 0 rgba(70, 89, 104, 1), 12px 24px 0 0 rgba(70, 89, 104, 1),
+      15px 24px 0 0 rgba(70, 89, 104, 1), 18px 24px 0 0 rgba(70, 89, 104, 1);
+    height: 3px;
+    width: 3px;
+  }
+  33.309999999999995%,
+  66.7% {
+    box-shadow: 9px 3px 0 0 rgba(70, 89, 104, 1), 12px 3px 0 0 rgba(70, 89, 104, 1),
+      6px 6px 0 0 rgba(70, 89, 104, 1), 21px 6px 0 0 rgba(70, 89, 104, 1),
+      3px 9px 0 0 rgba(70, 89, 104, 1), 18px 9px 0 0 rgba(70, 89, 104, 1),
+      21px 9px 0 0 rgba(70, 89, 104, 1), 24px 9px 0 0 rgba(70, 89, 104, 1),
+      3px 12px 0 0 rgba(70, 89, 104, 1), 24px 12px 0 0 rgba(70, 89, 104, 1),
+      3px 15px 0 0 rgba(70, 89, 104, 1), 24px 15px 0 0 rgba(70, 89, 104, 1),
+      3px 18px 0 0 rgba(70, 89, 104, 1), 6px 18px 0 0 rgba(70, 89, 104, 1),
+      9px 18px 0 0 rgba(70, 89, 104, 1), 24px 18px 0 0 rgba(70, 89, 104, 1),
+      6px 21px 0 0 rgba(70, 89, 104, 1), 21px 21px 0 0 rgba(70, 89, 104, 1),
+      15px 24px 0 0 rgba(70, 89, 104, 1), 18px 24px 0 0 rgba(70, 89, 104, 1);
+    height: 3px;
+    width: 3px;
+  }
+  66.71000000000001%,
+  100% {
+    box-shadow: 9px 3px 0 0 rgba(70, 89, 104, 1), 12px 3px 0 0 rgba(70, 89, 104, 1),
+      15px 3px 0 0 rgba(70, 89, 104, 1), 18px 3px 0 0 rgba(70, 89, 104, 1),
+      12px 6px 0 0 rgba(70, 89, 104, 1), 21px 6px 0 0 rgba(70, 89, 104, 1),
+      24px 9px 0 0 rgba(70, 89, 104, 1), 3px 12px 0 0 rgba(70, 89, 104, 1),
+      24px 12px 0 0 rgba(70, 89, 104, 1), 3px 15px 0 0 rgba(70, 89, 104, 1),
+      24px 15px 0 0 rgba(70, 89, 104, 1), 3px 18px 0 0 rgba(70, 89, 104, 1),
+      6px 21px 0 0 rgba(70, 89, 104, 1), 15px 21px 0 0 rgba(70, 89, 104, 1),
+      9px 24px 0 0 rgba(70, 89, 104, 1), 12px 24px 0 0 rgba(70, 89, 104, 1),
+      15px 24px 0 0 rgba(70, 89, 104, 1), 18px 24px 0 0 rgba(70, 89, 104, 1);
+    height: 3px;
+    width: 3px;
+  }
+}
+
+.pixel_checked {
+  box-shadow: 9px 3px 0 0 #4caf50, 12px 3px 0 0 #4caf50, 15px 3px 0 0 #4caf50, 18px 3px 0 0 #4caf50,
+    6px 6px 0 0 #4caf50, 21px 6px 0 0 #4caf50, 3px 9px 0 0 #4caf50, 24px 9px 0 0 #4caf50,
+    3px 12px 0 0 #4caf50, 18px 12px 0 0 #4caf50, 24px 12px 0 0 #4caf50, 3px 15px 0 0 #4caf50,
+    9px 15px 0 0 #4caf50, 15px 15px 0 0 #4caf50, 24px 15px 0 0 #4caf50, 3px 18px 0 0 #4caf50,
+    12px 18px 0 0 #4caf50, 24px 18px 0 0 #4caf50, 6px 21px 0 0 #4caf50, 21px 21px 0 0 #4caf50,
+    9px 24px 0 0 #4caf50, 12px 24px 0 0 #4caf50, 15px 24px 0 0 #4caf50, 18px 24px 0 0 #4caf50;
+  height: 3px;
+  width: 3px;
+}
+
 .pixel_coin {
-  box-shadow: 12px 3px 0 0 #ffc107, 18px 3px 0 0 #ffc107, 9px 6px 0 0 #ffc107, 12px 6px 0 0 #ffc107,
-    15px 6px 0 0 #ffc107, 18px 6px 0 0 #ffc107, 9px 9px 0 0 #ffc107, 21px 9px 0 0 #ffc107,
-    9px 12px 0 0 #ffc107, 12px 12px 0 0 #ffc107, 15px 12px 0 0 #ffc107, 18px 12px 0 0 #ffc107,
-    9px 15px 0 0 #ffc107, 21px 15px 0 0 #ffc107, 9px 18px 0 0 #ffc107, 21px 18px 0 0 #ffc107,
-    9px 21px 0 0 #ffc107, 12px 21px 0 0 #ffc107, 15px 21px 0 0 #ffc107, 18px 21px 0 0 #ffc107,
-    12px 24px 0 0 #ffc107, 18px 24px 0 0 #ffc107;
+  box-shadow: 9px 3px 0 0 #ff5722, 12px 3px 0 0 #ff5722, 15px 3px 0 0 #ff5722, 18px 3px 0 0 #ff5722,
+    21px 6px 0 0 #ff5722, 12px 9px 0 0 #ff5722, 24px 9px 0 0 #ff5722, 3px 12px 0 0 #ff5722,
+    9px 12px 0 0 #ff5722, 12px 12px 0 0 #ff5722, 15px 12px 0 0 #ff5722, 24px 12px 0 0 #ff5722,
+    3px 15px 0 0 #ff5722, 12px 15px 0 0 #ff5722, 24px 15px 0 0 #ff5722, 3px 18px 0 0 #ff5722,
+    12px 18px 0 0 #ff5722, 15px 18px 0 0 #ff5722, 3px 21px 0 0 #ff5722, 6px 21px 0 0 #ff5722,
+    6px 24px 0 0 #ff5722, 9px 24px 0 0 #ff5722, 12px 24px 0 0 #ff5722, 15px 24px 0 0 #ff5722,
+    18px 24px 0 0 #ff5722;
   height: 3px;
   width: 3px;
 }

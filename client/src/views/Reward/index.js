@@ -47,15 +47,17 @@ function Reward() {
             <p>User Score</p>
             <p>{gameStatus.score}</p>
           </Col>
-          <Col>
+          <Col span={20}>
             {gameStatus.gameResult.map((player, index) => (
-              <Row type='flex' key={index}>
+              <Row type='flex' justify='space-around' key={index}>
                 <Col span={4}>
                   <AvatarUser address={player.address} size={50} icon='user' />
                 </Col>
                 <Col span={20} className='a_left'>
                   <p className='t_bold'>Score : {player.score}</p>
-                  <p className='fs_09em'>{player.address}</p>
+                  <p className='fs_09em'>
+                    {` ${player.address.substr(0, 6)}...${player.address.substr(-4)}`}
+                  </p>
                 </Col>
               </Row>
             ))}
