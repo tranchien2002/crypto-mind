@@ -96,6 +96,25 @@ export const updateCurrentRoomAfterQuit = () => async (dispatch, getState) => {
   }
 };
 
+export const updateCurrentRoomAfterChangeAcc = () => (dispatch, getState) => {
+  const state = getState();
+  let msg = dispatch(checkBeforeDoTransaction());
+  if (msg) {
+    console.log(msg);
+  } else {
+    let currentGame = state.contractStatus.currentGame;
+    let userAddress = state.infoStatus.userAddress;
+    if (currentGame && userAddress) {
+      let players = currentGame.players;
+      if (!players.includes(userAddress)) {
+        dispatch(updateCurrentRoomAfterQuit());
+      }
+    } else {
+      return;
+    }
+  }
+};
+
 export const updateCurrentRoom = () => async (dispatch, getState) => {
   const state = getState();
   const crytoMind = state.contractStatus.cryptoMind;
