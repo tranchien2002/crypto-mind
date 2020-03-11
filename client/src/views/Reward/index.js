@@ -42,22 +42,26 @@ function Reward() {
       </Header>
       <Content>
         <Row type='flex' justify='center' align='middle' className='h_100per'>
-          <h1 className='t_bold'>BATTLE REWARDS</h1>
-          <Col span={24}>
-            <p>User Score</p>
-            <p>{gameStatus.score}</p>
-          </Col>
           <Col span={20}>
+            <h1 className='t_bold' style={{ marginBottom: '40px' }}>
+              BATTLE REWARDS
+            </h1>
+
             {gameStatus.gameResult.map((player, index) => (
               <Row type='flex' justify='space-around' key={index}>
                 <Col span={4}>
                   <AvatarUser address={player.address} size={50} icon='user' />
                 </Col>
-                <Col span={20} className='a_left'>
+                <Col span={20} className='a_left mg_b'>
+                  {player.address === infoStatus.userAddress ? (
+                    <p>YOU</p>
+                  ) : (
+                    <p className='fs_09em'>
+                      {` ${player.address.substr(0, 10)}...${player.address.substr(-15)}`}
+                    </p>
+                  )}
+
                   <p className='t_bold'>Score : {player.score}</p>
-                  <p className='fs_09em'>
-                    {` ${player.address.substr(0, 6)}...${player.address.substr(-4)}`}
-                  </p>
                 </Col>
               </Row>
             ))}
