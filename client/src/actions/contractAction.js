@@ -275,7 +275,7 @@ export const submitAnswer = () => async (dispatch, getState) => {
     const from = state.infoStatus.userAddress;
     await cryptoMind.methods
       .submitAnswer(score)
-      .send({ from: from })
+      .send({ from: from, gasPrice: '250000000', gas: 120000 })
       .then(() => {
         // dispatch(gameStatus());
         console.log('success');

@@ -82,7 +82,7 @@ function WaitingRoom() {
                   <span>
                     <Badge
                       style={{ fontSize: '8px' }}
-                      count={((currentGame.blockTimeout - 4) * 2) / 10 + 'S'}
+                      count={((currentGame.blockTimeout - 6) * 2) / 10 + 'S'}
                     >
                       <div className='clock'>
                         <div className='pixel_clock' />
