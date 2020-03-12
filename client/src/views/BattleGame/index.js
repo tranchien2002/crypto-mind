@@ -23,7 +23,7 @@ function BattleGame() {
   const [isAnswer, setIsAnswer] = useState(false);
   if (contractStatus.currentGame) {
     // 4 block for submit
-    timePerQues = ((contractStatus.currentGame.blockTimeout - 4) / 10) * 2;
+    timePerQues = ((contractStatus.currentGame.blockTimeout - 6) / 10) * 2;
   }
   let history = useHistory();
   useEffect(() => {
