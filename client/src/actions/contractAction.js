@@ -188,7 +188,7 @@ export const createRoom = (bounty, roomSize, blockTimeout) => async (dispatch, g
     bounty = web3.utils.toWei(bounty, 'ether');
     await crytoMind.methods
       .createRoom(bounty, roomSize, blockTimeout)
-      .send({ from: from, value: bounty })
+      .send({ from: from, value: bounty, gasPrice: '250000000', gas: 1000000 })
       .then(() => {
         dispatch(updateCurrentRoom());
       })
@@ -211,7 +211,7 @@ export const joinRoom = (roomID, bounty) => async (dispatch, getState) => {
 
     await crytoMind.methods
       .joinRoom(roomID)
-      .send({ from: from, value: bounty })
+      .send({ from: from, value: bounty, gasPrice: '250000000', gas: 1000000 })
       .on('transactionHash', async (hash) => {
         let interval = setInterval(async function() {
           let trx = await getTrxByHash(hash, process.env.REACT_APP_BLOCKCHAIN_URL);
@@ -253,7 +253,7 @@ export const quitGame = () => async (dispatch, getState) => {
     const from = state.infoStatus.userAddress;
     await crytoMind.methods
       .quitGame()
-      .send({ from: from })
+      .send({ from: from, gasPrice: '250000000', gas: 1000000 })
       .then(() => {
         dispatch(updateCurrentRoomAfterQuit());
       })
@@ -275,7 +275,7 @@ export const submitAnswer = () => async (dispatch, getState) => {
     const from = state.infoStatus.userAddress;
     await cryptoMind.methods
       .submitAnswer(score)
-      .send({ from: from, gasPrice: '250000000', gas: 120000 })
+      .send({ from: from, gasPrice: '250000000', gas: 1000000 })
       .then(() => {
         // dispatch(gameStatus());
         console.log('success');

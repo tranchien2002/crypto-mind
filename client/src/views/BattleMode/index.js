@@ -105,7 +105,7 @@ function BattleMode() {
                   <span>
                     <Badge
                       style={{ fontSize: '8px' }}
-                      count={((game.blockTimeout - 4) * 2) / 10 + 'S'}
+                      count={((game.blockTimeout - 6) * 2) / 10 + 'S'}
                     >
                       <div className='clock'>
                         <div className='pixel_clock' />
